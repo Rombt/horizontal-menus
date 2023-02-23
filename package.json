@@ -1,0 +1,33 @@
+{
+  "name": "e-shop-clothes",
+  "version": "1.0.0",
+  "description": "Another one e-shop clothes",
+  "main": "gulp.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@Rombt.github.com:Rombt/e-shop-clothes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.21.0",
+    "gulp": "^4.0.2",
+    "gulp-notify": "^4.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-replace": "^1.1.4",
+    "gulp-version-number": "^0.2.4",
+    "gulp-webp-html-nosvg": "^1.1.1",
+    "gulp-webp-retina-html": "^1.1.0"
+  },
+  "dependencies": {
+    "del": "^6.1.1",
+    "esm": "^3.2.25"
+  }
+}
