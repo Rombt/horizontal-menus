@@ -5,11 +5,17 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link href="./css/style.min.css?_v=20230224145849" rel="stylesheet" type="text/css">
+
    <title>Document</title>
+
 </head>
 
 <body>
-   <picture><source srcset="img/some_img.webp" type="image/webp"><img src="img/some_img.jpg" alt=""></picture>
+   <div class="ss"></div>
+
+   <script src="js/app.min.js?_v=20230224145849"></script>
 </body>
 
 

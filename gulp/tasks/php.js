@@ -7,7 +7,7 @@ export const php = () => {
       .pipe(app.plugins.plumber(
          app.plugins.notify.onError({
             title: "PHP",
-            message: "Error: <%= error.masage %"
+            message: "Error: <%= error.message %>"
          })))
       .pipe(webpHtmlNosvg())        // оборачивает тег img в тег <picture> 
       .pipe(versionNumber({
@@ -25,4 +25,5 @@ export const php = () => {
          }
       }))
       .pipe(app.gulp.dest(app.path.build.php))
+      .pipe(app.plugins.browsersync.stream());
 }
