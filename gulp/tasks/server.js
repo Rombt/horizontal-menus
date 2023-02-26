@@ -12,8 +12,8 @@ let proxyPath = '';
 if (__dirname.includes('OSPanel')) {
     proxyPath = "http://twily/gulp/build/"; // домашний комп
 } else {
-    // proxyPath = "http://web/rombt/e-shop-clothes/dist"; // рабочий комп
-    proxyPath = "http://web/e-shop-clothes/dist"; // домашний ноут
+    proxyPath = "http://web/rombt/e-shop-clothes/dist"; // рабочий комп и домашний ноут
+    // proxyPath = "http://web/e-shop-clothes/dist"; // домашний ноут
 }
 
 
