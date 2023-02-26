@@ -8,16 +8,16 @@ import { server } from "./gulp/tasks/server.js";
 import { scss } from "./gulp/tasks/scss.js";
 import { js } from "./gulp/tasks/js.js";
 import { images } from "./gulp/tasks/images.js";
-import { otfToTtf, ttfToWoff, fontStyle } from "./gulp/tasks/fonts.js";
+import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js";
+import { createSvgSprite } from "./gulp/tasks/svgsprite.js";
 
 global.app = {
+    isBuild: process.argv.includes('--build');
+    isDev: !isBuild,
     path: path,
     gulp: gulp,
     plugins: plugins, // оиск и замена по регуляракам 
 }
-
-
-
 
 function watcher() {
     gulp.watch(path.watch.files, copy)
@@ -27,11 +27,14 @@ function watcher() {
     gulp.watch(path.watch.images, images)
 }
 
+const mainTasks = gulp.parallel(copyFonts, copy, php, scss, js, images);
+export const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
+export const build = gulp.series(reset, mainTasks);
 
-const fonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
+export const createFonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
+export { createSvgSprite };
 
-const mainTasks = gulp.series(fonts, gulp.parallel(copy, php, scss, js, images));
-const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
 
 
 gulp.task('default', dev);
+gulp.task('fonts', createFonts);

@@ -14,9 +14,9 @@
 
 <body>
    
-<div class="ss"></div>
+<div class="ss"> Привет </div>
 
-   <div >
+   <div>
 
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis cupiditate, ducimus non, rerum qui architecto ullam blanditiis, ab sit modi error, inventore repudiandae quisquam ipsa? Molestiae nobis ut voluptatibus dicta.
 
