@@ -12,6 +12,7 @@ export const path = {
         images: `${buildFolder}/img/`,
         fonts: `${buildFolder}/fonts/`,
         files: `${buildFolder}/files/`,
+        svgicons: `${srcFolder}/img/`,        // так же как и файлы шрифтов иканки генерируются только один раз, но переносить их нужно при каждой сборкой
     },
     src: {
         js: `${srcFolder}/js/app.js`,

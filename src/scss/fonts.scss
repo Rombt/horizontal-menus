@@ -9,14 +9,6 @@
 @font-face {
                         font-family: "RobotoMono";
                         font-display: swap;
-                        src: url("../fonts/RobotoMono-BoldItalic.woff2") format("woff2"), url("../fonts/RobotoMono-BoldItalic.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-
-                     }
-@font-face {
-                        font-family: "RobotoMono";
-                        font-display: swap;
                         src: url("../fonts/RobotoMono-ExtraLight.woff2") format("woff2"), url("../fonts/RobotoMono-ExtraLight.woff") format("woff");
 	font-weight: 200;
 	font-style: normal;
@@ -49,14 +41,6 @@
 @font-face {
                         font-family: "RobotoMono";
                         font-display: swap;
-                        src: url("../fonts/RobotoMono-Light.woff2") format("woff2"), url("../fonts/RobotoMono-Light.woff") format("woff");
-	font-weight: 300;
-	font-style: normal;
-
-                     }
-@font-face {
-                        font-family: "RobotoMono";
-                        font-display: swap;
                         src: url("../fonts/RobotoMono-LightItalic.woff2") format("woff2"), url("../fonts/RobotoMono-LightItalic.woff") format("woff");
 	font-weight: 400;
 	font-style: normal;
@@ -65,15 +49,7 @@
 @font-face {
                         font-family: "RobotoMono";
                         font-display: swap;
-                        src: url("../fonts/RobotoMono-Medium.woff2") format("woff2"), url("../fonts/RobotoMono-Medium.woff") format("woff");
-	font-weight: 500;
-	font-style: normal;
-
-                     }
-@font-face {
-                        font-family: "RobotoMono";
-                        font-display: swap;
-                        src: url("../fonts/RobotoMono-MediumItalic.woff2") format("woff2"), url("../fonts/RobotoMono-MediumItalic.woff") format("woff");
+                        src: url("../fonts/RobotoMono-BoldItalic.woff2") format("woff2"), url("../fonts/RobotoMono-BoldItalic.woff") format("woff");
 	font-weight: 400;
 	font-style: normal;
 
@@ -81,7 +57,7 @@
 @font-face {
                         font-family: "RobotoMono";
                         font-display: swap;
-                        src: url("../fonts/RobotoMono-Regular.woff2") format("woff2"), url("../fonts/RobotoMono-Regular.woff") format("woff");
+                        src: url("../fonts/RobotoMono-MediumItalic.woff2") format("woff2"), url("../fonts/RobotoMono-MediumItalic.woff") format("woff");
 	font-weight: 400;
 	font-style: normal;
 
@@ -97,7 +73,7 @@
 @font-face {
                         font-family: "RobotoMono";
                         font-display: swap;
-                        src: url("../fonts/RobotoMono-SemiBoldItalic.woff2") format("woff2"), url("../fonts/RobotoMono-SemiBoldItalic.woff") format("woff");
+                        src: url("../fonts/RobotoMono-Regular.woff2") format("woff2"), url("../fonts/RobotoMono-Regular.woff") format("woff");
 	font-weight: 400;
 	font-style: normal;
 
@@ -105,8 +81,8 @@
 @font-face {
                         font-family: "RobotoMono";
                         font-display: swap;
-                        src: url("../fonts/RobotoMono-Thin.woff2") format("woff2"), url("../fonts/RobotoMono-Thin.woff") format("woff");
-	font-weight: 100;
+                        src: url("../fonts/RobotoMono-SemiBoldItalic.woff2") format("woff2"), url("../fonts/RobotoMono-SemiBoldItalic.woff") format("woff");
+	font-weight: 400;
 	font-style: normal;
 
                      }
@@ -123,6 +99,30 @@
                         font-display: swap;
                         src: url("../fonts/RobotoMono-VariableFont_wght.woff2") format("woff2"), url("../fonts/RobotoMono-VariableFont_wght.woff") format("woff");
 	font-weight: 400;
+	font-style: normal;
+
+                     }
+@font-face {
+                        font-family: "RobotoMono";
+                        font-display: swap;
+                        src: url("../fonts/RobotoMono-Medium.woff2") format("woff2"), url("../fonts/RobotoMono-Medium.woff") format("woff");
+	font-weight: 500;
+	font-style: normal;
+
+                     }
+@font-face {
+                        font-family: "RobotoMono";
+                        font-display: swap;
+                        src: url("../fonts/RobotoMono-Thin.woff2") format("woff2"), url("../fonts/RobotoMono-Thin.woff") format("woff");
+	font-weight: 100;
+	font-style: normal;
+
+                     }
+@font-face {
+                        font-family: "RobotoMono";
+                        font-display: swap;
+                        src: url("../fonts/RobotoMono-Light.woff2") format("woff2"), url("../fonts/RobotoMono-Light.woff") format("woff");
+	font-weight: 300;
 	font-style: normal;
 
                      }

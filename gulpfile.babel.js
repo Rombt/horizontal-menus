@@ -12,11 +12,11 @@ import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js
 import { createSvgSprite } from "./gulp/tasks/svgsprite.js";
 
 global.app = {
-    isBuild: process.argv.includes('--build');
-    isDev: !isBuild,
+    isBuild: process.argv.includes('--build'),
+    isDev: !process.argv.includes('--build'),
     path: path,
     gulp: gulp,
-    plugins: plugins, // оиск и замена по регуляракам 
+    plugins: plugins,
 }
 
 function watcher() {

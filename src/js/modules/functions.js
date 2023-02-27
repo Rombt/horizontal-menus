@@ -1,4 +1,4 @@
-export function isWebp() {
+export function isWebp() {       // определяет поддерживает ли браузер формот webp и в зависимости от этого добаляет тегу боди класс 
 
    function testWebp(callback) {
       let webP = new Image();
