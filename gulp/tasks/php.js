@@ -9,8 +9,8 @@ export const php = () => {
                 title: "PHP",
                 message: "Error: <%= error.message %>"
             })))
-        .pipe(app.plugins.if(app.isBuild, webpHtmlNosvg())) // оборачивает тег img в тег <picture> 
-        .pipe(app.plugins.if(app.isBuild, versionNumber({
+        .pipe(app.plugins.if(app.isProd, webpHtmlNosvg())) // оборачивает тег img в тег <picture> 
+        .pipe(app.plugins.if(app.isProd, versionNumber({
             'value': '%DT%',
             'append': {
                 'key': '_v',
@@ -24,6 +24,6 @@ export const php = () => {
                 'file': 'gulp/version.json'
             }
         })))
-        .pipe(app.gulp.dest(app.path.build.php))
+        .pipe(app.gulp.dest(app.path.prod.php))
         .pipe(app.plugins.browsersync.stream());
 }

@@ -12,5 +12,5 @@ export const createSvgSprite = () => {
                 }
             },
         }))
-        .pipe(app.gulp.dest(app.path.build.svgicons))
+        .pipe(app.gulp.dest(app.path.prod.svgicons))
 }

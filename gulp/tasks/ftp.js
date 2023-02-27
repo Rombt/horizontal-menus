@@ -7,7 +7,7 @@ export const ftp = () => {
    configFTP.log = util.log;
    const ftpConnect = vinylFTP.create(configFTP);
 
-   return app.gulp.src(`${app.path.buildFolder}/**/*.*`, {})
+   return app.gulp.src(`${app.path.prodFolder}/**/*.*`, {})
       .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "FTP", message: "Error: <%= error.message %>" })))
 
 

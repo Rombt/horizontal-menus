@@ -12,7 +12,7 @@ import { dirname } from 'path';
 
 let proxyPath = '';
 if (__dirname.includes('OSPanel')) {
-    proxyPath = "http://twily/gulp/build/"; // домашний комп
+    proxyPath = "http://twily/gulp/prod/"; // домашний комп
 } else {
     proxyPath = "http://web/rombt/e-shop-clothes/dist"; // рабочий комп и домашний ноут
 }
@@ -26,7 +26,7 @@ export const server = (done) => {
         proxy: proxyPath,
         open: false,
         // server: {
-        //     baseDir: `${app.path.build.php}`
+        //     baseDir: `${app.path.prod.php}`
         // },
         // notify: false,
         // port: 3000,

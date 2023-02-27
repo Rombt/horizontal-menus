@@ -1,3 +1,5 @@
-import * as flsFunctions from "./modules/functions.js";     // проверяет поддерживает ли браузер формат webp
+import { isWebp } from "./modules/isWebp.js";     // проверяет поддерживает ли браузер формат webp
 
-flsFunctions.isWebp();
+
+
+isWebp();
