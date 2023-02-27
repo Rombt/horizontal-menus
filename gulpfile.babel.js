@@ -10,6 +10,8 @@ import { js } from "./gulp/tasks/js.js";
 import { images } from "./gulp/tasks/images.js";
 import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js";
 import { createSvgSprite } from "./gulp/tasks/svgsprite.js";
+import { zip } from "./gulp/tasks/zip.js";
+
 
 global.app = {
     isBuild: process.argv.includes('--build'),
@@ -32,6 +34,7 @@ export const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server))
 export const build = gulp.series(reset, mainTasks);
 
 export const createFonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
+export const deployZIP = gulp.series(reset, mainTasks, zip);
 export { createSvgSprite };
 
 

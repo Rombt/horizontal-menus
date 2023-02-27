@@ -6,7 +6,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <link href="./css/style.min.css" rel="stylesheet" type="text/css">
+   <link href="./css/style.min.css?_v=20230227105722" rel="stylesheet" type="text/css">
 
    <title>Document</title>
 
@@ -22,7 +22,7 @@
 
    </div>
 
-   <script src="js/app.min.js"></script>
+   <script src="js/app.min.js?_v=20230227105722"></script>
 </body>
 
 
