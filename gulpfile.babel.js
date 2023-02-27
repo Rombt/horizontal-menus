@@ -24,7 +24,7 @@ global.app = {
 
 function watcher() {
     gulp.watch(path.watch.files, copy)
-    gulp.watch(path.watch.php, php)
+    gulp.watch(path.watch.php, php)     // для отправки файлов по ftp при каждом обновлении добавить вместо php gulp.series(php,ftp)
     gulp.watch(path.watch.scss, scss)
     gulp.watch(path.watch.js, js)
     gulp.watch(path.watch.images, images)
