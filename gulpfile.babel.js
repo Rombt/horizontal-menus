@@ -11,6 +11,7 @@ import { images } from "./gulp/tasks/images.js";
 import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js";
 import { createSvgSprite } from "./gulp/tasks/svgsprite.js";
 import { zip } from "./gulp/tasks/zip.js";
+import { ftp } from "./gulp/tasks/ftp.js";
 
 
 global.app = {
@@ -35,6 +36,7 @@ export const build = gulp.series(reset, mainTasks);
 
 export const createFonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
 export const deployZIP = gulp.series(reset, mainTasks, zip);
+export const deployFTP = gulp.series(reset, mainTasks, ftp);
 export { createSvgSprite };
 
 
