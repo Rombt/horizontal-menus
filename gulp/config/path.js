@@ -12,7 +12,7 @@ export const path = {
         images: `${prodFolder}/img/`,
         fonts: `${prodFolder}/fonts/`,
         files: `${prodFolder}/files/`,
-        svgicons: `${srcFolder}/img/`,        // так же как и файлы шрифтов иканки генерируются только один раз, но переносить их нужно при каждой сборкой
+        svgicons: `${srcFolder}/img/`, // так же как и файлы шрифтов иканки генерируются только один раз, но переносить их нужно при каждой сборкой
     },
     src: {
         js: `${srcFolder}/js/app.js`,
@@ -35,5 +35,5 @@ export const path = {
     prodFolder: prodFolder,
     srcFolder: srcFolder,
     rootFolder: rootFolder,
-    ftp: 'htdocs',        // указать целевую папку на сервере, есле её нет то она будет создана автоматически, пусто -- корневая папка сервера
+    ftp: 'htdocs', // указать целевую папку на сервере, есле её нет то она будет создана автоматически, пусто -- корневая папка сервера
 }

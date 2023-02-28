@@ -10,7 +10,8 @@
     "createFonts": "gulp createFonts",
     "createSvgSprite": "gulp createSvgSprite",
     "zip": "gulp deployZIP --prod",
-    "ftp": "gulp deployFTP --prod"
+    "ftp": "gulp deployFTP --prod",
+    "grid": "gulp grid"
   },
   "repository": {
     "dev": "gulp",
@@ -48,6 +49,7 @@
     "gulp-webpcss": "^1.1.1",
     "gulp-zip": "^5.1.0",
     "sass": "^1.58.3",
+    "smart-grid": "^2.1.2",
     "vinyl-ftp": "^0.6.1",
     "webp-converter": "^2.2.3",
     "webpack": "^5.75.0",
