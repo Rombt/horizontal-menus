@@ -14,22 +14,7 @@
 
 <body>
 
-   <div class="ss"> Привет </div>
 
-   <div>
-
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis cupiditate, ducimus non, rerum qui architecto ullam blanditiis, ab sit modi error, inventore repudiandae quisquam ipsa? Molestiae nobis ut voluptatibus dicta.
-
-   </div>
-
-   <div class="background"></div>
-
-   <div class="img">
-      <img src="img/some_img.jpg" alt="">
-   </div>
-
-
-   <script src="js/app.min.js"></script>
 </body>
 
 
