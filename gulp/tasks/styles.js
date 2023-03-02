@@ -2,10 +2,10 @@ import dartSasss from 'sass';
 import gulpSasss from 'gulp-sass';
 import less from 'gulp-less';
 import rename from 'gulp-rename';
-import cleanCss from 'gulp-clean-css'
-import webpCss from 'gulp-webpcss' // в зависимости об браузера(!) в файл стилей картинки либо в фотмате webp либо обычные требует дополнительного js кода
-import autoprefixer from 'gulp-autoprefixer'
-import groupCssMediaQueries from 'gulp-group-css-media-queries'
+import cleanCss from 'gulp-clean-css';
+import webpCss from 'gulp-webpcss'; // в зависимости об браузера(!) в файл стилей картинки либо в фотмате webp либо обычные требует дополнительного js кода
+import autoprefixer from 'gulp-autoprefixer';
+import groupCssMediaQueries from 'gulp-group-css-media-queries';
 
 const sass = gulpSasss(dartSasss);
 
@@ -25,6 +25,7 @@ export const styles = () => {
             overrideBrowsersList: ["last 3 versions"],
             cascad: true,
         })))
+
 
         .pipe(app.plugins.if(app.isProd, cleanCss()))
         .pipe(rename({ extname: ".min.css" }))
