@@ -15,12 +15,12 @@ export const path = {
         svgicons: `${srcFolder}/img/`, // так же как и файлы шрифтов иканки генерируются только один раз, но переносить их нужно при каждой сборкой
     },
     src: {
+        php: `${srcFolder}/*.{php,html}`, // копирую только итоговые файлы которые будут собираться гампом из частей предназначено для HTML!
+        less: `${srcFolder}/styles/main-style.less`,
+        scss: `${srcFolder}/styles/main-style.scss`,
         js: `${srcFolder}/js/app.js`,
         images: `${srcFolder}/img/**/*.{jpg,jpeg,png,gif,webp}`, // добавить форматы при необходимости
         svg: `${srcFolder}/img/**/*.svg`,
-        scss: `${srcFolder}/styles/style.scss`,
-        less: `${srcFolder}/styles/style.less`,
-        php: `${srcFolder}/*.php`, // копирую только итоговые файлы которые будут собираться гампом из частей предназначено для HTML!
         files: `${srcFolder}/files/**/*.*`,
         svgicons: `${srcFolder}/svgicons/*.svg`,
     },

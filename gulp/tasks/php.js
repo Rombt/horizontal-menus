@@ -1,5 +1,6 @@
 import webpHtmlNosvg from "gulp-webp-html-nosvg";
 import versionNumber from "gulp-version-number";
+import fileInclude from "gulp-file-include";
 
 
 export const php = () => {
@@ -9,6 +10,16 @@ export const php = () => {
                 title: "PHP",
                 message: "Error: <%= error.message %>"
             })))
+        // .pipe(fileInclude())
+        .pipe(app.plugins.if(app.isProd, fileInclude({
+            context: {
+                'isProd': app.isProd
+            }
+        }), fileInclude({
+            context: {
+                'isProd': false
+            }
+        })))
         .pipe(app.plugins.if(app.isProd, webpHtmlNosvg())) // оборачивает тег img в тег <picture> 
         .pipe(app.plugins.if(app.isProd, versionNumber({
             'value': '%DT%',

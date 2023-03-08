@@ -1,27 +1,22 @@
 // для старых версий node.js
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
-
-// // for home laptop
-// const __filename = fileURLToPath(
-//     import.meta.url);
+// const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 
-// rootFolder = nodePath.basename(nodePath.resolve());      //  может пригодится для нахождения путей 
 
-let proxyPath = '';
-if (__dirname.includes('OSPanel')) {
-    proxyPath = "http://twily/gulp/prod/"; // домашний комп
-} else {
-    proxyPath = "http://web/rombt/e-shop-clothes/dist"; // рабочий комп и домашний ноут
-}
-
-
-
-// D:\web\e-shop-clothes
 
 export const server = (done) => {
+
+    let rootFolder = app.path.prodFolder.slice(2);
+    let proxyPath = '';
+
+    if (__dirname.includes('OSPanel')) {
+        proxyPath = `http://rombt/${app.path.rootFolder}/${rootFolder}`; // домашний комп
+    } else {
+        proxyPath = `http://web/rombt/${app.path.rootFolder}/${rootFolder}`; // рабочий комп и домашний ноут
+    }
+
     app.plugins.browsersync.init({
         proxy: proxyPath,
         open: false,
