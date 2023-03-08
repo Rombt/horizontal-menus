@@ -8,7 +8,7 @@
 
    <link href="./styles/style.min.css" rel="stylesheet" type="text/css">
 
-   <title>Document</title>
+   <title>*</title>
 
 </head>
 
