@@ -1,2 +1,2 @@
-# e-shop-clothes
-Another one e-shop clothes
+# Gulp assembly
+Gulp assembly for HTML coding
