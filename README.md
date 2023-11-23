@@ -26,24 +26,29 @@
   
 > themes  
 >> my_thyemename  
+>>>  .gitignore  
 >>>  docs  
 >>>  app  
 >>>>  src 
   
->>>>>  index.php  
->>>>>  functions.php  
->>>>>  header.php  
->>>>>  footer.php  
->>>>>  screenshot.png  
->>>>>  readme.txt  
->>>>>  style.css  
+>>>>>  index.php         
+>>>>>  functions.php     
+>>>>>  header.php        
+>>>>>  footer.php        
+>>>>>  screenshot.png    
+>>>>>  readme.txt        
+>>>>>  style.css 
 >>>>>  _and another wordpress theme files_ 
+>>>>>  template-parts 
+>>>>>>  parts   
+>>>>>>  components   
 
->>>>>  core-plugin for wordpress theme  
->>>>>>  html_parts  
->>>>>>  assets  
->>>>>>>  js  
->>>>>>>>  admin.main.min.js  
+>>>>>  core-plugin for wordpress theme          
+>>>>>>  html_parts         
+>>>>>>  assets          
+>>>>>>>  img          
+>>>>>>>  js          
+>>>>>>>>  admin.main.min.js         
   
 >>>>>>>  styles  
 >>>>>>>>  mainstyle.min.css  
@@ -56,10 +61,20 @@
 
 >>>>>>  js  
 >>>>>>>  libs  
->>>>>>>  app.main.min.js  
-  
+
+>>>>>>>  moduls  
+>>>>>>>>  isWebp.js  
+>>>>>>>  app.main.js  
+
 >>>>>>  styles  
->>>>>>>  mainstyle.min.css
+>>>>>>>  parts
+>>>>>>>  components
+>>>>>>>  fonts.less
+>>>>>>>  main-style.less
+>>>>>>>  mixins.less
+>>>>>>>  reset.css
+>>>>>>>  smart-grid.less
+>>>>>>>  variables.less
   
 >>>>>  inc  
 >>>>>>  functions  

@@ -1,0 +1,120 @@
+@import (less) 'reset.css';
+@import (less) '../../node_modules/normalize.css/normalize.css';
+@import './smart-grid.less';
+@import "fonts";
+
+@import "variables.less";
+@import "mixins.less";
+
+
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none
+}
+
+.debug-grid {
+    .debug(#b2bdfa1a, 1px rgba(6, 235, 197, 0.5) solid);
+
+    pointer-events: none;
+    z-index: 100;
+}
+
+.conteiner {
+    .wrapper();
+}
+
+.background {
+    max-width: 1970px;
+    margin: 0 auto;
+
+}
+
+.wrap-img {
+    position: relative;
+    overflow: hidden;
+    min-height: 10px;
+    min-width: 10px;
+
+    img {
+        width: 100%;
+        /* задавать спомощью padding*/
+        height: 100%;
+        object-fit: cover;
+        /* или более подходящее значение*/
+        object-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+}
+
+
+
+@import 'sections/parts/button-orange.less';
+@import 'sections/parts/button-app.less';
+@import 'sections/parts/button-with-border.less';
+@import 'sections/parts/button-pagination__next.less';
+@import 'sections/parts/button-pagination__prev.less';
+@import 'sections/parts/article-icons-block.less';
+
+@import 'sections/parts/icons-block.less';
+
+@import 'sections/parts/price.less';
+@import 'sections/parts/food-menu.less';
+
+@import 'sections/parts/prod-card__grid.less';
+@import 'sections/parts/prod-card__list.less';
+@import 'sections/parts/recipe-card.less';
+@import 'sections/parts/recipe-card-2.less';
+@import 'sections/parts/article-blog.less';
+@import 'sections/parts/pagination.less';
+
+@import 'sections/parts/opening-hours.less';
+@import 'sections/parts/burger.less';
+@import 'sections/parts/blog-sidebar.less';
+@import 'sections/parts/comments-block.less';
+@import 'sections/parts/comment.less';
+@import 'sections/parts/leave-comment-form.less';
+@import 'sections/parts/related-products.less';
+
+@import 'sections/parts/shop-sidebar.less';
+@import 'sections/parts/prod-card-from-shop.less';
+@import 'sections/parts/rating-box.less';
+
+
+
+@import 'sections/header.less';
+@import 'sections/title-page-block.less';
+@import 'sections/speciality-block.less';
+
+@import 'sections/dish.less';
+@import 'sections/about.less';
+@import 'sections/today.less';
+@import 'sections/restaurant-menu.less';
+@import 'sections/clients.less';
+@import 'sections/reserve.less';
+@import 'sections/footer.less';
+
+
+@import 'sections/contacts.less';
+@import 'sections/menu-page.less';
+@import 'sections/recipies.less';
+@import 'sections/recipie-details.less';
+@import 'sections/404-page.less';
+@import 'sections/about-us.less';
+@import 'sections/blog-page.less';
+@import 'sections/blog-details.less';
+
+@import 'sections/shop-listing.less';
+@import 'sections/shop-details.less';
+@import 'sections/shopping-cart.less';
