@@ -1,0 +1,8 @@
+
+
+
+/**/*
+!app/
+# for git pages
+!/docs/**/*
+!.gitignore
