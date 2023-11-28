@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "gulp copy",
-    "wp": "gulp wp",
+    "wp": "gulp wp1",
     "wpPlugin": "gulp  wpPlugin",
     "res": "gulp  reset --wp"
   },

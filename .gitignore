@@ -1,8 +1,9 @@
 
 
 
-/**/*
-!app/
+/*
+!/app/
 # for git pages
-!/docs/**/*
+!/docs/
 !.gitignore
+!/README.md

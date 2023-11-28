@@ -12,9 +12,10 @@ import { reset } from "./tasks/reset.js";
 
 
 export { copy };
-export { wp };
 export { wpPlugin };
 export { reset };
+export const wp1 = gulp.series(reset, wp, wpPlugin, copy);
+// export { wp };
 
 
 // todo очищать readme.md только при использовании сборки в качестве шаблона
@@ -42,7 +43,7 @@ global.app = {
 
 
 // export const html = gulp.series(reset, html, mainTasks, gulp.parallel(watcher, server));
-// export const wp = gulp.series(reset, wp, wpPlugin, mainTasks, gulp.parallel(watcher, server));
+// export const wp = gulp.series(reset, wp, wpPlugin, copy, mainTasks, gulp.parallel(watcher, server));
 
 
 

@@ -14,7 +14,7 @@ export const wp = () => {
             title: "PHP",
             message: "Error: <%= error.message %>"
          })))
-      .pipe(app.plugins.newer(app.path.prodFolder))
+      // .pipe(app.plugins.newer(app.path.prodFolder))
       .pipe(app.plugins.if(app.isProd, app.plugins.webpHtmlNosvg())) // оборачивает тег img в тег <picture> 
       .pipe(app.plugins.if(app.isProd, app.plugins.versionNumber({
          'value': '%DT%',

@@ -17,7 +17,11 @@ export const path = {
 
    },
    src: {
-      copy: [],
+      copy: [
+         `${srcFolder}/README.md`,
+         `${srcFolder}/style.css`,
+         `${srcFolder}/screenshot.png`,
+      ],
       html: `${srcFolder}/*.html`,
       php: [
          `${srcFolder}/**/*.php`,

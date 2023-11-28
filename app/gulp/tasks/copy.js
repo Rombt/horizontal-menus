@@ -10,10 +10,10 @@ export const copy = () => {
 
 
 
-   return app.gulp.src(app.path.src.files, { base: app.path.srcFolder })
+   return app.gulp.src(app.path.src.copy, { base: app.path.srcFolder })
 
 
 
-      .pipe(app.gulp.dest(app.plugins.if(app.isWP, app.path.wp.files, app.path.prod.files)))
+      .pipe(app.gulp.dest(app.path.prodFolder))
 
 }
