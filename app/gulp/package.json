@@ -5,12 +5,9 @@
   "main": "gulp.js",
   "type": "module",
   "scripts": {
-    "test": "gulp copy",
     "wp": "gulp wp --wp",
     "html": "gulp html",
-    "wpPlugin": "gulp  wpPlugin",
-    "res": "gulp  reset --wp",
-    "st": "gulp  styles"
+    "wpPlugin": "gulp  wpPlugin"
   },
   "keywords": [
     "html coding",

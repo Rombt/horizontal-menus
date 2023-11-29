@@ -14,6 +14,7 @@ export const path = {
    prod: {
       wpPlugin: wpPluginPath,
       html: `${prodFolder}/docs`,
+      styles: `${prodFolder}/docs`,
 
    },
    src: {
@@ -29,6 +30,7 @@ export const path = {
          `${srcFolder}/README.md`,
          `${srcFolder}/style.css`,
          `${srcFolder}/screenshot.png`,
+         `${srcFolder}/.gitignore`,
       ],
    },
    watch: {

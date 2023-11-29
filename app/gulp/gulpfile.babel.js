@@ -10,16 +10,6 @@ import { styles } from "./tasks/styles.js";
 
 
 
-
-
-export { copy };
-export { wpPlugin };
-export { reset };
-export const wp = gulp.series(reset, php, wpPlugin, copy);
-export const html = gulp.series(reset, php);
-
-export { styles };
-
 // todo очищать readme.md только при использовании сборки в качестве шаблона
 
 
@@ -44,7 +34,11 @@ global.app = {
 
 
 // const mainTasks = gulp.series(gulp.parallel(copyFonts, styles, js, images, copy), wpPlugin, listProcFiles);
+const mainTasks = gulp.parallel(styles);
 
+
+export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy);
+export const html = gulp.series(reset, php, mainTasks);
 
 
 // export const html = gulp.series(reset, html, mainTasks, gulp.parallel(watcher, server));
