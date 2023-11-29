@@ -30,6 +30,13 @@
 >>>  docs   
 >>>  app   
 >>>>  src   
+
+>>>>>>  html  
+>>>>>>>  index.html  
+>>>>>>>  template-parts    
+>>>>>>>>  parts   
+>>>>>>>>  components 
+
 >>>>>  index.php   
 >>>>>  functions.php   
 >>>>>  header.php   
@@ -40,8 +47,8 @@
 >>>>>  _and another wordpress theme files_   
 >>>>>  template-parts   
 >>>>>>  parts   
->>>>>>  components   
-   
+>>>>>>  components  
+
 >>>>>  core-plugin for wordpress theme   
 >>>>>>  html_parts   
 >>>>>>  assets   

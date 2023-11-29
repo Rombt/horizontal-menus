@@ -17,17 +17,19 @@ export const path = {
 
    },
    src: {
-      copy: [
-         `${srcFolder}/README.md`,
-         `${srcFolder}/style.css`,
-         `${srcFolder}/screenshot.png`,
-      ],
-      html: `${srcFolder}/*.html`,
+      less: `${srcFolder}/assets/styles/main-style.less`,
+      scss: `${srcFolder}/assets/styles/main-style.scss`,
+      html: `${srcFolder}/html/*.html`,
       php: [
          `${srcFolder}/**/*.php`,
          `!${srcFolder}/core-plugin/**/*.php`
       ],
       wpPlugin: `${srcFolder}/core-plugin/**/*.php`,
+      copy: [
+         `${srcFolder}/README.md`,
+         `${srcFolder}/style.css`,
+         `${srcFolder}/screenshot.png`,
+      ],
    },
    watch: {
 

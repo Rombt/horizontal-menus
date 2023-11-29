@@ -7,6 +7,7 @@ import replace from "gulp-replace";
 import webpHtmlNosvg from "gulp-webp-html-nosvg";
 import rename from "gulp-rename";
 import del from "del";
+import fileInclude from "gulp-file-include";
 
 
 
@@ -21,6 +22,7 @@ export const plugins = {
    webpHtmlNosvg: webpHtmlNosvg,
    rename: rename,
    del: del,
+   fileInclude: fileInclude,
 
 
    // browsersync: browsersync,

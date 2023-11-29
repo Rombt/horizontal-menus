@@ -6,9 +6,11 @@
   "type": "module",
   "scripts": {
     "test": "gulp copy",
-    "wp": "gulp wp1",
+    "wp": "gulp wp --wp",
+    "html": "gulp html",
     "wpPlugin": "gulp  wpPlugin",
-    "res": "gulp  reset --wp"
+    "res": "gulp  reset --wp",
+    "st": "gulp  styles"
   },
   "keywords": [
     "html coding",
@@ -51,7 +53,7 @@
     "sass": "^1.58.3",
     "smart-grid": "^2.1.2",
     "vinyl-ftp": "^0.6.1",
-    "webp-converter": "^2.2.3",
+    "webp-converter": "2.2.3",
     "webpack": "^5.75.0",
     "webpack-stream": "^7.0.0"
   },
