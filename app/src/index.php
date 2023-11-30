@@ -1,35 +1,19 @@
-<?php get_header(); ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./assets/styles/main-style.min.css" rel="stylesheet" type="text/css">
+	<title>Document</title>
+</head>
+
+<body>
 
 
 
 
-<?php get_template_part( 'template-parts/parts/head_pages' ); ?>
+</body>
 
-<div class="conteiner articles-conteiner">
-
-	<div class="articles-page-row">
-		<main class="article-row">
-
-			<?php if ( have_posts() ) {
-				while ( have_posts() ) :
-					the_post();
-					get_template_part( 'template-parts/parts/article_blog' );
-				endwhile;
-			} else {
-				//   get_template_part('partials/notfound');
-			}
-			?>
-
-
-
-			<?php get_template_part( 'template-parts/components/pagination' ); ?>
-
-		</main>
-
-		<?php get_sidebar( 'blog' ) ?>
-	</div>
-
-</div>
-
-
-<?php get_footer();
+</html>

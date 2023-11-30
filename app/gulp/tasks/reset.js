@@ -9,7 +9,7 @@
 
 
 
-export const reset = () => {
+export const reset = (done) => {
 
    let clearPath = [];
 
@@ -20,6 +20,7 @@ export const reset = () => {
          `${app.path.prodFolder}/**`,
          `!${app.path.prodFolder}/app`,
          `!${app.path.prodFolder}/.git`,
+         `!${app.path.prodFolder}/.gitignore`,
          `!${app.path.prodFolder}/docs`,
       ]
    } else {
@@ -29,10 +30,16 @@ export const reset = () => {
       ];
    }
 
-   clearPath = clearPath.map((el) => {    //Note that glob patterns can only contain forward-slashes, not backward-slashes.  from   https://www.npmjs.com/package/del#api    
+   let _clearPath = clearPath.map((el) => {    //Note that glob patterns can only contain forward-slashes, not backward-slashes.  from   https://www.npmjs.com/package/del#api    
       return el.replace(/\\/g, '/');
    })
 
 
-   return app.plugins.del(clearPath, { force: true });
+   if (!_clearPath || _clearPath.length === 0) {
+      console.log("ERROR: array clearPath does not exist!!!");
+
+      return done();
+   }
+
+   return app.plugins.del(_clearPath, { force: true });
 }

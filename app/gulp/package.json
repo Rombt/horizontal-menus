@@ -4,6 +4,10 @@
   "description": "Designed for html coding and development of WP themes and plagins",
   "main": "gulp.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rombt/gulp-assembly.git"
+  },
   "scripts": {
     "wp": "gulp wp --wp",
     "html": "gulp html",
@@ -55,6 +59,7 @@
     "webpack-stream": "^7.0.0"
   },
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "del": "^6.1.1",
     "esm": "^3.2.25",
     "node-fetch": "^3.3.1",

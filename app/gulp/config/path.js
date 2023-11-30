@@ -1,12 +1,11 @@
 import * as nodePath from 'path';
 
-
 const THEME_NAME = nodePath.basename(nodePath.resolve(__dirname, '..', '..', '..'));
-const ROOT_PATH = nodePath.resolve(__dirname, '..', '..');
+const ROOT_PATH = nodePath.resolve(__dirname, '..', '..').replace(/\\/g, '/');
 
-const srcFolder = nodePath.resolve(ROOT_PATH, 'src');
-const prodFolder = nodePath.resolve(ROOT_PATH, '..');
-const wpPluginPath = nodePath.resolve(ROOT_PATH, '..', '..', '..', `plugins/${THEME_NAME}-core`,);
+const srcFolder = `${ROOT_PATH}/src`;
+const prodFolder = `${ROOT_PATH}/..`;
+const wpPluginPath = `${ROOT_PATH}/../../../plugins/${THEME_NAME}-core`;
 
 
 
@@ -30,11 +29,11 @@ export const path = {
          `${srcFolder}/README.md`,
          `${srcFolder}/style.css`,
          `${srcFolder}/screenshot.png`,
-         `${srcFolder}/.gitignore`,
       ],
    },
    watch: {
-
+      // php: `${srcFolder}/**/*.php`,
+      styles: `${srcFolder}/**/*.{scss,less}`,
    },
 
 

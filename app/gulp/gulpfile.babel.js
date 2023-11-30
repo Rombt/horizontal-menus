@@ -7,6 +7,7 @@ import { php } from "./tasks/php.js";
 import { wpPlugin } from "./tasks/wpPlugin.js";
 import { reset } from "./tasks/reset.js";
 import { styles } from "./tasks/styles.js";
+import { server } from "./tasks/server.js";
 
 
 
@@ -27,9 +28,23 @@ global.app = {
    // isHTML: !process.argv.includes('--wp'),
 
 
+}
+
+
+function watcher() {
+   gulp.watch(path.src.copy, copy)
+   gulp.watch(path.src.php, php) // для отправки файлов по ftp при каждом обновлении добавить вместо php gulp.series(php,ftp)
+   gulp.watch(path.watch.styles, styles)
+
+
+
+   // gulp.watch(path.watch.js, js)
+   // gulp.watch(path.watch.images, images)
 
 
 }
+
+
 
 
 
@@ -37,8 +52,8 @@ global.app = {
 const mainTasks = gulp.parallel(styles);
 
 
-export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy);
-export const html = gulp.series(reset, php, mainTasks);
+export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
+export const html = gulp.series(reset, php, mainTasks, gulp.parallel(watcher, server));
 
 
 // export const html = gulp.series(reset, html, mainTasks, gulp.parallel(watcher, server));

@@ -36,5 +36,6 @@ export const php = () => {
       })))
 
       .pipe(app.gulp.dest(app.plugins.if(app.isWP, app.path.prodFolder, app.path.prod.html)))
+      .pipe(app.plugins.browsersync.stream());
 
 }
