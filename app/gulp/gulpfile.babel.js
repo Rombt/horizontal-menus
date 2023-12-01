@@ -36,8 +36,8 @@ function watcher() {
    gulp.watch(path.src.copy, copy)
    gulp.watch(path.src.php, php) // для отправки файлов по ftp при каждом обновлении добавить вместо php gulp.series(php,ftp)
    gulp.watch(path.watch.styles, styles)
-   // gulp.watch(path.watch.js, js)
    gulp.watch(path.watch.images, images)
+   gulp.watch(path.watch.js, js)
 
 
 }
@@ -47,7 +47,7 @@ function watcher() {
 
 
 // const mainTasks = gulp.series(gulp.parallel(copyFonts, styles, js, images, copy), wpPlugin, listProcFiles);
-const mainTasks = gulp.parallel(styles, images,);
+const mainTasks = gulp.parallel(styles, images, js);
 
 
 export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));

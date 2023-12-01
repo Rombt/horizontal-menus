@@ -2,7 +2,7 @@ import webpackStream from "webpack-stream";
 
 export const js = () => {
     return app.gulp.src(app.path.src.js, {
-        sourcemaps: global.app.isDev,
+        sourcemaps: app.isDev,
         allowEmpty: true,
         base: app.path.srcFolder,
     })
@@ -23,17 +23,14 @@ export const js = () => {
         }))
         .pipe(app.plugins.if(
             app.isWP && '**/app.main.min.js',
-            app.gulp.dest(app.path.wp.js.app)
+            app.gulp.dest(app.path.prod.js.app)
         ))
         .pipe(app.plugins.if(
             app.isWP && '**/admin.main.min.js',
-            app.gulp.dest(app.path.wp.js.admin)
+            app.gulp.dest(app.path.prod.js.admin)
         ))
 
         // app.gulp.dest(app.path.prod.js))     // для вёрстки!!!
 
-        .pipe(app.plugins.if(app.isWP, app.plugins.tap(function (file) {
-            file.path ? app.path.wp.arr_processedFiles.push(file.path) : null;
-        })))
         .pipe(app.plugins.browsersync.stream());
 }

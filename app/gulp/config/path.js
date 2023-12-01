@@ -17,14 +17,22 @@ export const path = {
       images: [
          `${prodFolder}/assets/img`,
          `${wpPluginPath}/assets/img`
-      ]
-      // images: `${prodFolder}`,
+      ],
+
+      js: {
+         admin: `${wpPluginPath}/plugin/assets/js/`,
+         app: `${prodFolder}/assets/js/`,
+      },
 
    },
    src: {
       less: `${srcFolder}/assets/styles/main-style.less`,
       scss: `${srcFolder}/assets/styles/main-style.scss`,
       html: `${srcFolder}/html/*.html`,
+      js: [
+         `${srcFolder}/assets/js/app.js`,
+         `${srcFolder}/core-plugin/assets/js/admin.js`
+      ],
       php: [
          `${srcFolder}/**/*.php`,
          `!${srcFolder}/core-plugin/**/*.php`
@@ -35,15 +43,10 @@ export const path = {
          `${srcFolder}/style.css`,
          `${srcFolder}/screenshot.png`,
       ],
-
-      // images: `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,svg,gif,ico,webp}`,
-      // imagesPlugin: `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,svg,gif,ico,webp}`,
-
       images: [
          `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
          `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`
       ],
-
       svg: [
          `${srcFolder}/assets/img/**/*.svg`,
          `${srcFolder}/core-plugin/assets/img/**/*.svg`
@@ -54,6 +57,10 @@ export const path = {
       images: [
          `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`,
          `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`
+      ],
+      js: [
+         `${srcFolder}/assets/js/**/*.js`,
+         `${srcFolder}/core-plugin/assets/js/**/*.js`
       ],
    },
 
