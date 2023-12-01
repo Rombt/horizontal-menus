@@ -9,6 +9,10 @@ import rename from "gulp-rename";
 import del from "del";
 import fileInclude from "gulp-file-include";
 import browsersync from "browser-sync";
+import webp from "gulp-webp";
+// import imageminWebp from "imagemin-webp";
+import imageMin from "gulp-imagemin";
+import multiDest from "gulp-multi-dest";
 
 
 
@@ -25,6 +29,11 @@ export const plugins = {
    del: del,
    fileInclude: fileInclude,
    browsersync: browsersync,
+   webp: webp,
+   imageMin: imageMin,
+   // imageminWebp: imageminWebp,
+   multiDest: multiDest,
+
 
 
    // browsersync: browsersync,

@@ -14,6 +14,11 @@ export const path = {
       wpPlugin: wpPluginPath,
       html: `${prodFolder}/docs`,
       styles: `${prodFolder}/docs`,
+      images: [
+         `${prodFolder}/assets/img`,
+         `${wpPluginPath}/assets/img`
+      ]
+      // images: `${prodFolder}`,
 
    },
    src: {
@@ -30,10 +35,26 @@ export const path = {
          `${srcFolder}/style.css`,
          `${srcFolder}/screenshot.png`,
       ],
+
+      // images: `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,svg,gif,ico,webp}`,
+      // imagesPlugin: `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,svg,gif,ico,webp}`,
+
+      images: [
+         `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
+         `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`
+      ],
+
+      svg: [
+         `${srcFolder}/assets/img/**/*.svg`,
+         `${srcFolder}/core-plugin/assets/img/**/*.svg`
+      ],
    },
    watch: {
-      // php: `${srcFolder}/**/*.php`,
       styles: `${srcFolder}/**/*.{scss,less}`,
+      images: [
+         `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`,
+         `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`
+      ],
    },
 
 
