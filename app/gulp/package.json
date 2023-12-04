@@ -11,7 +11,8 @@
   "scripts": {
     "wp": "gulp wp --wp",
     "html": "gulp html",
-    "wpPlugin": "gulp  wpPlugin"
+    "wpPlugin": "gulp  wpPlugin",
+    "grid": "gulp grid"
   },
   "keywords": [
     "html coding",

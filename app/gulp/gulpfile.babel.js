@@ -9,11 +9,18 @@ import { styles } from "./tasks/styles.js";
 import { server } from "./tasks/server.js";
 import { js } from "./tasks/js.js";
 import { images } from "./tasks/images.js";
+import { grid } from "./tasks/grid.js";
+
+
+// import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js";
+// import { createSvgSprite } from "./gulp/tasks/svgsprite.js";
+// import { zip } from "./gulp/tasks/zip.js";
+// import { ftp } from "./gulp/tasks/ftp.js";
 
 
 
 // todo очищать readme.md только при использовании сборки в качестве шаблона
-// todo обработка файлав ico. Преобразавание их в иконочный шрифт 
+// todo преобразавание .ico в иконочный шрифт 
 
 
 
@@ -53,7 +60,7 @@ const mainTasks = gulp.parallel(styles, images, js);
 
 export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
 export const html = gulp.series(reset, php, mainTasks, gulp.parallel(watcher, server));
-
+export { grid };
 
 // export const html = gulp.series(reset, html, mainTasks, gulp.parallel(watcher, server));
 // export const wp = gulp.series(reset, wp, wpPlugin, copy, mainTasks, gulp.parallel(watcher, server));

@@ -39,11 +39,7 @@ export const styles = () => {
         }
     }
 
-
-
     return app.gulp.src(
-        // app.isWP ? app.path.src.images : app.path.src.images[0],
-        // app.isSASS ? app.path.src.stules.scss : app.path.src.stules.less,
         pathSrc,
         { sourcemaps: app.isDev, base: app.path.srcFolder, "allowEmpty": true }) // "allowEmpty": true для того что бы  не было ошибок из-за отсутствия файлов .sass
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "SCSS", message: "Error: <%= error.message %>" })))
