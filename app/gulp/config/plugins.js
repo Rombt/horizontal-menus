@@ -13,6 +13,7 @@ import webp from "gulp-webp";
 // import imageminWebp from "imagemin-webp";
 import imageMin from "gulp-imagemin";
 import multiDest from "gulp-multi-dest";
+import tap from "gulp-tap";
 
 
 
@@ -33,6 +34,7 @@ export const plugins = {
    imageMin: imageMin,
    // imageminWebp: imageminWebp,
    multiDest: multiDest,
+   tap: tap,
 
 
 

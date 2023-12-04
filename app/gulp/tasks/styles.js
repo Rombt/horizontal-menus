@@ -1,3 +1,10 @@
+/**
+ * 
+ * 
+ * 
+ * 
+ */
+
 import dartSasss from 'sass';
 import gulpSasss from 'gulp-sass';
 import less from 'gulp-less';
@@ -9,9 +16,35 @@ const sass = gulpSasss(dartSasss);
 
 export const styles = () => {
 
+    let pathSrc;
+
+    if (app.isWP) {
+        if (app.isSASS) {
+            pathSrc = [
+                app.path.src.styles.scss,
+                `${app.path.prod.wpPluginPath}/assets/styles/main-style.scss`,
+
+            ];
+        } else {
+            pathSrc = [
+                app.path.src.styles.less,
+                `${app.path.prod.wpPluginPath}/assets/styles/main-style.less`,
+            ];
+        }
+    } else {
+        if (app.isSASS) {
+            pathSrc = app.path.src.styles.scss;
+        } else {
+            pathSrc = app.path.src.styles.less;
+        }
+    }
+
+
 
     return app.gulp.src(
-        app.isSASS ? app.path.src.scss : app.path.src.less,
+        // app.isWP ? app.path.src.images : app.path.src.images[0],
+        // app.isSASS ? app.path.src.stules.scss : app.path.src.stules.less,
+        pathSrc,
         { sourcemaps: app.isDev, base: app.path.srcFolder, "allowEmpty": true }) // "allowEmpty": true для того что бы  не было ошибок из-за отсутствия файлов .sass
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "SCSS", message: "Error: <%= error.message %>" })))
         .pipe(app.plugins.if(app.isSASS, sass({ outputStyle: 'expanded' }), less()))
@@ -27,6 +60,6 @@ export const styles = () => {
         })))
         .pipe(app.plugins.if(app.isProd, cleanCss()))
         .pipe(app.plugins.rename({ extname: ".min.css" }))
-        .pipe(app.gulp.dest(app.isWP ? app.path.prodFolder : app.path.prod.styles))
+        .pipe(app.plugins.multiDest(app.isWP ? app.path.prod.stylesPhp : app.path.prod.stylesHtml))
         .pipe(app.plugins.browsersync.stream());
 }

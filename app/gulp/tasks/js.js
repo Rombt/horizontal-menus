@@ -29,8 +29,12 @@ export const js = () => {
             app.isWP && '**/admin.main.min.js',
             app.gulp.dest(app.path.prod.js.admin)
         ))
+        .pipe(app.plugins.if(
+            !app.isWP,
+            app.gulp.dest(app.path.prod.js.html)
+        ))
 
-        // app.gulp.dest(app.path.prod.js))     // для вёрстки!!!
+        // app.gulp.dest(app.path.prod.js)    // для вёрстки!!!
 
         .pipe(app.plugins.browsersync.stream());
 }
