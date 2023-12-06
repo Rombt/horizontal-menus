@@ -5,7 +5,7 @@ import { copy } from "./tasks/copy.js";
 import { php } from "./tasks/php.js";
 import { wpPlugin } from "./tasks/wpPlugin.js";
 import { reset } from "./tasks/reset.js";
-import { styles } from "./tasks/_styles.js";
+import { styles } from "./tasks/styles.js";
 import { server } from "./tasks/server.js";
 import { js } from "./tasks/js.js";
 import { images } from "./tasks/images.js";

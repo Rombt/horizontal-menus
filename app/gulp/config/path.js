@@ -36,10 +36,10 @@ export const path = {
 
    },
    src: {
-      styles: {
-         less: `${srcFolder}/assets/styles/main-style.less`,
-         scss: `${srcFolder}/assets/styles/main-style.scss`,
-      },
+      styles: [
+         `${srcFolder}/assets/styles/main-style`,
+         `${srcFolder}/core-plugin/assets/styles/main-style`,
+      ],
       html: `${srcFolder}/html/*.html`,
       js: [
          `${srcFolder}/assets/js/app.js`,
@@ -95,6 +95,15 @@ export const path = {
 
 
 export const getDestPath = (file, appPathProdArr) => {
+
+
+
+
    const isCorePlugin = (file) => file.path.includes('core-plugin') || file.path.includes('-core');
-   return isCorePlugin(file) ? appPathProdArr[1] : appPathProdArr[0];
+
+   let destPath = isCorePlugin(file) ? appPathProdArr[1] : appPathProdArr[0];
+
+   // console.log("destPath = ", destPath);
+
+   return destPath;
 };

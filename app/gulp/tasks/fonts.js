@@ -1,5 +1,6 @@
 /**
- * This task generates fonts in woff and woff2 formats.
+ * This task creating fonts in woff and woff2 formats and generates styles file with font inclusion whith needs to be inclusion in main styles file.
+ * Fonts file can be created for less or sass preprocessor. It is created once! For re-creation you must delete existing file fonts.*
  * Creating fonts takes too much time, so we generate fonts only once. Subsequently, we only copy them.
  * 
  * Source files:
@@ -16,7 +17,6 @@
 
 import fs from 'fs';
 import ttf2woff2 from 'gulp-ttf2woff2';
-import { getDestPath } from "../config/path.js";
 import fonter from 'gulp-fonter';
 
 
@@ -55,11 +55,20 @@ export const ttfToWoff = () => {
 
 export const fontStyle = () => {
 
+    let fontsFile;
+    let srcFonts;
 
-    let fontsFile = `${app.path.srcFolder}/assets/styles/fonts.${app.isSASS ? 'sass' : 'less'}`;     // нужно создавать файл шрифтов заново при каждой смене препроцессора
-    fs.readdir(`${app.path.srcFolder}/assets/fonts/`, function (err, fontsFiles) {
-        if (fontsFile) {
-            if (!fs.existsSync(fontStyle)) {
+    if (app.forPlugin) {
+        fontsFile = `${app.path.srcFolder}/core-plugin/assets/styles/fonts.${app.isSASS ? 'sass' : 'less'}`;
+        srcFonts = `${app.path.srcFolder}/core-plugin/assets/fonts`;
+    } else {
+        fontsFile = `${app.path.srcFolder}/assets/styles/fonts.${app.isSASS ? 'sass' : 'less'}`;
+        srcFonts = `${app.path.srcFolder}/assets/fonts`;
+    }
+
+    fs.readdir(srcFonts, function (err, fontsFiles) {
+        if (fontsFiles) {
+            if (!fs.existsSync(fontsFile)) {
                 fs.writeFile(fontsFile, '', cd);
                 let newFileOnly;
                 for (var i = 0; i < fontsFiles.length; i++) {
@@ -97,7 +106,7 @@ export const fontStyle = () => {
                 }
             } else {
 
-                console.log("Файл scss/fonts.scss уже существует. Для обновления файла его нужно удалить!");
+                console.log(`File fonts.${app.isSASS ? 'sass' : 'less'} has already existing. For update you need to delete it!`);
             }
         }
     });
@@ -112,5 +121,5 @@ export const copyFonts = () => {
         `${app.path.src.fonts}/*.{woff,woff2}`,
         app.isWP && `${app.path.src.fontsPlugin}/*.{woff,woff2}`,
     ].filter(Boolean), {})
-        .pipe(app.gulp.dest((file) => app.isWP ? getDestPath(file, app.path.prod.fontPhp) : app.path.prod.fontHtml))
+        .pipe(app.gulp.dest((file) => app.isWP ? app.plugins.getDestPath(file, app.path.prod.fontPhp) : app.path.prod.fontHtml))
 }
