@@ -10,11 +10,12 @@ import del from "del";
 import fileInclude from "gulp-file-include";
 import browsersync from "browser-sync";
 import webp from "gulp-webp";
-// import imageminWebp from "imagemin-webp";
 import imageMin from "gulp-imagemin";
 import multiDest from "gulp-multi-dest";
-import tap from "gulp-tap";
+import flatten from "gulp-flatten";
 
+
+import tap from "gulp-tap";
 
 
 
@@ -32,11 +33,10 @@ export const plugins = {
    browsersync: browsersync,
    webp: webp,
    imageMin: imageMin,
-   // imageminWebp: imageminWebp,
    multiDest: multiDest,
+   flatten: flatten,
+
    tap: tap,
-
-
 
    // browsersync: browsersync,
    // if: ifPugin,

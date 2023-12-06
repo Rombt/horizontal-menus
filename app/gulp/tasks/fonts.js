@@ -1,10 +1,27 @@
+/**
+ * This task generates fonts in woff and woff2 formats.
+ * Creating fonts takes too much time, so we generate fonts only once. Subsequently, we only copy them.
+ * 
+ * Source files:
+ *      - From app.path.src.fonts
+ *      -- wp From app.path.src.fontsPlugin
+ * 
+ * Destination paths:
+ *      - For creation: The same folder as the source
+ *      - For copying:
+ *          app.path.prod.fontHtml
+ *          -- wp app.path.prod.fontPhp
+ */
+
+
 import fs from 'fs';
-import fonter from 'gulp-fonter';
 import ttf2woff2 from 'gulp-ttf2woff2';
+import { getDestPath } from "../config/path.js";
+import fonter from 'gulp-fonter';
 
 
 export const otfToTtf = () => {
-    return app.gulp.src(`${app.path.srcFolder}/fonts/*.otf`, {})
+    return app.gulp.src(app.forPlugin ? `${app.path.src.fontsPlugin}/**/*.otf` : `${app.path.src.fonts}/**/*.otf`, {})
         .pipe(app.plugins.plumber(
             app.plugins.notify.onError({
                 title: "FONTS",
@@ -14,12 +31,12 @@ export const otfToTtf = () => {
         .pipe(fonter({
             formats: ['ttf']
         }))
-        .pipe(app.gulp.dest(`${app.path.srcFolder}/fonts/`))
-
+        .pipe(app.plugins.flatten())
+        .pipe(app.gulp.dest(app.forPlugin ? app.path.src.fontsPlugin : app.path.src.fonts))
 }
 
 export const ttfToWoff = () => {
-    return app.gulp.src(`${app.path.srcFolder}/fonts/*.ttf`, {})
+    return app.gulp.src(app.forPlugin ? `${app.path.src.fontsPlugin}/**/*.ttf` : `${app.path.src.fonts}/**/*.ttf`, {})
         .pipe(app.plugins.plumber(
             app.plugins.notify.onError({
                 title: "FONTS",
@@ -28,21 +45,19 @@ export const ttfToWoff = () => {
         .pipe(fonter({
             formats: ['woff']
         }))
-        .pipe(app.gulp.dest(`${app.path.srcFolder}/fonts/`))
-        .pipe(app.gulp.src(`${app.path.srcFolder}/fonts/*.ttf`))
+        .pipe(app.plugins.flatten())
+        .pipe(app.gulp.dest(app.forPlugin ? app.path.src.fontsPlugin : app.path.src.fonts))
+        .pipe(app.gulp.src(app.forPlugin ? `${app.path.src.fontsPlugin}/**/*.ttf` : `${app.path.src.fonts}/**/*.ttf`, {}))
         .pipe(ttf2woff2())
-        .pipe(app.gulp.dest(`${app.path.srcFolder}/fonts/`))
+        .pipe(app.plugins.flatten())
+        .pipe(app.gulp.dest(app.forPlugin ? app.path.src.fontsPlugin : app.path.src.fonts))
 }
-
-export const copyFonts = () => {
-    return app.gulp.src(`${app.path.srcFolder}/fonts/*.{woff,woff2}`)
-        .pipe(app.gulp.dest(app.path.prod.fonts))
-}
-
 
 export const fontStyle = () => {
-    let fontsFile = `${app.path.srcFolder}/styles/fonts.${global.app.isSASS ? 'sass' : 'less'}`;     // нужно создавать файл шрифтов заново при каждой смене препроцессора
-    fs.readdir(`${app.path.srcFolder}/fonts/`, function (err, fontsFiles) {
+
+
+    let fontsFile = `${app.path.srcFolder}/assets/styles/fonts.${app.isSASS ? 'sass' : 'less'}`;     // нужно создавать файл шрифтов заново при каждой смене препроцессора
+    fs.readdir(`${app.path.srcFolder}/assets/fonts/`, function (err, fontsFiles) {
         if (fontsFile) {
             if (!fs.existsSync(fontStyle)) {
                 fs.writeFile(fontsFile, '', cd);
@@ -89,4 +104,13 @@ export const fontStyle = () => {
     return app.gulp.src(`${app.path.srcFolder}`);
 
     function cd() { };
+}
+
+
+export const copyFonts = () => {
+    return app.gulp.src([
+        `${app.path.src.fonts}/*.{woff,woff2}`,
+        app.isWP && `${app.path.src.fontsPlugin}/*.{woff,woff2}`,
+    ].filter(Boolean), {})
+        .pipe(app.gulp.dest((file) => app.isWP ? getDestPath(file, app.path.prod.fontPhp) : app.path.prod.fontHtml))
 }

@@ -23,7 +23,11 @@ export const path = {
          `${wpPluginPath}/assets/img`
       ],
       imgHtml: `${prodFolder}/docs/assets/img`,
-
+      fontPhp: [
+         `${prodFolder}/assets/fonts`,
+         `${wpPluginPath}/assets/fonts`
+      ],
+      fontHtml: `${prodFolder}/docs/assets/fonts`,
       js: {
          app: `${prodFolder}/assets/js/`,
          html: `${prodFolder}/docs/assets/js/`,
@@ -55,6 +59,9 @@ export const path = {
          `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
          `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`
       ],
+      fonts: `${srcFolder}/assets/fonts`,
+      fontsPlugin: `${srcFolder}/core-plugin/assets/fonts`,
+
       svg: [
          `${srcFolder}/assets/img/**/*.svg`,
          `${srcFolder}/core-plugin/assets/img/**/*.svg`
@@ -87,7 +94,7 @@ export const path = {
 
 
 
-export const getDestPath = (file) => {
+export const getDestPath = (file, appPathProdArr) => {
    const isCorePlugin = (file) => file.path.includes('core-plugin') || file.path.includes('-core');
-   return isCorePlugin(file) ? app.path.prod.imgPhp[1] : app.path.prod.imgPhp[0];;
+   return isCorePlugin(file) ? appPathProdArr[1] : appPathProdArr[0];
 };

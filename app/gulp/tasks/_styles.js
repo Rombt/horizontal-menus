@@ -23,7 +23,6 @@ export const styles = () => {
             pathSrc = [
                 app.path.src.styles.scss,
                 `${app.path.prod.wpPluginPath}/assets/styles/main-style.scss`,
-
             ];
         } else {
             pathSrc = [

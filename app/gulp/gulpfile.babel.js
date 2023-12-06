@@ -5,11 +5,12 @@ import { copy } from "./tasks/copy.js";
 import { php } from "./tasks/php.js";
 import { wpPlugin } from "./tasks/wpPlugin.js";
 import { reset } from "./tasks/reset.js";
-import { styles } from "./tasks/styles.js";
+import { styles } from "./tasks/_styles.js";
 import { server } from "./tasks/server.js";
 import { js } from "./tasks/js.js";
 import { images } from "./tasks/images.js";
 import { grid } from "./tasks/grid.js";
+import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./tasks/fonts.js";
 
 
 // import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js";
@@ -33,6 +34,7 @@ global.app = {
    isProd: process.argv.includes('--prod'),
    // isDev: !process.argv.includes('--prod'),
    isWP: process.argv.includes('--wp'),
+   forPlugin: process.argv.includes('--pl'),
    isSASS: process.argv.includes('--sass'),
    // isHTML: !process.argv.includes('--wp'),
 
@@ -55,7 +57,9 @@ function watcher() {
 
 
 // const mainTasks = gulp.series(gulp.parallel(copyFonts, styles, js, images, copy), wpPlugin, listProcFiles);
-const mainTasks = gulp.parallel(styles, images, js);
+
+export const fonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
+const mainTasks = gulp.series(copyFonts, gulp.parallel(styles, images, js));
 
 
 export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
@@ -72,6 +76,6 @@ export { grid };
 // export const deployFTP = gulp.series('сначало собрать проэкт html или wp и только потом отправлять');    //!
 
 
-// export const createFonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
+
 // export { createSvgSprite };
 // export { grid };
