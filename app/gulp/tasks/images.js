@@ -1,7 +1,10 @@
 
 
 export const images = () => {
-    app.isProd = true;
+
+
+    app.isProd = true;      // for test
+
 
     return app.gulp.src(
         app.isWP ? app.path.src.images : app.path.src.images[0], {
@@ -19,7 +22,7 @@ export const images = () => {
             optimizationLevel: 3, // 0 to 7
         })))
         .pipe(app.gulp.dest((file) => app.isWP ? app.plugins.getDestPath(file, app.path.prod.imgPhp) : app.path.prod.imgHtml))
-        .pipe(app.gulp.src(app.path.src.svg, {}))
+        .pipe(app.gulp.src(app.path.prod.svg, { base: app.isWP ? `${app.path.src.svg[1]}/../..` : `${app.path.src.images[0]}/..` }))
         .pipe(app.gulp.dest((file) => app.isWP ? app.plugins.getDestPath(file, app.path.prod.imgPhp) : app.path.prod.imgHtml))
         .pipe(app.plugins.browsersync.stream());
 };

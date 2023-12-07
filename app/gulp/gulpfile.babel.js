@@ -11,10 +11,9 @@ import { js } from "./tasks/js.js";
 import { images } from "./tasks/images.js";
 import { grid } from "./tasks/grid.js";
 import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./tasks/fonts.js";
+import { createSvgSprite } from "./tasks/svgsprite.js";
 
 
-// import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./gulp/tasks/fonts.js";
-// import { createSvgSprite } from "./gulp/tasks/svgsprite.js";
 // import { zip } from "./gulp/tasks/zip.js";
 // import { ftp } from "./gulp/tasks/ftp.js";
 
@@ -65,6 +64,7 @@ const mainTasks = gulp.series(copyFonts, gulp.parallel(styles, images, js));
 export const wp = gulp.series(reset, php, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
 export const html = gulp.series(reset, php, mainTasks, gulp.parallel(watcher, server));
 export { grid };
+export { createSvgSprite };
 
 // export const html = gulp.series(reset, html, mainTasks, gulp.parallel(watcher, server));
 // export const wp = gulp.series(reset, wp, wpPlugin, copy, mainTasks, gulp.parallel(watcher, server));

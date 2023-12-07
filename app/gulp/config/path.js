@@ -23,6 +23,10 @@ export const path = {
          `${wpPluginPath}/assets/img`
       ],
       imgHtml: `${prodFolder}/docs/assets/img`,
+      svg: [
+         `${srcFolder}/assets/img/icons/**/*.{svg,html}`,
+         `${srcFolder}/core-plugin/assets/img/icons/**/*.{svg,html}`
+      ],
       fontPhp: [
          `${prodFolder}/assets/fonts`,
          `${wpPluginPath}/assets/fonts`
@@ -63,8 +67,8 @@ export const path = {
       fontsPlugin: `${srcFolder}/core-plugin/assets/fonts`,
 
       svg: [
-         `${srcFolder}/assets/img/**/*.svg`,
-         `${srcFolder}/core-plugin/assets/img/**/*.svg`
+         `${srcFolder}/assets/img/svg/*.svg`,
+         `${srcFolder}/core-plugin/assets/img/svg/*.svg`
       ],
    },
    watch: {
@@ -95,15 +99,6 @@ export const path = {
 
 
 export const getDestPath = (file, appPathProdArr) => {
-
-
-
-
    const isCorePlugin = (file) => file.path.includes('core-plugin') || file.path.includes('-core');
-
-   let destPath = isCorePlugin(file) ? appPathProdArr[1] : appPathProdArr[0];
-
-   // console.log("destPath = ", destPath);
-
-   return destPath;
+   return isCorePlugin(file) ? appPathProdArr[1] : appPathProdArr[0];
 };

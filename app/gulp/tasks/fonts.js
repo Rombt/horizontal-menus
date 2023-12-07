@@ -15,7 +15,7 @@
  */
 
 
-import fs from 'fs';
+
 import ttf2woff2 from 'gulp-ttf2woff2';
 import fonter from 'gulp-fonter';
 
@@ -66,10 +66,10 @@ export const fontStyle = () => {
         srcFonts = `${app.path.srcFolder}/assets/fonts`;
     }
 
-    fs.readdir(srcFonts, function (err, fontsFiles) {
+    app.plugins.fs.readdir(srcFonts, function (err, fontsFiles) {
         if (fontsFiles) {
-            if (!fs.existsSync(fontsFile)) {
-                fs.writeFile(fontsFile, '', cd);
+            if (!app.plugins.fs.existsSync(fontsFile)) {
+                app.plugins.fs.writeFile(fontsFile, '', cd);
                 let newFileOnly;
                 for (var i = 0; i < fontsFiles.length; i++) {
                     let fontFileName = fontsFiles[i].split('.')[0];
@@ -95,7 +95,7 @@ export const fontStyle = () => {
                         } else {
                             fontWeight = 400;
                         }
-                        fs.appendFile(fontsFile,
+                        app.plugins.fs.appendFile(fontsFile,
                             `@font-face {
                         font-family: "${fontName}";
                         font-display: swap;

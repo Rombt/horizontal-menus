@@ -14,7 +14,8 @@
     "wpPlugin": "gulp  wpPlugin",
     "grid": "gulp grid",
     "fonts": "gulp fonts",
-    "fontsPL": "gulp fonts --pl"
+    "fontsPL": "gulp fonts --pl",
+    "SvgSprite": "gulp createSvgSprite"
   },
   "keywords": [
     "html coding",

@@ -14,6 +14,7 @@ import imageMin from "gulp-imagemin";
 import multiDest from "gulp-multi-dest";
 import flatten from "gulp-flatten";
 import { getDestPath } from "../config/path.js";
+import fs from 'fs';
 
 
 import tap from "gulp-tap";
@@ -37,6 +38,8 @@ export const plugins = {
    multiDest: multiDest,
    flatten: flatten,
    getDestPath: getDestPath,
+   fs: fs,
+
 
    tap: tap,
 
