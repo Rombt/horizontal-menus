@@ -9,6 +9,8 @@
 import svgSprite from "gulp-svg-sprite";
 
 
+// todo поправить путь для сохранения svg файлов при html сборке
+
 export const createSvgSprite = (done) => {
 
     if (app.plugins.fs.existsSync(

@@ -37,7 +37,6 @@ export const path = {
          html: `${prodFolder}/docs/assets/js/`,
          admin: `${wpPluginPath}/assets/js/`,
       },
-
    },
    src: {
       styles: [
@@ -87,11 +86,41 @@ export const path = {
       ],
    },
 
+   get clearHtml() {
+      return [
+         `${this.prod.html}/**/*.*`,
+         `!${this.prod.html}/.gitkeep`
+      ];
+   },
+
+   get clearWP() {
+      return [
+         `${this.prodFolder}/**/*.*`,
+         `!${this.prodFolder}/app/**/*.*`,
+         `!${this.prodFolder}/.git/**/*.*`,
+         `!${this.prodFolder}/.gitignore/**/*.*`,
+         `!${this.prodFolder}/docs/**/*.*`,
+         `!${this.prodFolder}/${this.ThemeName}_core.zip`,
+         `!${this.prodFolder}/${this.ThemeName}_wp.zip`,
+         `!${this.prodFolder}/${this.ThemeName}_html.zip`
+
+
+      ]
+   },
+   get clearPL() {
+      return [
+         `${this.wpPluginPath}/**/*.*`,
+      ]
+   },
+
    ThemeName: THEME_NAME,
    RootPath: ROOT_PATH,
    srcFolder: srcFolder,
    prodFolder: prodFolder,
    wpPluginPath: wpPluginPath,
+   ftpHtml: 'htdocs',
+   ftpWp: 'htdocs/wp-content/themes',
+   ftpPl: 'htdocs/wp-content/plugins',
 
 }
 

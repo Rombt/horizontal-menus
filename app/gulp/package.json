@@ -15,7 +15,15 @@
     "grid": "gulp grid",
     "fonts": "gulp fonts",
     "fontsPL": "gulp fonts --pl",
-    "SvgSprite": "gulp createSvgSprite"
+    "SvgSprite": "gulp createSvgSprite",
+    "zipHtml": "gulp makeZip",
+    "zipWP": "gulp makeZip --wp",
+    "zipWPPL": "gulp makeZipWpPl --wp --pl",
+    "zipPL": "gulp makeyZipPl",
+    "ftpHtml": "gulp ftp",
+    "ftpWP": "gulp ftp --wp",
+    "ftpWPPL": "gulp ftp --wp --pl",
+    "ftpPL": "gulp ftp --pl"
   },
   "keywords": [
     "html coding",
