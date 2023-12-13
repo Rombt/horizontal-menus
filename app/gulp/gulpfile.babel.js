@@ -9,20 +9,16 @@ import { styles } from "./tasks/styles.js";
 import { server } from "./tasks/server.js";
 import { js } from "./tasks/js.js";
 import { images } from "./tasks/images.js";
+import { moveSvgSprite } from "./tasks/moveSvgSprite.js";
 import { grid } from "./tasks/grid.js";
 import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./tasks/fonts.js";
 import { createSvgSprite } from "./tasks/svgsprite.js";
 import { zip, zipPl } from "./tasks/zip.js";
 import { ftp } from "./tasks/ftp.js";
 
-
-
-
 // todo очищать readme.md только при использовании сборки в качестве шаблона
 // todo преобразавание .ico в иконочный шрифт
 // todo отправкf файлов по ftp при каждом обновлении нужно ли?
-
-
 
 global.app = {
    gulp: gulp,
@@ -38,11 +34,13 @@ function watcher() {
    gulp.watch(path.src.copy, copy)
    gulp.watch(path.src.php, php)
    gulp.watch(path.watch.styles, styles)
-   gulp.watch(path.watch.images, images)
+   gulp.watch(path.watch.images, procImages)
    gulp.watch(path.watch.js, js)
 }
 
-const mainTasks = gulp.series(copyFonts, gulp.parallel(styles, images, js, php));
+const procImages = gulp.series(images, moveSvgSprite);
+const mainTasks = gulp.series(copyFonts, gulp.parallel(styles, procImages, js, php));
+
 export const wp = gulp.series(reset, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
 export const html = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
 

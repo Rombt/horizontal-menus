@@ -5,15 +5,13 @@
  * 
  */
 
-
-
 export const reset = (done) => {
 
    let clearPath = (app.isWP ? app.path.clearWP : app.path.clearHtml).map((el) => el.replace(/\\/g, '/'));
+   app.forPlugin ? clearPath.push(app.path.wpPluginPath) : '';
 
    if (!clearPath || clearPath.length === 0) {
       console.log("ERROR: array clearPath does not exist!!!");
-
       return done();
    }
 

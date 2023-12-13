@@ -3,7 +3,8 @@
 export const images = () => {
 
 
-    app.isProd = true;      // for test
+
+    app.plugins.del(app.isWP ? app.path.prod.imgPhp : app.path.prod.imgHtml, { force: true });
 
 
     return app.gulp.src(
@@ -21,8 +22,6 @@ export const images = () => {
             interlaced: true,
             optimizationLevel: 3, // 0 to 7
         })))
-        .pipe(app.gulp.dest((file) => app.isWP ? app.plugins.getDestPath(file, app.path.prod.imgPhp) : app.path.prod.imgHtml))
-        .pipe(app.gulp.src(app.path.prod.svg, { base: app.isWP ? `${app.path.src.svg[1]}/../..` : `${app.path.src.images[0]}/..` }))
         .pipe(app.gulp.dest((file) => app.isWP ? app.plugins.getDestPath(file, app.path.prod.imgPhp) : app.path.prod.imgHtml))
         .pipe(app.plugins.browsersync.stream());
 };

@@ -1,7 +1,7 @@
 {
   "name": "gulp-assembly",
   "version": "2.0.0",
-  "description": "Designed for html coding and development of WP themes and plagins",
+  "description": "This build is designed for HTML coding and the development of WordPress themes and plugins",
   "main": "gulp.js",
   "type": "module",
   "repository": {
@@ -10,12 +10,14 @@
   },
   "scripts": {
     "wp": "gulp wp --wp",
+    "wpPL": "gulp wp --wp --pl",
     "html": "gulp html",
-    "wpPlugin": "gulp  wpPlugin",
+    "wpPl": "gulp  wpPlugin",
     "grid": "gulp grid",
     "fonts": "gulp fonts",
     "fontsPL": "gulp fonts --pl",
-    "SvgSprite": "gulp createSvgSprite",
+    "SvgSpr": "gulp createSvgSprite",
+    "SvgSprPL": "gulp createSvgSprite --pl",
     "zipHtml": "gulp makeZip",
     "zipWP": "gulp makeZip --wp",
     "zipWPPL": "gulp makeZipWpPl --wp --pl",

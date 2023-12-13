@@ -24,8 +24,12 @@ export const path = {
       ],
       imgHtml: `${prodFolder}/docs/assets/img`,
       svg: [
-         `${srcFolder}/assets/img/icons/**/*.{svg,html}`,
-         `${srcFolder}/core-plugin/assets/img/icons/**/*.{svg,html}`
+         `${srcFolder}/assets/img/icons`,
+         `${srcFolder}/core-plugin/assets/img/icons`
+      ],
+      svg1: [
+         `${prodFolder}/assets/img/icons`,
+         `${wpPluginPath}/assets/img/icons`
       ],
       fontPhp: [
          `${prodFolder}/assets/fonts`,
@@ -64,7 +68,6 @@ export const path = {
       ],
       fonts: `${srcFolder}/assets/fonts`,
       fontsPlugin: `${srcFolder}/core-plugin/assets/fonts`,
-
       svg: [
          `${srcFolder}/assets/img/svg/*.svg`,
          `${srcFolder}/core-plugin/assets/img/svg/*.svg`
@@ -85,14 +88,12 @@ export const path = {
          `${srcFolder}/core-plugin/assets/js/**/*.js`
       ],
    },
-
    get clearHtml() {
       return [
          `${this.prod.html}/**/*.*`,
          `!${this.prod.html}/.gitkeep`
       ];
    },
-
    get clearWP() {
       return [
          `${this.prodFolder}/**/*.*`,
@@ -103,8 +104,6 @@ export const path = {
          `!${this.prodFolder}/${this.ThemeName}_core.zip`,
          `!${this.prodFolder}/${this.ThemeName}_wp.zip`,
          `!${this.prodFolder}/${this.ThemeName}_html.zip`
-
-
       ]
    },
    get clearPL() {

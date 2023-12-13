@@ -22,7 +22,7 @@ export const createSvgSprite = (done) => {
     }
 
 
-    return app.gulp.src(app.isWP ? app.path.src.svg[1] : app.path.src.svg[0], { "allowEmpty": true })
+    return app.gulp.src(app.forPlugin ? app.path.src.svg[1] : app.path.src.svg[0], { "allowEmpty": true })
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "SVG", message: "Error: <%= error.message %>" })))
         .pipe(svgSprite({
             mode: {
