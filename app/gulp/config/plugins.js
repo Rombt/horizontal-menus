@@ -38,12 +38,6 @@ export const plugins = {
    flatten: flatten,
    getDestPath: getDestPath,
    fs: fs,
-
-
    tap: tap,
 
-   // browsersync: browsersync,
-   // if: ifPugin,
-   // tap: tap,
-   // fs: fs,
 }

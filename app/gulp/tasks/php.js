@@ -13,9 +13,7 @@ export const php = (done) => {
    const destPath = app.isWP ? app.path.prodFolder : app.path.prod.html;
 
    app.plugins.del(app.isWP ? clearPath : `${app.path.prod.html}/**/*.html`, { force: true })
-      .then((res) => {
-         console.log("res =", res);
-
+      .then((result) => {
          return app.gulp.src(sourcePath, app.isWP ? { base: app.path.srcFolder } : {})
             .pipe(app.plugins.plumber(app.plugins.notify.onError({
                title: "PHP",
@@ -23,15 +21,11 @@ export const php = (done) => {
             })))
             .pipe(app.plugins.if(!app.isWP, app.plugins.fileInclude()))
             .pipe(app.plugins.if(app.isProd, app.plugins.webpHtmlNosvg()))
-            .pipe(app.plugins.tap((file) => {
-               console.log("file =", file.path);
-            }))
             .pipe(app.gulp.dest(destPath))
             .pipe(app.plugins.browsersync.stream());
       })
       .then(() => done())
       .catch(error => {
-         console.error("Error:", error.message);
          done(error);
       });
 };
