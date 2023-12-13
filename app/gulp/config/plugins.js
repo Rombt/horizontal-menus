@@ -13,11 +13,10 @@ import webp from "gulp-webp";
 import imageMin from "gulp-imagemin";
 import multiDest from "gulp-multi-dest";
 import flatten from "gulp-flatten";
-import { getDestPath } from "../config/path.js";
-import fs from 'fs';
-
-
 import tap from "gulp-tap";
+
+import fs from 'fs';
+import { getDestPath } from "../config/path.js";
 
 
 

@@ -6,28 +6,33 @@
 
 
 
-export const php = () => {
 
+export const php = (done) => {
+   const clearPath = app.path.clearWP.map(el => el.indexOf('!') !== 0 ? el.replace(/(?:\.\*)|(?:\*\*\/?)$/, '.php') : el);
+   const sourcePath = app.isWP ? app.path.src.php : app.path.src.html;
+   const destPath = app.isWP ? app.path.prodFolder : app.path.prod.html;
 
-   let clearPath = app.path.clearWP.map(el => el.indexOf('!') !== 0 ? el.replace(/(?:\.\*)|(?:\*\*\/?)$/, '.php') : el);
+   app.plugins.del(app.isWP ? clearPath : `${app.path.prod.html}/**/*.html`, { force: true })
+      .then((res) => {
+         console.log("res =", res);
 
+         return app.gulp.src(sourcePath, app.isWP ? { base: app.path.srcFolder } : {})
+            .pipe(app.plugins.plumber(app.plugins.notify.onError({
+               title: "PHP",
+               message: "Error: <%= error.message %>"
+            })))
+            .pipe(app.plugins.if(!app.isWP, app.plugins.fileInclude()))
+            .pipe(app.plugins.if(app.isProd, app.plugins.webpHtmlNosvg()))
+            .pipe(app.plugins.tap((file) => {
+               console.log("file =", file.path);
+            }))
+            .pipe(app.gulp.dest(destPath))
+            .pipe(app.plugins.browsersync.stream());
+      })
+      .then(() => done())
+      .catch(error => {
+         console.error("Error:", error.message);
+         done(error);
+      });
+};
 
-   app.plugins.del(app.isWP ? clearPath : `${app.path.prod.html}/**/*.html`, { force: true });
-
-   return app.gulp.src(
-      app.isWP ? app.path.src.php : app.path.src.html,
-      app.isWP ? { base: app.path.srcFolder } : {})
-      .pipe(app.plugins.plumber(
-         app.plugins.notify.onError({
-            title: "PHP",
-            message: "Error: <%= error.message %>"
-         })))
-      .pipe(app.plugins.newer(app.path.prodFolder, app.path.prod.wpPlugin))
-      .pipe(app.plugins.if(!app.isWP, app.plugins.fileInclude()))
-      .pipe(app.plugins.if(app.isProd, app.plugins.webpHtmlNosvg())) // оборачивает тег img в тег <picture> 
-
-
-      .pipe(app.gulp.dest(app.plugins.if(app.isWP, app.path.prodFolder, app.path.prod.html)))
-      .pipe(app.plugins.browsersync.stream());
-
-}
