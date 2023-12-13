@@ -87,6 +87,10 @@ export const path = {
          `${srcFolder}/assets/js/**/*.js`,
          `${srcFolder}/core-plugin/assets/js/**/*.js`
       ],
+      php: [
+         `${srcFolder}/**/*.{php,html}`,
+         `!${srcFolder}/core-plugin/**/*.{php,html}`
+      ],
    },
    get clearHtml() {
       return [

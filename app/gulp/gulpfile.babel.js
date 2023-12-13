@@ -32,14 +32,14 @@ global.app = {
 
 function watcher() {
    gulp.watch(path.src.copy, copy)
-   gulp.watch(path.src.php, php)
+   gulp.watch(path.watch.php, php)
    gulp.watch(path.watch.styles, styles)
    gulp.watch(path.watch.images, procImages)
    gulp.watch(path.watch.js, js)
 }
 
 const procImages = gulp.series(images, moveSvgSprite);
-const mainTasks = gulp.series(copyFonts, gulp.parallel(styles, procImages, js, php));
+const mainTasks = gulp.series(copyFonts, gulp.parallel(procImages, styles, js, php));
 
 export const wp = gulp.series(reset, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
 export const html = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
@@ -54,3 +54,4 @@ export const makeZipPl = gulp.series(zipPl);
 export const makeZipWpPl = gulp.series(zipPl, zip);
 
 export { ftp };
+
