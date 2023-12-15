@@ -16,9 +16,10 @@ import { createSvgSprite } from "./tasks/svgsprite.js";
 import { zip, zipPl } from "./tasks/zip.js";
 import { ftp } from "./tasks/ftp.js";
 
-// todo очищать readme.md только при использовании сборки в качестве шаблона
-// todo преобразавание .ico в иконочный шрифт
-// todo отправкf файлов по ftp при каждом обновлении нужно ли?
+
+import { test } from "./tasks/test.js";
+
+
 
 global.app = {
    gulp: gulp,
@@ -39,10 +40,10 @@ function watcher() {
 }
 
 const procImages = gulp.series(images, moveSvgSprite);
-const mainTasks = gulp.series(copyFonts, gulp.parallel(procImages, styles, js, php));
+const mainTask = gulp.series(copyFonts, gulp.parallel(procImages, styles, js, php));
 
-export const wp = gulp.series(reset, mainTasks, wpPlugin, copy, gulp.parallel(watcher, server));
-export const html = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
+export const wp = gulp.series(reset, mainTask, wpPlugin, copy, gulp.parallel(watcher, server));
+export const html = gulp.series(reset, mainTask, gulp.parallel(watcher, server));
 
 
 export const fonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
@@ -54,4 +55,9 @@ export const makeZipPl = gulp.series(zipPl);
 export const makeZipWpPl = gulp.series(zipPl, zip);
 
 export { ftp };
+
+
+
+
+export { test };
 

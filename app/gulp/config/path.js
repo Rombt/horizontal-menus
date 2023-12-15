@@ -27,10 +27,6 @@ export const path = {
          `${srcFolder}/assets/img/icons`,
          `${srcFolder}/core-plugin/assets/img/icons`
       ],
-      svg1: [
-         `${prodFolder}/assets/img/icons`,
-         `${wpPluginPath}/assets/img/icons`
-      ],
       fontPhp: [
          `${prodFolder}/assets/fonts`,
          `${wpPluginPath}/assets/fonts`
@@ -41,17 +37,30 @@ export const path = {
          html: `${prodFolder}/docs/assets/js/`,
          admin: `${wpPluginPath}/assets/js/`,
       },
+
+
+
    },
    src: {
       styles: [
          `${srcFolder}/assets/styles/main-style`,
          `${srcFolder}/core-plugin/assets/styles/main-style`,
       ],
-      html: `${srcFolder}/html/*.html`,
+      images: [
+         `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
+         `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`
+      ],
+      svg: [
+         `${srcFolder}/assets/img/svg/*.svg`,
+         `${srcFolder}/core-plugin/assets/img/svg/*.svg`
+      ],
+      fonts: `${srcFolder}/assets/fonts`,
+      fontsPlugin: `${srcFolder}/core-plugin/assets/fonts`,
       js: [
          `${srcFolder}/assets/js/app.js`,
          `${srcFolder}/core-plugin/assets/js/admin.js`
       ],
+      html: `${srcFolder}/html/*.html`,
       php: [
          `${srcFolder}/**/*.php`,
          `!${srcFolder}/core-plugin/**/*.php`
@@ -62,16 +71,11 @@ export const path = {
          `${srcFolder}/style.css`,
          `${srcFolder}/screenshot.png`,
       ],
-      images: [
-         `${srcFolder}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
-         `${srcFolder}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`
+      copyPL: [
+         `${srcFolder}/core-plugin/README.md`,
       ],
-      fonts: `${srcFolder}/assets/fonts`,
-      fontsPlugin: `${srcFolder}/core-plugin/assets/fonts`,
-      svg: [
-         `${srcFolder}/assets/img/svg/*.svg`,
-         `${srcFolder}/core-plugin/assets/img/svg/*.svg`
-      ],
+
+
    },
    watch: {
       styles: [
@@ -89,7 +93,7 @@ export const path = {
       ],
       php: [
          `${srcFolder}/**/*.{php,html}`,
-         `!${srcFolder}/core-plugin/**/*.{php,html}`
+         `${srcFolder}/core-plugin/**/*.{php,html}`
       ],
    },
    get clearHtml() {

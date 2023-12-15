@@ -1,0 +1,82 @@
+Источники:
+
+
+----------------------- T O D O  -----------------------   
+очищать readme.md только при использовании сборки в качестве шаблона
+преобразавание .ico в иконочный шрифт
+отправка файлов по ftp при каждом обновлении нужно ли?
+
+
+задачу копирование svg зделать по образцу copyFonts
+в задаче js в режиме html не создвать и не перемешать admin.main.min.js
+
+
+----------------------- DESCRIPTION  ----------------------- 
+   Cборка в целом:
+
+      - обрабатываются - перемещаются - отслеживаются, ТОЛЬКО файлы указанные в шаблонах путей
+      - перемещение файлов без обработки выполняется задачей 'copy' из массива app.path.src.copy
+      Вёрстка:
+         в папку dist перемещаются все html файлы из только из src.html, из подпапок файлы не переносятся!
+         если нужны подпапки src.html сделать массивом и поместить их туда
+
+         
+   Каждая из задач отдельно:
+      каждая задача получает пути в формате:
+         для WP и плагинов с флагом --wp:
+            pathSrc: {
+               php: 'F:/web/rombt/gulp-assembly/app/src/assets/fonts',
+               plug: 'F:/web/rombt/gulp-assembly/app/src/core-plugin/assets/fonts'
+            },
+            pathDist: [
+               'F:/web/rombt/gulp-assembly/app/../assets/fonts',
+               'F:/web/rombt/gulp-assembly/app/../../../plugins/gulp-assembly-core/assets/fonts'
+            ]
+         для HTML без флагов:
+            pathSrc: 'F:/web/rombt/gulp-assembly/app/src/assets/fonts',
+            pathDist: 'F:/web/rombt/gulp-assembly/app/../docs/assets/fonts'
+
+      COPY
+         перемещает без обработки файлы указанные в 
+            app.path.src.copy
+            app.path.src.copyPL 
+         
+
+
+
+
+
+обьект path:
+   устанавливает пути для всех операций и задач
+
+   Свойства 
+      path.prod
+      path.src
+      path.watch
+      path.ThemeName
+      path.RootPath
+
+   Методы
+      геттеры: 
+         path.styles
+         path.images
+         path.svg
+         path.fonts
+         path.js
+         path.copy
+         path.ftp
+            без ключей 
+               prod.html
+            --wp prod.php только пути темы
+            --pl prod.plug только пити плагина
+            возможно объединение ключей --pl и --wp
+         path.clear
+            без ключей 
+               prod.html
+            --wp prod.php только пути темы
+            --pl prod.plug только пити плагина
+            возможно объединение ключей --pl и --wp
+
+
+
+Перечень тестов для каждой из задач (пока ручных):
