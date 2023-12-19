@@ -6,20 +6,18 @@
  */
 
 
-export const copy = () => {
+export const copy = (done) => {
 
-   console.log("app.forPlugin = ", app.forPlugin);
+   if (!app.path.selectSrcPath(app.path.copy.src)) {
+      return done();
+   }
+
+   app.path.clearForTask(path)
 
 
-   return app.gulp.src(app.forPlugin
-      ? app.path.src.copyPL
-      : app.path.src.copy, {
-      base: app.forPlugin
-         ? `${app.path.srcFolder}/core-plugin/`
-         : app.path.srcFolder
+   return app.gulp.src(app.path.copy.src, {
+      allowEmpty: true,
    })
-
-
-      .pipe(app.gulp.dest(app.path.prodFolder))
+      .pipe(app.gulp.dest((file) => app.path.selectDestPath(file, app.path.copy.dest)))
 
 }

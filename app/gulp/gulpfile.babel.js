@@ -2,7 +2,11 @@ import gulp from "gulp";
 import { path } from "./config/path.js";
 import { plugins } from "./config/plugins.js";
 import { copy } from "./tasks/copy.js";
+
+
 import { php } from "./tasks/php.js";
+
+
 import { wpPlugin } from "./tasks/wpPlugin.js";
 import { reset } from "./tasks/reset.js";
 import { styles } from "./tasks/styles.js";
@@ -25,6 +29,9 @@ global.app = {
    gulp: gulp,
    path: path,
    plugins: plugins,
+
+
+
    isProd: process.argv.includes('--prod'),
    isWP: process.argv.includes('--wp'),
    forPlugin: process.argv.includes('--pl'),
@@ -33,11 +40,16 @@ global.app = {
 
 function watcher() {
    gulp.watch(path.src.copy, copy)
+
+
+
    gulp.watch(path.watch.php, php)
    gulp.watch(path.watch.styles, styles)
    gulp.watch(path.watch.images, procImages)
    gulp.watch(path.watch.js, js)
 }
+
+
 
 const procImages = gulp.series(images, moveSvgSprite);
 const mainTask = gulp.series(copyFonts, gulp.parallel(procImages, styles, js, php));
@@ -60,4 +72,8 @@ export { ftp };
 
 
 export { test };
+
+
+export { copy };
+export { php };
 

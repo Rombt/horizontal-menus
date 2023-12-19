@@ -13,7 +13,6 @@
 
 ----------------------- DESCRIPTION  ----------------------- 
    Cборка в целом:
-
       - обрабатываются - перемещаются - отслеживаются, ТОЛЬКО файлы указанные в шаблонах путей
       - перемещение файлов без обработки выполняется задачей 'copy' из массива app.path.src.copy
       Вёрстка:
@@ -22,24 +21,25 @@
 
          
    Каждая из задач отдельно:
-      каждая задача получает пути в формате:
-         для WP и плагинов с флагом --wp:
-            pathSrc: {
-               php: 'F:/web/rombt/gulp-assembly/app/src/assets/fonts',
-               plug: 'F:/web/rombt/gulp-assembly/app/src/core-plugin/assets/fonts'
-            },
-            pathDist: [
-               'F:/web/rombt/gulp-assembly/app/../assets/fonts',
-               'F:/web/rombt/gulp-assembly/app/../../../plugins/gulp-assembly-core/assets/fonts'
-            ]
-         для HTML без флагов:
-            pathSrc: 'F:/web/rombt/gulp-assembly/app/src/assets/fonts',
-            pathDist: 'F:/web/rombt/gulp-assembly/app/../docs/assets/fonts'
-
+      каждая задача 
+         получает пути в формате (строки могут быть заменены массивами):
+            для WP и плагинов с флагом --wp:
+               {
+                  src: (app.isWP && app.forPlugin)
+                     ? [...path.src.php, ...path.src.plug]
+                     : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
+                  dest: app.isWP ? path.prod.php : path.prod.html,
+                  clear: (app.isWP && app.forPlugin)
+                     ? this.arrClearForTask([...path.src.php, ...path.src.plug])
+                     : (app.isWP
+                        ? this.arrClearForTask(path.src.php)
+                        : (app.forPlugin ? this.arrClearForTask(path.src.plug) : this.arrClearForTask(path.src.html)
+                        )
+                     ),
+               }
+         должна содержать для очистки своего dest метод clearForTask() который возвращает промис
       COPY
-         перемещает без обработки файлы указанные в 
-            app.path.src.copy
-            app.path.src.copyPL 
+         перемещает без обработки файлы пути в app.path.src.copy
          
 
 
@@ -76,7 +76,21 @@
             --wp prod.php только пути темы
             --pl prod.plug только пити плагина
             возможно объединение ключей --pl и --wp
-
+      selectDestPath(file, arrDestPath)
+         выбирает пути в зависимисти от того есть ли в src пути файла 'core-plugin' или '-core'
+      ClearForTask(path, sub = 'php')
+         формирует пути для удаления обновлённых файлов из каталога dest текущей задачи
 
 
 Перечень тестов для каждой из задач (пока ручных):
+
+   получение и выгрузка файлов для 
+      html     без флагов
+      wp    --wp
+      pl    --pl
+      wp и pl     --wp --pl
+      prod и dev ????
+
+   проверить качество оброботки файлов конкретной задачей
+   оброботка исключений:
+      получение пустого массива в src или dist  

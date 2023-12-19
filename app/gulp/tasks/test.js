@@ -1,4 +1,4 @@
-import { _path } from "../config/_path.js";
+import { path } from "../config/path.js";
 
 
 
@@ -15,6 +15,11 @@ export const test = (done) => {
    // console.log(" _path.clear = ", _path.clear);
    // console.log(" _path.php = ", _path.php);
    // console.log(" _path.watch = ", _path.watch);
+
+   console.log(" path.copy = ", path.copy);
+
+   // path.copy;
+
 
 
    return done();
