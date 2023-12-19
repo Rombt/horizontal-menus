@@ -67,14 +67,30 @@ export const path = {
          }
       };
 
+      // return {
+      //    src: (app.isWP && app.forPlugin)
+      //       ? [...path.src.php, path.src.plug]
+      //       : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
+      //    dest: (app.isWP && app.forPlugin)
+      //       ? [path.prod.php, path.prod.plug]
+      //       : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
+      // };
+
       return {
          src: (app.isWP && app.forPlugin)
-            ? [...path.src.php, path.src.plug]
+            ? [...path.src.php, ...path.src.plug]
             : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
-         dest: (app.isWP && app.forPlugin)
-            ? [path.prod.php, path.prod.plug]
-            : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
-      };
+         dest: app.isWP ? path.prod.php : path.prod.html,
+         clear: (app.isWP && app.forPlugin)
+            ? this.ClearForTask([path.src.php, path.src.plug], ['php', 'plug'])
+            : (app.isWP
+               ? this.ClearForTask(path.src.php)
+               : (app.forPlugin ? this.ClearForTask(path.src.plug, 'plug') : this.ClearForTask(path.src.html, 'html')
+               )
+            ),
+      }
+
+
    },
 
    get styles() {
@@ -198,10 +214,9 @@ export const path = {
             ],
          },
          prod: {
-            php: [
-               `${this.prod.php}`,
-               `${this.prod.plug}`,
-            ],
+            html: `${this.prod.html}`,
+            php: `${this.prod.php}`,
+            plug: `${this.prod.plug}`,
             html: `${this.prod.html}`,
          },
 
@@ -211,7 +226,9 @@ export const path = {
          src: (app.isWP && app.forPlugin)
             ? [...path.src.php, ...path.src.plug]
             : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
-         dest: app.isWP ? path.prod.php : path.prod.html,
+         dest: (app.isWP && app.forPlugin)
+            ? [path.prod.php, path.prod.plug]
+            : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
          clear: (app.isWP && app.forPlugin)
             ? this.ClearForTask([path.src.php, path.src.plug], ['php', 'plug'])
             : (app.isWP
