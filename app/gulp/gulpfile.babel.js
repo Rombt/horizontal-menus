@@ -1,21 +1,21 @@
 import gulp from "gulp";
 import { path } from "./config/path.js";
 import { plugins } from "./config/plugins.js";
+import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./tasks/fonts.js";
+import { php } from "./tasks/php.js";
+import { js } from "./tasks/js.js";
+import { styles } from "./tasks/styles.js";
 import { copy } from "./tasks/copy.js";
 
 
-import { php } from "./tasks/php.js";
 
 
 import { wpPlugin } from "./tasks/wpPlugin.js";
 import { reset } from "./tasks/reset.js";
-import { styles } from "./tasks/styles.js";
 import { server } from "./tasks/server.js";
-import { js } from "./tasks/js.js";
 import { images } from "./tasks/images.js";
 import { moveSvgSprite } from "./tasks/moveSvgSprite.js";
 import { grid } from "./tasks/grid.js";
-import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./tasks/fonts.js";
 import { createSvgSprite } from "./tasks/svgsprite.js";
 import { zip, zipPl } from "./tasks/zip.js";
 import { ftp } from "./tasks/ftp.js";
@@ -75,5 +75,4 @@ export { test };
 
 
 export { copy };
-export { php };
 

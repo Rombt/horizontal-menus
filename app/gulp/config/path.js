@@ -58,7 +58,9 @@ export const path = {
                `${this.src.php}/**/*.php`,
                `!${this.src.php}/core-plugin/**/*.php`,
             ],
-            plug: `${this.src.php}/core-plugin/**/*.php`,
+            plug: [
+               `${this.src.php}/core-plugin/**/*.php`,
+            ],
          },
          prod: {
             html: `${this.prod.html}`,
@@ -67,54 +69,34 @@ export const path = {
          }
       };
 
-      // return {
-      //    src: (app.isWP && app.forPlugin)
-      //       ? [...path.src.php, path.src.plug]
-      //       : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
-      //    dest: (app.isWP && app.forPlugin)
-      //       ? [path.prod.php, path.prod.plug]
-      //       : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
-      // };
-
-      return {
-         src: (app.isWP && app.forPlugin)
-            ? [...path.src.php, ...path.src.plug]
-            : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
-         dest: app.isWP ? path.prod.php : path.prod.html,
-         clear: (app.isWP && app.forPlugin)
-            ? this.ClearForTask([path.src.php, path.src.plug], ['php', 'plug'])
-            : (app.isWP
-               ? this.ClearForTask(path.src.php)
-               : (app.forPlugin ? this.ClearForTask(path.src.plug, 'plug') : this.ClearForTask(path.src.html, 'html')
-               )
-            ),
-      }
-
-
+      return this.resolvDest(path);
    },
 
    get styles() {
       const path = {
          src: {
-            php: `${this.src.php}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,
-            plug: `${this.src.plug}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,
+            html: [
+               `${this.src.php}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,  //! null element of array will use for generate styles file of fonts
+            ],
+            php: [
+               `${this.src.php}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,
+            ],
+            plug: [
+               `${this.src.plug}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,
+            ],
          },
          prod: {
-            php: [
-               `${this.prod.php}/assets/styles`,
-               `${this.prod.plug}/assets/styles`,
-            ],
             html: `${this.prod.html}/assets/styles`,
-         }
+            php: `${this.prod.php}/assets/styles`,
+            plug: `${this.prod.plug}/assets/styles`,
+         },
+
       };
 
-      return {
-         src: app.isWP ? path.src : path.src.php,
-         dest: app.isWP ? path.prod.php : path.prod.html,
-      };
+      return this.resolvDest(path);
    },
 
-   get images() {
+   get images() {    //!
       const path = {
          src: {
             php: `${this.src.php}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
@@ -138,71 +120,73 @@ export const path = {
    get svg() {
       const path = {
          src: {
-            php: `${this.src.php}/assets/img/svg/*.svg`,
-            plug: `${this.src.plug}/assets/img/svg/*.svg`,
+            html: [
+               `${this.src.php}/assets/img/svg/*.svg`,
+            ],
+            php: [
+               `${this.src.php}/assets/img/svg/*.svg`,
+            ],
+            plug: [
+               `${this.src.plug}/assets/img/svg/*.svg`,
+            ],
          },
          prod: {
-            php: [
-               `${this.prod.php}/assets/img/icons`,
-               `${this.prod.plug}/assets/img/icons`,
-            ],
             html: `${this.prod.html}/assets/img/icons`,
-         }
+            php: `${this.prod.php}/assets/img/icons`,
+            plug: `${this.prod.plug}/assets/img/icons`,
+         },
+
       };
 
-      return {
-         src: app.isWP ? path.src : path.src.php,
-         dest: app.isWP ? path.prod.php : path.prod.html,
-      }
+      return this.resolvDest(path);
    },
 
    get fonts() {
       const path = {
          src: {
-            php: `${this.src.php}/assets/fonts`,
-            plug: `${this.src.plug}/assets/fonts`,
+            html: [
+               `${this.src.php}/assets/fonts`,
+            ],
+            php: [
+               `${this.src.php}/assets/fonts`,
+            ],
+            plug: [
+               `${this.src.plug}/assets/fonts`,
+            ],
          },
          prod: {
-            php: [
-               `${this.prod.php}/assets/fonts`,
-               `${this.prod.plug}/assets/fonts`,
-            ],
             html: `${this.prod.html}/assets/fonts`,
-         }
+            php: `${this.prod.php}/assets/fonts`,
+            plug: `${this.prod.plug}/assets/fonts`,
+         },
+
       };
 
-      return {
-         src: app.isWP ? path.src : path.src.php,
-         dest: app.isWP ? path.prod.php : path.prod.html,
-      }
+      return this.resolvDest(path);
    },
 
    get js() {
       const path = {
          src: {
-            php: `${this.src.php}/assets/js/app.js`,
-            plug: `${this.src.plug}/assets/js/admin.js`,
+            html: [`${this.src.php}/assets/js/app.js`],
+            php: [`${this.src.php}/assets/js/app.js`],
+            plug: [`${this.src.plug}/assets/js/admin.js`],
          },
          prod: {
-            php: [
-               `${this.prod.php}/assets/js`,
-               `${this.prod.plug}/assets/js`,
-            ],
             html: `${this.prod.html}/assets/js`,
+            php: `${this.prod.php}/assets/js`,
+            plug: `${this.prod.plug}/assets/js`,
          }
       };
 
-      return {
-         src: app.isWP ? path.src : path.src.php,
-         dest: app.isWP ? path.prod.php : path.prod.html,
-      }
+      return this.resolvDest(path);
    },
 
    get copy() {
       const path = {
          src: {
             html: [
-               `${this.src.html}/22.text`,
+               `${this.src.html}/for_test.txt`,
             ],
             php: [
                `${this.src.php}/README.md`,
@@ -217,44 +201,13 @@ export const path = {
             html: `${this.prod.html}`,
             php: `${this.prod.php}`,
             plug: `${this.prod.plug}`,
-            html: `${this.prod.html}`,
          },
 
       };
 
-      return {
-         src: (app.isWP && app.forPlugin)
-            ? [...path.src.php, ...path.src.plug]
-            : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
-         dest: (app.isWP && app.forPlugin)
-            ? [path.prod.php, path.prod.plug]
-            : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
-         clear: (app.isWP && app.forPlugin)
-            ? this.ClearForTask([path.src.php, path.src.plug], ['php', 'plug'])
-            : (app.isWP
-               ? this.ClearForTask(path.src.php)
-               : (app.forPlugin ? this.ClearForTask(path.src.plug, 'plug') : this.ClearForTask(path.src.html, 'html')
-               )
-            ),
-      }
+      return this.resolvDest(path);
    },
 
-
-   ClearForTask(path, sub = 'php') {
-
-      if ((Array.isArray(path) && path.length === 0) || (typeof path === 'string' && path.length === 0)) {
-         console.log("app.path.copy.src is empty");
-         return false;
-      }
-
-      return typeof path === 'string'
-         ? path.replace(this.src[sub], this.prod[sub])
-         : path.map((item, index) =>
-            Array.isArray(item)
-               ? item.map(itemSecondLevel => itemSecondLevel.replace(this.src[sub[index]], this.prod[sub[index]]))
-               : item.replace(this.src[sub], this.prod[sub])
-         ).reduce((acc, curr) => acc.concat(curr), []);
-   },
 
    get ftp() {
       const path = {
@@ -307,7 +260,7 @@ export const path = {
 
       // something 
 
-
+      return true;
    },
 
    selectDestPath(file, arrDestPath) {
@@ -323,7 +276,43 @@ export const path = {
       return isCorePlugin(file) ? arrDestPath[1] : arrDestPath[0];
    },
 
+   clearForTask(srcPath, prodPath) {
+      /**
+       *   ! if srcPath hasn't file name will be returned srcPath without changes
+       * 
+       */
 
+      if ((Array.isArray(srcPath) && srcPath.length === 0) || (Array.isArray(prodPath) && prodPath.length === 0)) {
+         console.log("The path you provided is empty");
+         return false;
+      }
+
+      return srcPath.map((el, index) => {
+         return el.map((el_2) => {
+            try { return prodPath[index] + el_2.match(/\/([^/]+\.[a-z]+)$/i)[0]; }
+            catch { return el; }
+         })
+      }).reduce((acc, curr) => acc.concat(curr), []);;
+
+   },
+
+   resolvDest(path) {
+      return {
+         src: (app.isWP && app.forPlugin)
+            ? [...path.src.php, ...path.src.plug]
+            : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
+         dest: (app.isWP && app.forPlugin)
+            ? [path.prod.php, path.prod.plug]
+            : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
+         clear: (app.isWP && app.forPlugin)
+            ? this.clearForTask([path.src.php, path.src.plug], [path.prod.php, path.prod.plug])
+            : (app.isWP
+               ? this.clearForTask([path.src.php], [path.prod.php])
+               : (app.forPlugin ? this.clearForTask([path.src.plug], [path.prod.plug]) : this.clearForTask([path.src.html], [path.prod.html])
+               )
+            ),
+      }
+   },
 
 
 

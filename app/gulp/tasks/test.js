@@ -16,11 +16,18 @@ export const test = (done) => {
    // console.log(" _path.php = ", _path.php);
    // console.log(" _path.watch = ", _path.watch);
 
-   console.log(" path.copy = ", path.copy);
+   // console.log(" path.copy = ", path.copy);
+   // console.log(" path.styles = ", path.styles);
+   // console.log(" path.php = ", path.php);
+   // console.log(" path.svg = ", path.svg);
+   // console.log(" path.fonts = ", path.fonts);
+   console.log(" path.js = ", path.js);
 
-   // path.copy;
 
 
 
    return done();
 }
+
+
+
