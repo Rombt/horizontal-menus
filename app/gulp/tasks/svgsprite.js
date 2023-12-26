@@ -1,8 +1,11 @@
 /**
  * 
  * Creates SVG sprite 
- *  Source and destination is app.path.src.svg 
+ *  Source and destination is app.path.src.svg  
  *  move svg files in task 'image'
+ * 
+ * for WP plugin --pl
+ * ! Doеs not create SVG sprite for WP and plugin at the some time
  */
 
 
@@ -11,16 +14,14 @@ import svgSprite from "gulp-svg-sprite";
 
 export const createSvgSprite = (done) => {
 
-    if (app.plugins.fs.existsSync(
-        app.isWP ? `${app.path.prod.svg[1]}/sprite.svg`
-            : `${app.path.prod.svg[0]}/sprite.svg`)
+
+    if (app.plugins.fs.existsSync(`${app.path.svg.dest}/sprite.svg`)
     ) {
         console.log("sprite.svg has already existing, for re-creation you must delete it.");
         return done();
     }
 
-
-    return app.gulp.src(app.forPlugin ? app.path.src.svg[1] : app.path.src.svg[0], { "allowEmpty": true })
+    return app.gulp.src(app.path.svg.src, { "allowEmpty": true })
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "SVG", message: "Error: <%= error.message %>" })))
         .pipe(svgSprite({
             mode: {
@@ -30,6 +31,6 @@ export const createSvgSprite = (done) => {
                 }
             },
         }))
-        .pipe(app.gulp.dest(app.isWP ? app.path.prod.svg[1] : app.path.prod.svg[0]))
 
+        .pipe(app.gulp.dest(app.path.svg.dest))
 }

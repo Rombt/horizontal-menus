@@ -30,31 +30,30 @@ export const zip = () => {
     if (app.isWP) {
         if (app.forPlugin) {
             zipName = `${app.path.ThemeName}_wp_pl.zip`;
-            srcPath = app.path.clearWP.filter(function (path) {
-                return path !== `!${app.path.prodFolder}/${app.path.ThemeName}_core.zip`
-            });
-            srcPath.push(`!${app.path.prodFolder}/${app.path.ThemeName}_wp_pl.zip`);
+            srcPath = app.path.clear.src.filter((path) => !path.toLowerCase().includes('-core') && path !== `!${app.path.prod.php}/${app.path.ThemeName}_core.zip`);
+            srcPath.push(`!${app.path.prod.php}/${app.path.ThemeName}_wp_pl.zip`);
         } else {
             zipName = `${app.path.ThemeName}_wp.zip`;
-            srcPath = app.path.clearWP;
+            srcPath = app.path.clear.src;
         }
     } else {
         zipName = `${app.path.ThemeName}_html.zip`;
-        srcPath = app.path.clearHtml;
+        srcPath = app.path.clear.src;
     }
 
     return app.gulp.src(srcPath, { allowEmpty: true, nounique: true })
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: `${app.isWP ? 'zipWp' : 'zipHtml'}`, message: "Error: <%= error.message %>" })))
         .pipe(zipPlugin(zipName))
-        .pipe(app.gulp.dest(app.path.prodFolder))
-        .pipe(app.plugins.if(app.forPlugin && app.isWP, app.plugins.tap(() => { app.plugins.del(`${app.path.prodFolder}/${app.path.ThemeName}_core.zip`, { force: true }) })))
+        .pipe(app.gulp.dest(app.path.prod.php))
+        .pipe(app.plugins.if(app.forPlugin && app.isWP, app.plugins.tap(() => { app.plugins.del(`${app.path.prod.php}/${app.path.ThemeName}_core.zip`, { force: true }) })))
 }
 
 
 export const zipPl = () => {
+    app.forPlugin = true;
 
-    return app.gulp.src(app.path.clearPL, { "allowEmpty": true, })
+    return app.gulp.src(app.path.clear.src, { "allowEmpty": true, })
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "zipWpPl", message: "Error: <%= error.message %>" })))
         .pipe(zipPlugin(`${app.path.ThemeName}_core.zip`))
-        .pipe(app.gulp.dest(app.path.prodFolder))
+        .pipe(app.gulp.dest(app.path.prod.php))
 }

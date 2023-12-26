@@ -56,7 +56,7 @@ export const fontStyle = (done) => {
     let arrfontsFiles = app.path.styles.src.map(el => el.replace(/\/([^/]+\.[a-z]+)$/i, '') + `/fonts.${app.isSASS ? 'sass' : 'less'}`);
 
     arrfontsFiles.map((styleFile, index) => {
-        app.plugins.fs.readdir(app.path.fonts.src[index], function (err, fontsFiles) {
+        app.plugins.fs.readdir(app.path.fonts.src[index], function(err, fontsFiles) {
             if (styleFile) {
                 if (!app.plugins.fs.existsSync(styleFile)) {
                     app.plugins.fs.writeFile(styleFile, '', cd);
@@ -104,10 +104,12 @@ export const fontStyle = (done) => {
     })
 
     return done();
-    function cd() { };
+
+    function cd() {};
 }
 
 export const copyFonts = () => {
-    return app.gulp.src(`${app.path.fonts.src}/*.{woff,woff2}`, {})
+
+    return app.gulp.src(app.path.selectSrcPath(app.path.fonts.src, '/*.{woff,woff2}'), {})
         .pipe(app.gulp.dest((file) => app.path.selectDestPath(file, app.path.fonts.dest)))
 }

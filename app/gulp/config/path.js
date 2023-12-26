@@ -1,7 +1,17 @@
 import * as nodePath from 'path';
 
-const THEME_NAME = nodePath.basename(nodePath.resolve(__dirname, '..', '..', '..'));
-const ROOT_PATH = nodePath.resolve(__dirname, '..', '..').replace(/\\/g, '/');
+// ------- this block for compatibility as with CommonJS that and ESM   -------
+import { fileURLToPath } from 'url';
+let currentDir;
+if (typeof __dirname !== 'undefined') {
+   currentDir = __dirname;
+} else {
+   const __filename = fileURLToPath(import.meta.url);
+   currentDir = nodePath.dirname(__filename);
+}
+
+const THEME_NAME = nodePath.basename(nodePath.resolve(currentDir, '..', '..', '..'));
+const ROOT_PATH = nodePath.resolve(currentDir, '..', '..').replace(/\\/g, '/');
 
 const srcFolder = `${ROOT_PATH}/src`;
 const prodFolder = `${ROOT_PATH}/..`;
@@ -14,17 +24,23 @@ export const path = {
    ThemeName: THEME_NAME,
    RootPath: ROOT_PATH,
 
+   src: {
+      html: `${srcFolder}/html`,
+      php: `${srcFolder}`,
+      plug: `${srcFolder}/core-plugin`,
+   },
+
    prod: {
       html: `${prodFolder}/docs`,
       php: `${prodFolder}`,
       plug: PlugFolder,
    },
 
-   src: {
-      html: `${srcFolder}/html`,
-      php: `${srcFolder}`,
-      plug: `${srcFolder}/core-plugin`,
-   },
+   // ftp: {
+   //    html: 'htdocs',
+   //    php: 'htdocs/wp-content/themes',
+   //    plug: 'htdocs/wp-content/plugins',
+   // },
 
    get watch() {
       return {
@@ -45,6 +61,7 @@ export const path = {
             `${this.src.php}/**/*.{php,html}`,
             `${this.src.php}/core-plugin/**/*.{php,html}`
          ],
+         copy: this.copy.src,
       }
    },
 
@@ -53,6 +70,7 @@ export const path = {
          src: {
             html: [
                `${this.src.html}/*.html`,
+               `${this.src.html}/test/*.html`,
             ],
             php: [
                `${this.src.php}/**/*.php`,
@@ -76,7 +94,7 @@ export const path = {
       const path = {
          src: {
             html: [
-               `${this.src.php}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,  //! null element of array will use for generate styles file of fonts
+               `${this.src.php}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`, //! null element of array will use for generate styles file of fonts
             ],
             php: [
                `${this.src.php}/assets/styles/main-style${app.isSASS ? '.sass' : '.less'}`,
@@ -96,25 +114,21 @@ export const path = {
       return this.resolvDest(path);
    },
 
-   get images() {    //!
+   get images() {
       const path = {
          src: {
-            php: `${this.src.php}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
-            plug: `${this.src.plug}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`,
+            html: [`${this.src.php}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`],
+            php: [`${this.src.php}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`],
+            plug: [`${this.src.plug}/assets/img/**/*.{jpg,jpeg,png,gif,webp,ico}`],
          },
          prod: {
-            php: [
-               `${this.prod.php}/assets/img`,
-               `${this.prod.plug}/assets/img`,
-            ],
             html: `${this.prod.html}/assets/img`,
-         }
+            php: `${this.prod.php}/assets/img`,
+            plug: `${this.prod.plug}/assets/img`,
+         },
       };
 
-      return {
-         src: app.isWP ? path.src : path.src.php,
-         dest: app.isWP ? path.prod.php : path.prod.html,
-      }
+      return this.resolvDest(path);
    },
 
    get svg() {
@@ -131,9 +145,9 @@ export const path = {
             ],
          },
          prod: {
-            html: `${this.prod.html}/assets/img/icons`,
-            php: `${this.prod.php}/assets/img/icons`,
-            plug: `${this.prod.plug}/assets/img/icons`,
+            html: `${this.src.php}/assets/img/icons`,
+            php: `${this.src.php}/assets/img/icons`,
+            plug: `${this.src.plug}/assets/img/icons`,
          },
 
       };
@@ -187,6 +201,7 @@ export const path = {
          src: {
             html: [
                `${this.src.html}/for_test.txt`,
+               `${this.src.html}/*.txt`,
             ],
             php: [
                `${this.src.php}/README.md`,
@@ -208,47 +223,42 @@ export const path = {
       return this.resolvDest(path);
    },
 
-
    get ftp() {
-      const path = {
-         prod: {
-            html: 'htdocs',
-            php: 'htdocs/wp-content/themes',
-            plug: 'htdocs/wp-content/plugins',
-         }
-      };
 
       return {
-         src: this.clear,
-         dest: (app.isWP && app.forPlugin)
-            ? [path.prod.php, path.prod.plug]
-            : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
-      };
+         html: `htdocs`,
+         php: `htdocs/wp-content/themes/${this.ThemeName}`,
+         plug: `htdocs/wp-content/plugins/${this.ThemeName}-core`,
+      }
+
    },
 
    get clear() {
       const path = {
-         html: [
-            `${this.prod.html}/**/*.*`,
-            `!${this.prod.html}/.gitkeep`
-         ],
-         php: [
-            `${this.prod.php}/**/*.*`,
-            `!${this.prod.php}/app/**/*.*`,
-            `!${this.prod.php}/.git/**/*.*`,
-            `!${this.prod.php}/.gitignore/**/*.*`,
-            `!${this.prod.php}/docs/**/*.*`,
-            `!${this.prod.php}/${this.ThemeName}_core.zip`,
-            `!${this.prod.php}/${this.ThemeName}_wp.zip`,
-            `!${this.prod.php}/${this.ThemeName}_html.zip`
-         ],
-         plug: [
-            `${this.prod.plug}/**/*.*`,
-         ],
+         src: {
+            html: [
+               `${this.prod.html}/**/*.*`,
+               `!${this.prod.html}/.gitkeep`
+            ],
+            php: [
+               `${this.prod.php}/**/*.*`,
+               `!${this.prod.php}/app/**/*.*`,
+               `!${this.prod.php}/.git/**/*.*`,
+               `!${this.prod.php}/.gitignore/**/*.*`,
+               `!${this.prod.php}/docs/**/*.*`,
+               `!${this.prod.php}/${this.ThemeName}_core.zip`,
+               `!${this.prod.php}/${this.ThemeName}_wp.zip`,
+               `!${this.prod.php}/${this.ThemeName}_html.zip`
+            ],
+            plug: [
+               `${this.prod.plug}/**/*.*`,
+            ],
+         },
+         prod: {},
+
       }
-      return (app.isWP && app.forPlugin)
-         ? [...path.php, ...path.plug]
-         : (app.isWP ? path.php : (app.forPlugin ? path.plug : path.html));
+
+      return this.resolvDest(path);
    },
 
    selectSrcPath(path) {
@@ -257,8 +267,6 @@ export const path = {
          console.log("app.path.copy.src is empty");
          return false;
       }
-
-      // something 
 
       return true;
    },
@@ -276,41 +284,31 @@ export const path = {
       return isCorePlugin(file) ? arrDestPath[1] : arrDestPath[0];
    },
 
-   clearForTask(srcPath, prodPath) {
-      /**
-       *   ! if srcPath hasn't file name will be returned srcPath without changes
-       * 
-       */
+   clearForTask(currentPath, destPath) {
 
-      if ((Array.isArray(srcPath) && srcPath.length === 0) || (Array.isArray(prodPath) && prodPath.length === 0)) {
-         console.log("The path you provided is empty");
-         return false;
+      if (Array.isArray(destPath)) {
+         destPath = (currentPath.includes('core-plugin') || currentPath.includes('-core')) ? destPath[1] : destPath[0];
       }
 
-      return srcPath.map((el, index) => {
-         return el.map((el_2) => {
-            try { return prodPath[index] + el_2.match(/\/([^/]+\.[a-z]+)$/i)[0]; }
-            catch { return el; }
-         })
-      }).reduce((acc, curr) => acc.concat(curr), []);;
+      let clearPath;
+      let lastFolder = destPath.match(/[^\/]+(?=\/?$)/i);
+      let newFolder = currentPath.match(new RegExp(`${lastFolder[0]}(.*)`, 'i'));
 
+      if (newFolder === null) {
+         clearPath = `${destPath}/${nodePath.basename(currentPath)}`;
+      } else {
+         clearPath = `${destPath}/${newFolder[1]}`;
+      }
+      app.plugins.del(clearPath, { force: true });
    },
 
    resolvDest(path) {
       return {
-         src: (app.isWP && app.forPlugin)
-            ? [...path.src.php, ...path.src.plug]
-            : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
-         dest: (app.isWP && app.forPlugin)
-            ? [path.prod.php, path.prod.plug]
-            : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html)),
-         clear: (app.isWP && app.forPlugin)
-            ? this.clearForTask([path.src.php, path.src.plug], [path.prod.php, path.prod.plug])
-            : (app.isWP
-               ? this.clearForTask([path.src.php], [path.prod.php])
-               : (app.forPlugin ? this.clearForTask([path.src.plug], [path.prod.plug]) : this.clearForTask([path.src.html], [path.prod.html])
-               )
-            ),
+         src: (app.isWP && app.forPlugin) ? [...path.src.php, ...path.src.plug] : (app.isWP ? path.src.php : (app.forPlugin ? path.src.plug : path.src.html)),
+         ...((Object.keys(path.prod).length !== 0) ? {
+            dest: (app.isWP && app.forPlugin) ? [path.prod.php, path.prod.plug] : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html))
+         } : {}),
+
       }
    },
 
@@ -340,6 +338,25 @@ export const path = {
          );
       }
       return processObject(path);
+   },
+
+   old_var_clearForTask(srcPath, prodPath) {
+      /**
+       *   ! if srcPath hasn't file name will be returned srcPath without changes
+       * 
+       */
+
+      if ((Array.isArray(srcPath) && srcPath.length === 0) || (Array.isArray(prodPath) && prodPath.length === 0)) {
+         console.log("The path you provided is empty");
+         return false;
+      }
+
+      return srcPath.map((el, index) => {
+         return el.map((el_2) => {
+            try { return prodPath[index] + el_2.match(/\/([^/]+\.[a-z]+)$/i)[0]; } catch { return el; }
+         })
+      }).reduce((acc, curr) => acc.concat(curr), []);;
+
    },
 
 }

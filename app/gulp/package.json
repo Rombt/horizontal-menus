@@ -9,10 +9,10 @@
     "url": "https://github.com/Rombt/gulp-assembly.git"
   },
   "scripts": {
-    "wp": "gulp wp --wp",
-    "wpPL": "gulp wp --wp --pl",
-    "html": "gulp html",
-    "wpPl": "gulp  wpPlugin",
+    "html": "gulp run",
+    "wp": "gulp run --wp",
+    "wp-pl": "gulp run --wp --pl",
+    "pl": "gulp run --pl",
     "grid": "gulp grid",
     "fonts": "gulp fonts",
     "fontsWP": "gulp fonts --wp",
@@ -20,14 +20,14 @@
     "fontsWPPL": "gulp fonts --pl --wp",
     "SvgSpr": "gulp createSvgSprite",
     "SvgSprPL": "gulp createSvgSprite --pl",
-    "zipHtml": "gulp makeZip",
-    "zipWP": "gulp makeZip --wp",
-    "zipWPPL": "gulp makeZipWpPl --wp --pl",
-    "zipPL": "gulp makeyZipPl",
+    "zipHtml": "gulp zip",
+    "zipWP": "gulp zip --wp",
+    "zipPL": "gulp zipPl",
+    "zipWPPL": "gulp zipWpPl",
     "ftpHtml": "gulp ftp",
     "ftpWP": "gulp ftp --wp",
-    "ftpWPPL": "gulp ftp --wp --pl",
-    "ftpPL": "gulp ftp --pl"
+    "ftpPL": "gulp ftpPL",
+    "ftpWPPL": "gulp ftpWpPl"
   },
   "keywords": [
     "html coding",
@@ -41,6 +41,7 @@
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
     "@babel/register": "^7.21.0",
+    "babel-plugin-transform-import-meta": "^2.2.1",
     "browser-sync": "^2.27.12",
     "cwebp-bin": "^5.1.0",
     "gulp": "^4.0.2",

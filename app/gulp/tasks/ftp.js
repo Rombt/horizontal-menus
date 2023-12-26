@@ -10,6 +10,7 @@ import util from "gulp-util";
 
 
 export const ftp = () => {
+    app.forPlugin = false;
     configFTP.log = util.log;
     const ftpConnect = vinylFTP.create(configFTP);
 
@@ -17,19 +18,31 @@ export const ftp = () => {
     let destPath;
 
     if (app.isWP) {
-        if (app.forPlugin) {
-            srcPath = app.path.clearPL;
-            destPath = app.path.ftpPl;
-        } else {
-            srcPath = app.path.clearWP;
-            destPath = app.path.ftpWp;
-        }
+        srcPath = app.path.clear.src;
+        destPath = app.path.ftp.php;
     } else {
-        srcPath = app.path.clearHtml;
-        destPath = app.path.ftpHtml;
+        srcPath = app.path.clear.src;
+        destPath = app.path.ftp.html;
     }
+
+    console.log("srcPath = ", srcPath);
+    console.log("destPath = ", destPath);
 
     return app.gulp.src(srcPath, {})
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "FTP", message: "Error: <%= error.message %>" })))
         .pipe(ftpConnect.dest(destPath))
 }
+
+
+export const ftpPL = () => {
+
+    app.forPlugin = true;
+    configFTP.log = util.log;
+    const ftpConnect = vinylFTP.create(configFTP);
+
+    return app.gulp.src(app.path.clear.src, {})
+        .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "FTP", message: "Error: <%= error.message %>" })))
+        .pipe(ftpConnect.dest(app.path.ftp.plug))
+
+}
+
