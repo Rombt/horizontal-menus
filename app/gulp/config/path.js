@@ -36,12 +36,6 @@ export const path = {
       plug: PlugFolder,
    },
 
-   // ftp: {
-   //    html: 'htdocs',
-   //    php: 'htdocs/wp-content/themes',
-   //    plug: 'htdocs/wp-content/plugins',
-   // },
-
    get watch() {
       return {
          styles: [
@@ -261,14 +255,16 @@ export const path = {
       return this.resolvDest(path);
    },
 
-   selectSrcPath(path) {
+   selectSrcPath(path, ext) {
 
       if ((Array.isArray(path) && path.length === 0) || (typeof path === 'string' && path.length === 0)) {
          console.log("app.path.copy.src is empty");
          return false;
       }
 
-      return true;
+      return Array.isArray(path) ?
+         path.map(el => `${el}${ext}`) :
+         `${app.path.svg.dest}${ext}`;
    },
 
    selectDestPath(file, arrDestPath) {
