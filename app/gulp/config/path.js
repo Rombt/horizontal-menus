@@ -229,7 +229,7 @@ export const path = {
       return {
          html: `htdocs`,
          php: `htdocs/wp-content/themes/${this.ThemeName}`,
-         plug: `htdocs/wp-content/plugins/${this.ThemeName}-core`,
+         plug: `htdocs/wp-content/plugins/${prodPluginName}`,
       }
 
    },
