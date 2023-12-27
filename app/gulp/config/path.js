@@ -13,27 +13,34 @@ if (typeof __dirname !== 'undefined') {
 const THEME_NAME = nodePath.basename(nodePath.resolve(currentDir, '..', '..', '..'));
 const ROOT_PATH = nodePath.resolve(currentDir, '..', '..').replace(/\\/g, '/');
 
+
 const srcFolder = `${ROOT_PATH}/src`;
 const prodFolder = `${ROOT_PATH}/..`;
-const PlugFolder = `${ROOT_PATH}/../../../plugins/${THEME_NAME}-core`;
+const prodPluginName = `${THEME_NAME}-core`;    // set name your plugin for production version
+const prodPlugFolder = `${ROOT_PATH}/../../../plugins/${prodPluginName}`;
 
 
 
 export const path = {
 
    ThemeName: THEME_NAME,
+   srcPluginName: 'core-plugin',    // set name your plugin for development version 
    RootPath: ROOT_PATH,
 
-   src: {
-      html: `${srcFolder}/html`,
-      php: `${srcFolder}`,
-      plug: `${srcFolder}/core-plugin`,
+   get src() {
+      return {
+         html: `${srcFolder}/html`,
+         php: `${srcFolder}`,
+         plug: `${srcFolder}/${this.srcPluginName}`,
+      }
    },
 
-   prod: {
-      html: `${prodFolder}/docs`,
-      php: `${prodFolder}`,
-      plug: PlugFolder,
+   get prod() {
+      return {
+         html: `${prodFolder}/docs`,
+         php: `${prodFolder}`,
+         plug: prodPlugFolder,
+      }
    },
 
    get watch() {
@@ -41,19 +48,19 @@ export const path = {
          styles: [
             `${this.src.php}/assets/styles/**/*.less`,
             `${this.src.php}/assets/styles/**/*.scss`,
-            `${this.src.php}/core-plugin/assets/styles/**/*.less`,
+            `${this.src.php}/${this.srcPluginName}/assets/styles/**/*.less`,
          ],
          images: [
             `${this.src.php}/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`,
-            `${this.src.php}/core-plugin/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`
+            `${this.src.php}/${this.srcPluginName}/assets/img/**/*.{jpg,jpeg,png,gif,webp,svg,ico}`
          ],
          js: [
             `${this.src.php}/assets/js/**/*.js`,
-            `${this.src.php}/core-plugin/assets/js/**/*.js`
+            `${this.src.php}/${this.srcPluginName}/assets/js/**/*.js`
          ],
          php: [
             `${this.src.php}/**/*.{php,html}`,
-            `${this.src.php}/core-plugin/**/*.{php,html}`
+            `${this.src.php}/${this.srcPluginName}/**/*.{php,html}`
          ],
          copy: this.copy.src,
       }
@@ -68,10 +75,10 @@ export const path = {
             ],
             php: [
                `${this.src.php}/**/*.php`,
-               `!${this.src.php}/core-plugin/**/*.php`,
+               `!${this.src.php}/${this.srcPluginName}/**/*.php`,
             ],
             plug: [
-               `${this.src.php}/core-plugin/**/*.php`,
+               `${this.src.php}/${this.srcPluginName}/**/*.php`,
             ],
          },
          prod: {
@@ -203,7 +210,7 @@ export const path = {
                `${this.src.php}/screenshot.png`,
             ],
             plug: [
-               `${this.src.php}/core-plugin/README.md`,
+               `${this.src.php}/${this.srcPluginName}/README.md`,
             ],
          },
          prod: {
@@ -276,14 +283,14 @@ export const path = {
          return file.path;
       }
 
-      const isCorePlugin = (file) => file.path.includes('core-plugin') || file.path.includes('-core');
+      const isCorePlugin = (file) => file.path.includes(this.srcPluginName) || file.path.includes('-core');
       return isCorePlugin(file) ? arrDestPath[1] : arrDestPath[0];
    },
 
    clearForTask(currentPath, destPath) {
 
       if (Array.isArray(destPath)) {
-         destPath = (currentPath.includes('core-plugin') || currentPath.includes('-core')) ? destPath[1] : destPath[0];
+         destPath = (currentPath.includes(this.srcPluginName) || currentPath.includes('-core')) ? destPath[1] : destPath[0];
       }
 
       let clearPath;

@@ -25,7 +25,7 @@ export const images = (done) => {
 
 export const moveSvgSprite = () => {
 
-    return app.gulp.src(Array.isArray(app.path.svg.dest) ? path.map(el => `${el}/**/*.{svg,html}`) : `${app.path.svg.dest}/**/*.{svg,html}`, {})
+    return app.gulp.src(Array.isArray(app.path.svg.dest) ? app.path.svg.dest.map(el => `${el}/**/*.{svg,html}`) : `${app.path.svg.dest}/**/*.{svg,html}`, {})
         .pipe(app.gulp.dest((file) => app.path.selectDestPath(file, Array.isArray(app.path.images.dest) ?
             app.path.images.dest.map((el) => `${el}/icons`) :
             `${app.path.images.dest}/icons`)))

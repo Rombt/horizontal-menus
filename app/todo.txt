@@ -7,9 +7,6 @@
    преобразавание .ico в иконочный шрифт
    отправка файлов по ftp при каждом обновлении нужно ли?
 
-   задачу копирование svg зделать по образцу copyFonts
-   в задаче js в режиме html не создвать и не перемешать admin.main.min.js
-
    разобраться и использовать: 
       https://www.npmjs.com/package/gulp-clean
       https://www.npmjs.com/package/gulp-strip-debug
@@ -20,7 +17,7 @@
       .on('unlinkDir', (currentPath) => {
             console.log("You need delete manually folder:    ", currentPath);
          })
-      возможно нужно устанавливать пути:
+      возможно нужно устанавливать права:
          export const setPermissions = (done) => {
             // Получаем путь к текущему каталогу
             const currentDirectory = process.cwd();
