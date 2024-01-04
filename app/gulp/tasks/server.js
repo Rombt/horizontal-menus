@@ -15,10 +15,10 @@ export const server = (done) => {
     let proxyPath;
 
 
-    if (absPath.includes('OSPanel')) {
-        proxyPath = `http://ms/`;
+    if (app.path.RootPath.includes('OSPanel')) {
+        proxyPath = app.path.proxy[0];
     } else {        // рабочий комп и домашний ноут
-        proxyPath = `http://web/rombt/gulp-assembly`;
+        proxyPath = app.path.proxy[1];
     }
 
     app.plugins.browsersync.init({
