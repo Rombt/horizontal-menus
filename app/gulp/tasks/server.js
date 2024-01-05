@@ -1,8 +1,3 @@
-import process from 'process';
-
-let absPath = process.cwd();
-
-
 export const server = (done) => {
 
     // if (app.isWP) {      // todo path to root folder site not theme
