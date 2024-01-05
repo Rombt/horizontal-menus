@@ -17,7 +17,7 @@
       .on('unlinkDir', (currentPath) => {
             console.log("You need delete manually folder:    ", currentPath);
          })
-      возможно нужно устанавливать права:
+      возможно нужно устанавливать права:       пробовал не сработало
          export const setPermissions = (done) => {
             // Получаем путь к текущему каталогу
             const currentDirectory = process.cwd();
@@ -37,7 +37,14 @@
                done();
             });
          }   
+      возможно нухно использовать стандартный модуль node для работы с файловой системой
+         import fs from 'fs';
 
+         fs.rmdir(path_to_dir, (err)=>{
+            if(err){
+               throw err;
+            }
+         }) 
 
    Перечень тестов для каждой из задач (пока ручных):
 
