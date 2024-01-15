@@ -1,11 +1,24 @@
-   // Адаптивное CSS свойство источник    https: //youtu.be/eaOAY0vIB4U
-   .adaptiv-prop(@selector, @max_val, @min_val) {
-      @{selector}:~"calc(@{min_val}px + (@{max_val} - @{min_val}) * ((100vw - @{_width_min_viewport}px)/(@{_width_container} - @{_width_min_viewport})))";
+   // Адаптивное CSS свойство источник    
+   .adaptiv-prop(@property, @max_val, @min_val) {
+
+      @addSize: @max_val - @min_val;
+      @maxWidth: @_width_wraper - @_width_min_viewport;
+      @{property}:~"calc(@{min_val}px + @{addSize} * ((100vw - @{_width_min_viewport}px)/@{maxWidth}))";
+
+      @media (min-width: ~"@{_width_wraper}px") {
+         @{property}:~"@{max_val}px"
+      }
+
    }
 
-   //  Адаптивный шрифт источник: https: //youtu.be/HJZP5QsrpXs
+   // //  Адаптивный шрифт 
    .adaptiv-font(@pcSize, @mobSize) {
+      // !!! везде!  заменить на .adaptiv-prop(@property, @max_val, @min_val) 
       @addSize: @pcSize - @mobSize;
-      @maxWidth: @_width_container - @_width_min_viewport;
+      @maxWidth: @_width_wraper - @_width_min_viewport;
       font-size: calc(~"@{mobSize}px" + @addSize * ((100vw - ~"@{_width_min_viewport}px") / @maxWidth));
+
+      @media (min-width: ~"@{_width_wraper}px") {
+         font-size:~"@{pcSize}px"
+      }
    }
