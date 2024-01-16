@@ -16,21 +16,8 @@
    #### htmlcoding:
       Final files are moved to the 'docs' folder so that your sites can be exhibited on GitHub Pages
    #### Wordpres development:
-      Final files of theme are moved to the 'my_thyeme_name' folder. 
-      Final files of core-plagin are moved to the 'plugins/prod-Plugin-Name' folder
-   #### Fast create archive your project
-      Just enter in command line one command and an archive your project will be created in root folder
-         zipHtml - all files from folder 'docs'
-         zipWP - only tamplate files from root folder 
-         zipPL - only plugin`s files from src plugin's folder 
-         zipWPPL - tamplate files and plugin`s files
-   #### Fast deploy on ftp
-       Just enter in command line one command and download to ftp will start
-         ftpHtml - all files from folder 'docs'
-         ftpWP - only tamplate files from root folder to `htdocs/wp-content/themes/${this.ThemeName}`
-         ftpPL - only plugin`s files from src plugin's folder to `htdocs/wp-content/plugins/${prodPluginName}`
-         ftpWPPL - tamplate files and plugin`s files
-
+      Final files of theme are moved to the 'my_thyemename' folder. 
+      Final files of core-plagin are moved to the 'plugins/core-plugin' folder
 
 
 # Struckture project
