@@ -1,7 +1,4 @@
-# Gulp assembly for HTML coding v-2.1.0
-
-### list changes
-   + has added dynamic adaptive
+# Gulp assembly for HTML coding
 
 ### Designed for
    + html coding
