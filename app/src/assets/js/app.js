@@ -2,7 +2,11 @@ import { isWebp } from "./modules/isWebp.js"; // проверяет поддер
 
 
 
-window.onload = function () {
+import { isWebp } from "./libs/dynamic_adapt.js";
+
+
+
+window.onload = function() {
 
     isWebp(); // проверяет поддерживает ли браузер формат webp
 

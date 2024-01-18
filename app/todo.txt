@@ -3,6 +3,38 @@
 
 
 ----------------------- T O D O  -----------------------   
+   
+   Добавить в v-2.1.0
+      Модуль Динамический адаптив   https://youtu.be/QKuMr575vlQ
+
+      Модуль Popup модальные окна   https://youtu.be/qoO1ZNi1LyI 
+      Модуль меню бургер     
+         https://youtu.be/chJQofBSx94
+         https://youtu.be/zs1r8yafTE8
+      Модуль Спойлеры      https://youtu.be/Cj8hWtm_40M
+      Модуль Табы    https://youtu.be/5Bh6-xl9FMM
+      Модуль Галерея
+      Модуль Ленивая подгрузка   https://youtu.be/IdUbsiQUxa4
+      Модуль Наблюдатель за появлением элементов при прокрутке страницы (скролле)
+      Модуль Показать ещё
+      Модуль Прокрутка к нужному блоку
+      Модуль добавления классов к шапке при прокрутке страницы
+      Модуль кастомизации элемента SELECT
+      Модуль слайдера Swiper  https://youtu.be/ddbxsrGPRY0
+      SLICK SLIDER      https://youtu.be/rXNfDfqtM3M
+      Работа с формами и элементами форм
+      Звездный рейтинг  https://youtu.be/H8QnlH6sou0
+      Анимация при скролле страницы    https://youtu.be/kupwmF72Plo
+      Полноэкранный блок на CSS и HTML    https://youtu.be/6pgRn79v7lE
+      Выпадающее меню на CSS + адаптив под тачскрины     https://youtu.be/zf59Rg_KYk8
+      Параллакс 
+         https://youtu.be/bhHNpbYI_Tc
+         https://youtu.be/yxs1QnL-cT0
+      Стилизация чекбоксов и радиокнопок на CSS HTML jQuery    https://youtu.be/RwLqvW7tKC4
+
+
+
+
    очищать readme.md только при использовании сборки в качестве шаблона
    преобразавание .ico в иконочный шрифт
    отправка файлов по ftp при каждом обновлении нужно ли?
