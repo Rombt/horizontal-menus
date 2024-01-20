@@ -2,7 +2,7 @@ import { isWebp } from "./modules/isWebp.js"; // проверяет поддер
 
 
 
-import { isWebp } from "./libs/dynamic_adapt.js";
+import "./libs/dynamic_adapt.js";
 
 
 
