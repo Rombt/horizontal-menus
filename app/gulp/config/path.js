@@ -300,15 +300,20 @@ export const path = {
 
         let lastFolder = nodePath.basename(destPath);
         let indexLastFolder = currentPath.lastIndexOf(lastFolder);
+
         if (indexLastFolder == -1) {
-            if (currentPath.includes(this.srcPluginName)) {
+
+            if (currentPath.includes(nodePath.basename(this.src.html))) {
+                lastFolder = nodePath.basename(this.src.html);
+            } else if (currentPath.includes(this.srcPluginName)) {
                 lastFolder = nodePath.basename(this.srcPluginName);
             } else {
                 lastFolder = nodePath.basename(this.src.php);
             }
-            indexLastFolder = currentPath.lastIndexOf(lastFolder);
+            indexLastFolder = Math.max(currentPath.lastIndexOf(`/${lastFolder}`), currentPath.lastIndexOf(`\\${lastFolder}`)) + 1; // для того что бы исключить возможные совподения имени папки и расширения
         }
         let clearPath = nodePath.join(destPath, currentPath.substring(indexLastFolder + lastFolder.length));
+
 
         app.plugins.del(clearPath, { force: true });
     },
