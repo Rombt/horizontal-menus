@@ -1,17 +1,11 @@
 @import (less) '../gulp/node_modules/normalize.css/normalize.css';
-@import './smart-grid.less';
+
+@import 'base/base.less';
+@import 'base/smart-grid.less';
+@import "base/variables.less";
+@import "base/mixins.less";
+
 @import "fonts";
-
-@import "variables.less";
-@import "mixins.less";
-
 
 
 @import 'parts/some_file.less';
-
-.debug-grid {
-   .debug(#b2bdfa1a, 1px rgba(6, 235, 197, 0.5) solid);
-
-   pointer-events: none;
-   z-index: 100;
-}

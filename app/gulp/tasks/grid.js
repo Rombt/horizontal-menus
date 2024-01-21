@@ -4,6 +4,6 @@ import smartgrid from "smart-grid";
 
 export const grid = (done) => {
 
-    smartgrid('../src/assets/styles', settings);
+    smartgrid('../src/assets/styles/base', settings);
     done();
 }
