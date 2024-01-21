@@ -2,7 +2,14 @@
 
 	// my snnipets:
 		da - Add dynamic adapt
-		wi - wrap image
+			<tabTrigger>da</tabTrigger>
+			data-da=".${1:имя блока}, 768"
+		wi - wrap image in tag div
+			<tabTrigger>wi</tabTrigger>
+			<div class="wrap-img ${1:имя блока}"><img src="$2" alt=""></div>
+		wia - wrap image in tag a
+			<tabTrigger>wia</tabTrigger>
+			<a href="#" class="wrap-img-a ${1:имя блока}"><img src="$2" alt=""></a>
 
 
 

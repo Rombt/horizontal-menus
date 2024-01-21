@@ -1,0 +1,45 @@
+/*
+*	Basic styles for blocks intended for use in every project
+*/
+
+
+
+.debug-grid {
+    z-index: 100;
+    pointer-events: none;
+    .debug(#b2bdfa1a, 1px rgba(6, 235, 197, 0.5) solid);
+}
+
+.wrap-img {
+    position: relative;
+    overflow: hidden;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+.wrap-img-a {
+    position: relative;
+    overflow: hidden;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+}
+
+.conteiner {
+    .wrapper();
+}
