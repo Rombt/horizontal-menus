@@ -1,15 +1,44 @@
 {
 
 	// my snnipets:
-		da - Add dynamic adapt
-			<tabTrigger>da</tabTrigger>
-			data-da=".${1:имя блока}, 768"
-		wi - wrap image in tag div
-			<tabTrigger>wi</tabTrigger>
-			<div class="wrap-img ${1:имя блока}"><img src="$2" alt=""></div>
-		wia - wrap image in tag a
-			<tabTrigger>wia</tabTrigger>
-			<a href="#" class="wrap-img-a ${1:имя блока}"><img src="$2" alt=""></a>
+		for Sublime text
+			da - Add dynamic adapt
+				<tabTrigger>da</tabTrigger>
+				data-da=".${1:имя блока}, 768"
+			wi - wrap image in tag div
+				<tabTrigger>wi</tabTrigger>
+				<div class="wrap-img ${1:имя блока}"><img src="$2" alt=""></div>
+			wia - wrap image in tag a
+				<tabTrigger>wia</tabTrigger>
+				<a href="#" class="wrap-img-a ${1:имя блока}"><img src="$2" alt=""></a>
+
+		for Visual Studio Code
+			"svg_wp": {
+				"scope": "php, plaintext, html",
+				"prefix": "svg",
+				"body": [
+					"<svg>",
+					"<use",
+					"xlink:href=\"<?php echo get_template_directory_uri() ?>/assets/img/icons/sprite.svg#$1\">",
+					"</use>",
+					"</svg>",
+					"$2"
+				],
+				"description": "adds tags svg and use to php page for WP"
+			},
+			"svg_html": {
+				"scope": "php, plaintext, html",
+				"prefix": "svg",
+				"body": [
+					"<svg>",
+					"<use",
+					"xlink:href=\"./assets/img/icons/sprite.svg#$1\">",
+					"</use>",
+					"</svg>",
+					"$2"
+				],
+				"description": "adds tags svg and use to html page"
+			}
 
 
 
