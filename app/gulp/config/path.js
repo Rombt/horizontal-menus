@@ -208,11 +208,15 @@ export const path = {
                 html: [
                     `${this.src.html}/for_test.txt`,
                     `${this.src.html}/*.txt`,
+                    `${this.src.php}/assets/styles/libs/**/*.*`,
+                    `${this.src.php}/assets/js/libs/**/*.*`,
                 ],
                 php: [
                     `${this.src.php}/README.md`,
                     `${this.src.php}/style.css`,
                     `${this.src.php}/screenshot.png`,
+                    `${this.src.php}/assets/styles/libs/**/*.*`,
+                    `${this.src.php}/assets/js/libs/**/*.*`,
                 ],
                 plug: [
                     `${this.src.php}/${this.srcPluginName}/README.md`,
