@@ -1,12 +1,13 @@
-const popupLinks = documen.querySelectorAll(".popup-link");
-const body = documen.querySelector("body");
-const lockPadding = documen.querySelectorAll(".lockPadding")
+const mainContainer = '.wrapper'; // name your main container
+const timeout = 800; // the quantity  of milliseconds must be equal to the animation time in the 'transition' property in the file popup.js
+
+const popupLinks = document.querySelectorAll(".popup-link");
+const body = document.querySelector("body");
+const lockPadding = document.querySelectorAll(".lockPadding")
 
 let unlock = true;
-const timeout = 800;
 
 if (popupLinks.length > 0) {
-
     for (let i = 0; i < popupLinks.length; i++) {
         const popupLink = popupLinks[i];
         popupLink.addEventListener("click", function(e) {
@@ -17,7 +18,7 @@ if (popupLinks.length > 0) {
         });
     }
 }
-const popupCloseIcon = documen.querySelectorAll('.close-window');
+const popupCloseIcon = document.querySelectorAll('.close-window');
 if (popupCloseIcon.length > 0) {
     for (var i = 0; i < popupCloseIcon.length; i++) {
         const el = popupCloseIcon[i];
@@ -25,20 +26,19 @@ if (popupCloseIcon.length > 0) {
             popupClose(el.closest('.popup'))
             e.preventDefault();
         })
-
     }
 }
 
 
 function popupOpen(curentPopup) {
     if (curentPopup && unlock) {
-        const popupActive = documen.querySelector('.popup.open');
+        const popupActive = document.querySelector('.popup.open');
         if (popupActive) {
             popupClose(popupActive, false);
         } else {
             bodyLock();
         }
-        curentPopup.classList.add('.open');
+        curentPopup.classList.add('open');
         curentPopup.addEventListener('click', function(e) {
             if (!e.target.closest('.popup_content')) {
                 popupClose(e.target.closest('.popup'));
@@ -46,7 +46,6 @@ function popupOpen(curentPopup) {
         });
     }
 }
-
 
 function popupClose(popupActive, doUnlock = true) {
     if (unLock) {
@@ -56,3 +55,43 @@ function popupClose(popupActive, doUnlock = true) {
         }
     }
 }
+
+function bodyLock() {
+    const lockPaddingValue = window.innerWidth - document.querySelector(mainContainer).offsetWidth + 'px'
+    if (lockPadding.length > 0) {
+        for (let i = 0; i < lockPadding.length; i++) {
+            const el = lockPadding[i];
+            el.style.paddingRight = lockPaddingValue;
+        }
+    }
+    body.style.paddingRight = lockPaddingValue;
+    body.classList.add('lock');
+    unLock = false;
+    setTimeout(function() {
+        unLock = true;
+    }, timeout);
+}
+
+function bodyUnLock() {
+    setTimeout(function() {
+        if (lockPadding.length > 0) {
+            for (let i = 0; i < lockPadding.length; i++) {
+                const el = lockPadding[i];
+                el.style.paddingRight = '0px';
+            }
+        }
+        body.style.paddingRight = '0px';
+        body.classList.remove('lock');
+    }, timeout);
+    unlock = false;
+    setTimeout(function() {
+        unLock = true;
+    }, timeout);
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.which === 27) {
+        const popupActive = document.querySelector('.popup.open');
+        popupClose(popupActive);
+    }
+});

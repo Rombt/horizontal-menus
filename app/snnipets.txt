@@ -12,6 +12,28 @@
 				<tabTrigger>wia</tabTrigger>
 				<a href="#" class="wrap-img-a ${1:имя блока}"><img src="$2" alt=""></a>
 
+			ppp - popup
+				<tabTrigger>ppp</tabTrigger>
+		        <!-- content all page must be into tag with class 'wrapper' or you must replace "wrapper" in  popup.js by name your main container  -->
+		        <!-- to each direct descendant main conteiner add class lockPadding -->
+		        <a href="#${1:popup_1}" class="popup-link">${2:PopUp title}</a>  
+		        <div id="popup_1" class="popup">
+		            <div class="popup__body">
+		                <div class="popup__content">
+		                    <div class="close-window"><span></span></div>
+		                    <div class="popup__title">${3:PopUp title}</div>
+		                    <div class="popup__text">
+		                        <!-- if you need to link to second popup -->
+		                        <!-- <a href="#popup_2" class="popup-link">popup #2</a> -->
+		                        ${4:some_content}
+		                    </div>
+		                </div>
+		            </div>
+		        </div>	
+
+
+
+
 		for Visual Studio Code
 			"svg_wp": {
 				"scope": "php, plaintext, html",
