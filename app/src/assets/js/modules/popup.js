@@ -1,4 +1,5 @@
 const mainContainer = '.wrapper'; // name your main container
+//todo получать продолжительность анимации автоматичиски прочитав значени свайства transition
 const timeout = 800; // the quantity  of milliseconds must be equal to the animation time in the 'transition' property in the file popup.js
 
 const popupLinks = document.querySelectorAll(".popup-link");

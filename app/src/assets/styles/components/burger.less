@@ -1,0 +1,170 @@
+.top-header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 10;
+    background-color: #A234FF;
+
+    a {
+        text-decoration: none;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    &__conteiner {
+
+        max-width: 1200px;
+        margin: 0px auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 30px;
+        min-height: 70px;
+    }
+
+    &__logo {
+        border-radius: 50%;
+        background-color: #fff;
+        position: relative;
+        z-index: 5;
+        width: 40px;
+        height: 40px;
+
+    }
+
+    &__menu {}
+
+}
+
+.menu {
+
+    &__icon {}
+
+    &__body {}
+
+    &__list {
+
+        >li {
+            position: relative;
+            margin: 0px 0px 0px 20px;
+        }
+    }
+
+    &__list>li:hover &__sub-list {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(0px, 0px);
+        pointer-events: all;
+    }
+
+
+    &__link {
+        color: #fff;
+        font-size: 18px;
+
+    }
+
+    &__link:hover,
+    &__sub-link:hover {
+        display: block;
+        transform: scale(1.05);
+    }
+
+    &__sub-list {
+        position: absolute;
+        top: 100%;
+        right: 0px;
+        background-color: #000;
+        padding: 15px;
+        min-width: 200px;
+
+        >li {
+            margin: 0px 0px 10px 0px;
+        }
+
+        >li:last-child {
+            margin: 0;
+
+        }
+
+    }
+
+    &__sub-link {
+        color: #fff;
+    }
+
+    &__arrow {
+        display: none;
+    }
+
+    .from(700px, {
+
+        &__list {
+
+            display: flex;
+            align-self: center;
+
+            >li {
+                padding: 10px 0px;
+
+            }
+        }
+
+        &__sub-list {
+
+
+            transform: translate(0px, 10%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.3 ease
+        }
+
+    }
+
+    );
+
+}
+
+
+
+
+html.touch .menu__list>li {
+    display: flex;
+    align-items: center;
+}
+
+html.touch .menu__list>li._active .menu__sub-list {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0px, 0px);
+    pointer-events: all;
+}
+
+html.touch .menu__list>li._active .menu__arrow {
+    transform: rotate(180deg);
+
+}
+
+
+
+html.touch .menu__link {
+    flex: 1 1 auto;
+}
+
+
+html.touch .menu__arrow {
+
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #2805FC;
+
+    transition: transform 0.3 ease 0s;
+
+}
