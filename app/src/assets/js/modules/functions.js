@@ -33,10 +33,6 @@ testWebp(function(support) {
  */
 let toWhichWillBeScroll = document.querySelector('[data-gotoOffset]');
 toWhichWillBeScroll = toWhichWillBeScroll ? (toWhichWillBeScroll.offsetHeight + toWhichWillBeScroll.offsetTop) : 0;
-
-
-console.log("toWhichWillBeScroll", toWhichWillBeScroll);
-
 const gotoLinks = document.querySelectorAll('[data-goto]');
 if (gotoLinks.length > 0) {
     gotoLinks.forEach(gotoLink => {
