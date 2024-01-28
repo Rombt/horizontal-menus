@@ -11,7 +11,6 @@
 			wia - wrap image in tag a
 				<tabTrigger>wia</tabTrigger>
 				<a href="#" class="wrap-img-a ${1:имя блока}"><img src="$2" alt=""></a>
-
 			ppp - popup
 				<tabTrigger>ppp</tabTrigger>
 		        <!-- content all page must be into tag with class 'wrapper' or you must replace "wrapper" in  popup.js by name your main container  -->
@@ -30,8 +29,15 @@
 		                </div>
 		            </div>
 		        </div>	
-
-
+		    ssg - Smooth scrolling when clicking
+		    	<tabTrigger>ssg</tabTrigger>
+					data-goto="${1}"
+				<!-- description: Smooth scrolling when clicking -->
+					    
+				</snippet>
+			sso - Set element to which  will be scroll. For example a header with position: fixed.
+				<tabTrigger>sso</tabTrigger>
+				data-gotoOffset
 
 
 		for Visual Studio Code
