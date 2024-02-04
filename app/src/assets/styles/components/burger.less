@@ -1,8 +1,5 @@
 @hieght_header: 70px;
-// @bgc_header: #A234FF;
 @bgc_header: #376181;
-
-
 
 
 .top-header {
@@ -10,8 +7,9 @@
     top: 0px;
     left: 0px;
     width: 100%;
-    z-index: 10;
     background-color: @bgc_header;
+
+    z-index: 2;
 
     a {
         text-decoration: none;
@@ -19,6 +17,7 @@
 
     ul {
         list-style-type: none;
+        margin: 0;
     }
 
     &__conteiner {
@@ -28,7 +27,6 @@
         justify-content: space-between;
         align-items: center;
         padding: 0px 30px;
-        min-height: @hieght_header;
     }
 
     &__logo {
@@ -47,17 +45,26 @@
 
 .menu {
 
+    align-self: stretch;
+    position: relative;
+    z-index: 0;
+
     &__icon {
         display: none;
     }
 
-    &__body {}
+    &__body {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        background-color: #376181;
+    }
 
     &__list {
 
         >li {
-            position: relative;
             margin: 0px 0px 0px 20px;
+            position: relative;
         }
     }
 
@@ -82,10 +89,13 @@
     &__sub-list {
         position: absolute;
         top: 100%;
-        right: 0px;
+        // right: 0px;
+        left: 0px;
         background-color: #000;
         padding: 15px;
         min-width: 200px;
+
+
 
         >li {
             margin: 0px 0px 10px 0px;
@@ -120,7 +130,9 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: all 0.3s ease 0s;
+            transition: all 2s ease 0s;
+
+            z-index: -1;
         }
     }
 
@@ -261,7 +273,7 @@
 }
 
 
- ! ! ! упорядочить стили ! html.touch .menu__list>li {
+html.touch .menu__list>li {
     display: flex;
     align-items: center;
 }
