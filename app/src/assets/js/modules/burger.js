@@ -1,112 +1,103 @@
-/**
-    использование:
-        в готовую вёрстку добавляя атребуты data и нужные классы - список классовс пояснениями должен быть где то отдельно
-        в нужном месте страницы из сниппета получить заготовку HTML для меню
-            заготовка должна 
-                быть проивязана к базовым стилям и скриптам - желательно привязыватся не к классам а к структурным селекторам
-                    позиционироавание основного и выподающих меню до 3 уровня вложености
-                    для десктопов и мобильных версий
-                        в контейнере - вертикальное и горизонтальное выравнивание
-                        елементов меню относительно друг друга и родительского блока
-                    для кнопок бургера и закрытия меню (вместо крестика надпися назад)
-                    индекатор того что данный пункт ммеет подменю
-                    поведение
-                        блокировка скпрола при открытом меню
-                        реакция пунктов при наведении
-                        сркрол внутри блоков меню на всех уровнях вложенности
-                        затемнение фона при открытии
-                        варианты выпадения с леваилис права
-                        выпадение подменю на десктопе
+// todo add icon for menu items  that contain submenu
+/*
+ *   Обеспечивает основной функционал горизонтального меню для всех меню
+ *   блок содержащий меню должен иметь дата атребут data-horizontal_menu
+ *   
+ *   основные функции:
+ *                 индекатор того что данный пункт ммеет подменю
+ *                 блокировка скпрола при открытом меню
+ *                 реакция пунктов при наведении
+ *                 сркрол внутри блоков меню на всех уровнях вложенности
+ *                 затемнение фона при открытии (опционально, задаётся в HTML)
+ *                 выпадение подменю на десктопе
+ *                 локации выпадающей части задаются  в css 
+ *   
+ */
+
+function burger_1() {
+
+    /* set this variables for your menu*/
+    const classContainerMenu = 'header-menu'; // class of block that is contenting menu
 
 
+    /*=============================*/
+    const containerMenu = document.querySelector(`.${classContainerMenu} nav`);
+    if (containerMenu === null) {
+        return false;
+    }
 
 
-*/
+    const bodyMenu = containerMenu.querySelector('ul');
+    const itemsMenu = bodyMenu.querySelectorAll('li');
+    let iconDropdown;
 
 
+    let dropTogle;
+
+    for (var i = 0; i <= itemsMenu.length - 1; i++) {
+
+        if (itemsMenu[i].children.length === 0) {
+            continue; // Пропустить элементы без дочерних элементов
+        }
+
+        if (Array.from(itemsMenu[i].children).some(node => node.tagName === 'UL')) {
+            iconDropdown = document.createElement('span');
+            iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
 
 
+            console.log("itemsMenu[i] = ", itemsMenu[i]);
+            console.log("iconDropdown = ", iconDropdown);
 
-
-// if (document.querySelector("html").classList.contains('touch')) {
-//     let menuArrows = document.querySelectorAll(".test-menu__arrow");
-//     if (menuArrows.length > 0) {
-//         menuArrows.forEach(menuArrow => {
-//             menuArrow.addEventListener('click', () => {
-//                 menuArrow.parentElement.classList.toggle('_active');
-//             })
-//         })
-//     }
-// }
-
-
-// const iconMenus = document.querySelectorAll('[data-iconMenu]');
-// if (iconMenus.length > 0) {
-//     iconMenus.forEach(iconMenu => {
-//         iconMenu.addEventListener('click', (e) => {
-//             const menu = iconMenu.closest('[data-conteinerMenu]');
-//             const bodyMenu = menu.querySelector('[data-bodyMenu]');
-
-//             if (bodyMenu.classList.contains('_openMenu')) {
-
-//                 document.body.classList.remove('_lock');
-//                 iconMenu.classList.remove('_active');
-//                 bodyMenu.classList.remove('_openMenu');
-//             } else {
-//                 document.body.classList.add('_lock');
-//                 iconMenu.classList.add('_active');
-//                 bodyMenu.classList.add('_openMenu');
-
-//             }
-
-//         })
-
-//     });
-
-// }
-
-
-
-
-let linksMenu = document.querySelectorAll('.test-menu__list li');
-
-let subMenu;
-let test_tl;
-linksMenu.forEach(linkMenu => {
-
-
-
-
-    linkMenu.addEventListener('mouseenter', e => {
-        test_tl = gsap.timeline();
-        subMenu = e.target.querySelector('.test-menu__sub-list');
-
-        if (subMenu !== null) {
-            test_tl.to(subMenu, {
-                duration: 0.5,
-                height: subMenu.scrollHeight,
-                opacity: 1,
-                // ease: 'power1',
-            });
-
+            itemsMenu[i].append(iconDropdown);
 
         }
 
-        console.log("linkMenu", linkMenu);
 
 
-    })
+        itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
+        itemsMenu[i].addEventListener('mouseleave', subMenuClose);
 
-    linkMenu.addEventListener('mouseleave', e => {
-        test_tl.reverse();
-    })
-});
+        if (iconDropdown) {
+
+            iconDropdown.addEventListener('click', subMenuOpen);
+            // сдесь длженбыть переключатель!!
+        }
+
+        // itemsMenu[i].addEventListener('mouseleave', subMenuClose);
+    }
 
 
+    let subMenu;
 
+    function subMenuOpen(e) {
+        subMenu = e.target.querySelector('ul');
 
+        if (subMenu) {
 
+            gsap.to(subMenu, {
+                duration: 1,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+            });
+        }
+    }
 
+    function subMenuClose(e) {
+        subMenu = e.target.querySelector('ul');
 
+        gsap.to(subMenu, {
+            duration: 1,
+            ease: "power4.inOut",
+            height: '0px',
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            opacity: 0,
+        });
+    }
 
-// tl.to('.test-box__green', { duration: 2, x: 800, ease: 'bounce' });
+}
+
+burger_1();

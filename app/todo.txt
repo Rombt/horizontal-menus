@@ -20,6 +20,7 @@
          https://youtu.be/zs1r8yafTE8
 
       стилизация скроллбара найти нормальную библиотеку
+         PerfectScrollbar разобраться
       Модуль Спойлеры      https://youtu.be/Cj8hWtm_40M
       Модуль Табы    https://youtu.be/5Bh6-xl9FMM
       Модуль Галерея
