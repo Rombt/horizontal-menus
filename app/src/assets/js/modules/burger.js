@@ -14,90 +14,112 @@
  *   
  */
 
-function burger_1() {
+function burger() {
 
     /* set this variables for your menu*/
     const classContainerMenu = 'header-menu'; // class of block that is contenting menu
 
 
     /*=============================*/
+
     const containerMenu = document.querySelector(`.${classContainerMenu} nav`);
     if (containerMenu === null) {
         return false;
     }
 
+    const burgerMenuTogle = document.querySelector('.menu-icon');
 
-    const bodyMenu = containerMenu.querySelector('ul');
-    const itemsMenu = bodyMenu.querySelectorAll('li');
-    let iconDropdown;
+    burgerMenuTogle.addEventListener('click', e => {
+        containerMenu.classList.toggle('burger-menu-open');
+        burgerMenuTogle.classList.toggle('close');
 
-
-    let dropTogle;
-
-    for (var i = 0; i <= itemsMenu.length - 1; i++) {
-
-        if (itemsMenu[i].children.length === 0) {
-            continue; // Пропустить элементы без дочерних элементов
-        }
-
-        if (Array.from(itemsMenu[i].children).some(node => node.tagName === 'UL')) {
-            iconDropdown = document.createElement('span');
-            iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
-
-
-            console.log("itemsMenu[i] = ", itemsMenu[i]);
-            console.log("iconDropdown = ", iconDropdown);
-
-            itemsMenu[i].append(iconDropdown);
+        if (containerMenu.classList.contains('burger-menu-open')) {
+            burgerMenuOpen();
 
         }
+    });
+
+    function burgerMenuOpen() {
 
 
+        const bodyMenu = containerMenu.querySelector('ul');
+        const itemsMenu = bodyMenu.querySelectorAll('li');
+        let iconDropdown;
 
-        itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
-        itemsMenu[i].addEventListener('mouseleave', subMenuClose);
+        let dropTogle;
+        for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
-        if (iconDropdown) {
 
-            iconDropdown.addEventListener('click', subMenuOpen);
-            // сдесь длженбыть переключатель!!
+            if (itemsMenu[i].children.length === 0) {
+                continue; // Пропустить элементы без дочерних элементов
+            }
+
+            const arrChildren = Array.from(itemsMenu[i].children);
+            if (arrChildren.some(node => node.tagName === 'UL')) {
+                if (arrChildren.every((node) => !node.classList.contains('icon-dropdown'))) {
+                    iconDropdown = document.createElement('span');
+                    iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
+                    itemsMenu[i].append(iconDropdown);
+                }
+            }
+
+
+            itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
+            itemsMenu[i].addEventListener('mouseleave', subMenuClose);
+
+            if (iconDropdown) {
+
+                iconDropdown.addEventListener('click', subMenuOpen);
+                // сдесь длженбыть переключатель!!
+            }
+
+            // itemsMenu[i].addEventListener('mouseleave', subMenuClose);
+
+
         }
 
-        // itemsMenu[i].addEventListener('mouseleave', subMenuClose);
-    }
 
+        let subMenu;
 
-    let subMenu;
+        function subMenuOpen(e) {
+            subMenu = e.target.querySelector('ul');
+            if (!document.querySelector('body').classList.contains('lock')) {
+                document.querySelector('body').classList.add('lock');
+            }
+            if (subMenu) {
 
-    function subMenuOpen(e) {
-        subMenu = e.target.querySelector('ul');
+                gsap.to(subMenu, {
+                    duration: 1,
+                    ease: "power4.inOut",
+                    height: 'auto',
+                    overflow: 'visible',
+                    pointerEvents: 'auto',
+                    opacity: 1,
+                });
+            }
+        }
 
-        if (subMenu) {
+        function subMenuClose(e) {
+            subMenu = e.target.querySelector('ul');
+            if (document.querySelector('body').classList.contains('lock') && subMenu.closest.tagName === 'NAV') {
+                document.querySelector('body').classList.remove('lock');
+            }
 
             gsap.to(subMenu, {
                 duration: 1,
                 ease: "power4.inOut",
-                height: 'auto',
-                overflow: 'visible',
-                pointerEvents: 'auto',
-                opacity: 1,
+                height: '0px',
+                overflow: 'hidden',
+                pointerEvents: 'none',
+                opacity: 0,
             });
         }
+
     }
 
-    function subMenuClose(e) {
-        subMenu = e.target.querySelector('ul');
 
-        gsap.to(subMenu, {
-            duration: 1,
-            ease: "power4.inOut",
-            height: '0px',
-            overflow: 'hidden',
-            pointerEvents: 'none',
-            opacity: 0,
-        });
-    }
+
 
 }
 
-burger_1();
+burger();

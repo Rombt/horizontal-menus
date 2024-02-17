@@ -32,7 +32,6 @@ testWebp(function(support) {
  *  Set element to which  will be scroll. For example a header with position: fixed. 
  *  Element to which  will be scroll must have attribute data-gotoOffset
  */
-
 let toWhichWillBeScroll = document.querySelector('[data-gotoOffset]');
 toWhichWillBeScroll = toWhichWillBeScroll ? (toWhichWillBeScroll.offsetHeight + toWhichWillBeScroll.offsetTop) : 0;
 const gotoLinks = document.querySelectorAll('[data-goto]');
