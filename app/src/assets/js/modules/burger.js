@@ -31,11 +31,11 @@ function burger() {
 
     burgerMenuTogle.addEventListener('click', e => {
         containerMenu.classList.toggle('burger-menu-open');
-        burgerMenuTogle.classList.toggle('close');
+        burgerMenuTogle.classList.toggle('menu-icon_close');
+        document.querySelector('body').classList.toggle('lock');
 
         if (containerMenu.classList.contains('burger-menu-open')) {
             burgerMenuOpen();
-
         }
     });
 
@@ -47,45 +47,53 @@ function burger() {
         let iconDropdown;
 
         let dropTogle;
-        for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
+        for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
             if (itemsMenu[i].children.length === 0) {
                 continue; // Пропустить элементы без дочерних элементов
             }
 
-            const arrChildren = Array.from(itemsMenu[i].children);
-            if (arrChildren.some(node => node.tagName === 'UL')) {
-                if (arrChildren.every((node) => !node.classList.contains('icon-dropdown'))) {
-                    iconDropdown = document.createElement('span');
-                    iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
-                    itemsMenu[i].append(iconDropdown);
-                }
+            if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
+                iconDropdown = document.createElement('span');
+                iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
+                itemsMenu[i].append(iconDropdown);
             }
 
-
-            itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
-            itemsMenu[i].addEventListener('mouseleave', subMenuClose);
-
-            if (iconDropdown) {
-
-                iconDropdown.addEventListener('click', subMenuOpen);
-                // сдесь длженбыть переключатель!!
-            }
-
+            // itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
             // itemsMenu[i].addEventListener('mouseleave', subMenuClose);
 
+            if (iconDropdown) {
+                iconDropdown.addEventListener('click', e => {
+                    e.target.classList.toggle('icon-dropdown_close');
 
+                    if (e.target.classList.contains('icon-dropdown_close')) {
+                        subMenuOpen(e);
+                    } else {
+                        subMenuClose(e);
+                    }
+                });
+            }
         }
 
 
         let subMenu;
 
         function subMenuOpen(e) {
-            subMenu = e.target.querySelector('ul');
-            if (!document.querySelector('body').classList.contains('lock')) {
-                document.querySelector('body').classList.add('lock');
+
+
+
+            if (e.type === 'click') {
+
+                console.log("e = ", e);
+                subMenu = e.target.closest('li').querySelector('ul');
+            } else if (e.type === 'mouseenter') {
+
+                subMenu = e.target.querySelector('ul');
             }
+
+
+
             if (subMenu) {
 
                 gsap.to(subMenu, {
@@ -95,12 +103,22 @@ function burger() {
                     overflow: 'visible',
                     pointerEvents: 'auto',
                     opacity: 1,
+                    width: 'auto',
                 });
             }
         }
 
         function subMenuClose(e) {
-            subMenu = e.target.querySelector('ul');
+
+
+            if (e.type === 'click') {
+
+                console.log("e = ", e);
+                subMenu = e.target.closest('li').querySelector('ul');
+            } else if (e.type === 'mouseenter') {
+                subMenu = e.target.querySelector('ul');
+            }
+
             if (document.querySelector('body').classList.contains('lock') && subMenu.closest.tagName === 'NAV') {
                 document.querySelector('body').classList.remove('lock');
             }
@@ -112,6 +130,7 @@ function burger() {
                 overflow: 'hidden',
                 pointerEvents: 'none',
                 opacity: 0,
+                width: 0,
             });
         }
 
