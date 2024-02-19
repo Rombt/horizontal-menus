@@ -34,58 +34,78 @@ function burger() {
         burgerMenuTogle.classList.toggle('menu-icon_close');
         document.querySelector('body').classList.toggle('lock');
 
-        if (containerMenu.classList.contains('burger-menu-open')) {
-            burgerMenuOpen();
-        }
+        // for (var i = 0; i <= itemsMenu.length - 1; i++) {
+
+        //     if (itemsMenu[i].children.length === 0) {
+        //         continue; // Пропустить элементы без дочерних элементов
+        //     }
+
+        //     if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
+        //         iconDropdown = document.createElement('span');
+        //         iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
+        //         itemsMenu[i].append(iconDropdown);
+        //     }
+
+        //     if (iconDropdown) {
+        //         iconDropdown.addEventListener('click', e => {
+        //             e.target.classList.toggle('icon-dropdown_close');
+
+        //             if (e.target.classList.contains('icon-dropdown_close')) {
+        //                 subMenuOpen(e);
+        //             } else {
+        //                 subMenuClose(e);
+        //             }
+        //         });
+        //     }
+
+        // }
+
+
     });
 
-    function burgerMenuOpen() {
 
+    const bodyMenu = containerMenu.querySelector('ul');
+    const itemsMenu = bodyMenu.querySelectorAll('li');
+    let iconDropdown;
 
-        const bodyMenu = containerMenu.querySelector('ul');
-        const itemsMenu = bodyMenu.querySelectorAll('li');
-        let iconDropdown;
+    let dropTogle;
 
-        let dropTogle;
+    for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
-        for (var i = 0; i <= itemsMenu.length - 1; i++) {
-
-            if (itemsMenu[i].children.length === 0) {
-                continue; // Пропустить элементы без дочерних элементов
-            }
-
-            if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
-                iconDropdown = document.createElement('span');
-                iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
-                itemsMenu[i].append(iconDropdown);
-            }
-
-            // itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
-            // itemsMenu[i].addEventListener('mouseleave', subMenuClose);
-
-            if (iconDropdown) {
-                iconDropdown.addEventListener('click', e => {
-                    e.target.classList.toggle('icon-dropdown_close');
-
-                    if (e.target.classList.contains('icon-dropdown_close')) {
-                        subMenuOpen(e);
-                    } else {
-                        subMenuClose(e);
-                    }
-                });
-            }
+        if (itemsMenu[i].children.length === 0) {
+            continue; // Пропустить элементы без дочерних элементов
         }
 
+
+        if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
+            iconDropdown = document.createElement('span');
+            iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
+            itemsMenu[i].append(iconDropdown);
+        }
+
+        if (iconDropdown) {
+            iconDropdown.addEventListener('click', e => {
+                e.target.classList.toggle('icon-dropdown_close');
+
+                if (e.target.classList.contains('icon-dropdown_close')) {
+                    subMenuOpen(e);
+                } else {
+                    subMenuClose(e);
+                }
+            });
+        }
+
+
+        itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
+        itemsMenu[i].addEventListener('mouseleave', subMenuClose);
 
         let subMenu;
 
         function subMenuOpen(e) {
 
 
-
             if (e.type === 'click') {
 
-                console.log("e = ", e);
                 subMenu = e.target.closest('li').querySelector('ul');
             } else if (e.type === 'mouseenter') {
 
