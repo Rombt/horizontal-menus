@@ -34,32 +34,8 @@ function burger() {
         burgerMenuTogle.classList.toggle('menu-icon_close');
         document.querySelector('body').classList.toggle('lock');
 
-        // for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
-        //     if (itemsMenu[i].children.length === 0) {
-        //         continue; // Пропустить элементы без дочерних элементов
-        //     }
-
-        //     if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
-        //         iconDropdown = document.createElement('span');
-        //         iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
-        //         itemsMenu[i].append(iconDropdown);
-        //     }
-
-        //     if (iconDropdown) {
-        //         iconDropdown.addEventListener('click', e => {
-        //             e.target.classList.toggle('icon-dropdown_close');
-
-        //             if (e.target.classList.contains('icon-dropdown_close')) {
-        //                 subMenuOpen(e);
-        //             } else {
-        //                 subMenuClose(e);
-        //             }
-        //         });
-        //     }
-
-        // }
-
+        //!! закрыть бургер меню при esc и клике мимо него
 
     });
 
@@ -81,18 +57,20 @@ function burger() {
             iconDropdown = document.createElement('span');
             iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
             itemsMenu[i].append(iconDropdown);
-        }
 
-        if (iconDropdown) {
-            iconDropdown.addEventListener('click', e => {
-                e.target.classList.toggle('icon-dropdown_close');
 
-                if (e.target.classList.contains('icon-dropdown_close')) {
-                    subMenuOpen(e);
-                } else {
-                    subMenuClose(e);
-                }
-            });
+            if (iconDropdown) {
+                iconDropdown.addEventListener('click', e => {
+                    e.target.classList.toggle('icon-dropdown_open');
+
+                    if (e.target.classList.contains('icon-dropdown_open')) {
+                        subMenuOpen(e);
+                    } else {
+                        subMenuClose(e);
+                    }
+                });
+            }
+
         }
 
 
@@ -102,17 +80,11 @@ function burger() {
         let subMenu;
 
         function subMenuOpen(e) {
-
-
             if (e.type === 'click') {
-
                 subMenu = e.target.closest('li').querySelector('ul');
             } else if (e.type === 'mouseenter') {
-
                 subMenu = e.target.querySelector('ul');
             }
-
-
 
             if (subMenu) {
 
@@ -130,13 +102,13 @@ function burger() {
 
         function subMenuClose(e) {
 
-
             if (e.type === 'click') {
 
                 console.log("e = ", e);
                 subMenu = e.target.closest('li').querySelector('ul');
-            } else if (e.type === 'mouseenter') {
+            } else if (e.type === 'mouseleave') {
                 subMenu = e.target.querySelector('ul');
+                e.target.querySelector('.icon-dropdown_open').classList.remove('icon-dropdown_open');
             }
 
             if (document.querySelector('body').classList.contains('lock') && subMenu.closest.tagName === 'NAV') {
