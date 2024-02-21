@@ -1,4 +1,4 @@
-const mainContainer = '.wrapper'; // name your main container
+const mainContainer = '.main-wrap'; // name your main container
 //todo получать продолжительность анимации автоматичиски прочитав значени свайства transition
 const timeout = 800; // the quantity  of milliseconds must be equal to the animation time in the 'transition' property in the file popup.js
 
@@ -52,7 +52,7 @@ function popupClose(popupActive, doUnlock = true) {
     if (unLock) {
         popupActive.classList.remove('open');
         if (doUnlock) {
-            bodyLock();
+            bodyLock(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! должно быть bodyUnLock и тогда при повторном нажатии на ссылку открытия окна окно не открывается
         }
     }
 }
@@ -91,7 +91,8 @@ function bodyUnLock() {
 }
 
 document.addEventListener('keydown', function(e) {
-    if (e.which === 27) {
+
+    if (e.which === 27 && document.querySelector('.popup.open')) {
         const popupActive = document.querySelector('.popup.open');
         popupClose(popupActive);
     }

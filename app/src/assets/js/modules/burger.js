@@ -28,23 +28,12 @@ function burger() {
     }
 
     const burgerMenuTogle = document.querySelector('.menu-icon');
-
-    burgerMenuTogle.addEventListener('click', e => {
-        containerMenu.classList.toggle('burger-menu-open');
-        burgerMenuTogle.classList.toggle('menu-icon_close');
-        document.querySelector('body').classList.toggle('lock');
-
-
-        //!! закрыть бургер меню при esc и клике мимо него
-
-    });
-
-
     const bodyMenu = containerMenu.querySelector('ul');
     const itemsMenu = bodyMenu.querySelectorAll('li');
     let iconDropdown;
 
     let dropTogle;
+
 
     for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
@@ -52,17 +41,17 @@ function burger() {
             continue; // Пропустить элементы без дочерних элементов
         }
 
-
         if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
             iconDropdown = document.createElement('span');
             iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
             itemsMenu[i].append(iconDropdown);
-
-
             if (iconDropdown) {
                 iconDropdown.addEventListener('click', e => {
-                    e.target.classList.toggle('icon-dropdown_open');
 
+
+                    console.log("e.target", e.target);
+
+                    e.target.classList.toggle('icon-dropdown_open');
                     if (e.target.classList.contains('icon-dropdown_open')) {
                         subMenuOpen(e);
                     } else {
@@ -70,9 +59,7 @@ function burger() {
                     }
                 });
             }
-
         }
-
 
         itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
         itemsMenu[i].addEventListener('mouseleave', subMenuClose);
@@ -103,15 +90,15 @@ function burger() {
         function subMenuClose(e) {
 
             if (e.type === 'click') {
-
-                console.log("e = ", e);
                 subMenu = e.target.closest('li').querySelector('ul');
             } else if (e.type === 'mouseleave') {
                 subMenu = e.target.querySelector('ul');
-                e.target.querySelector('.icon-dropdown_open').classList.remove('icon-dropdown_open');
+                if (e.target.querySelector('.icon-dropdown_open')) {
+                    e.target.querySelector('.icon-dropdown_open').classList.remove('icon-dropdown_open');
+                }
             }
 
-            if (document.querySelector('body').classList.contains('lock') && subMenu.closest.tagName === 'NAV') {
+            if (document.querySelector('body').classList.contains('lock') && subMenu && subMenu.closest.tagName === 'NAV') {
                 document.querySelector('body').classList.remove('lock');
             }
 
@@ -125,11 +112,51 @@ function burger() {
                 width: 0,
             });
         }
-
     }
 
 
+    // close burger menu when Smooth scrolling
+    const gotoLinks = document.querySelectorAll('[data-goto]');
+    if (gotoLinks.length > 0) {
+        gotoLinks.forEach(gotoLink => {
+            gotoLink.addEventListener('click', burgerMenuClose);
+        });
+    }
 
+    // open burger menu
+    burgerMenuTogle.addEventListener('click', burgerMenuOpen);
+
+    document.addEventListener('keydown', function(e) {
+        if (e.which === 27) {
+            if (containerMenu.classList.contains('burger-menu-open')) {
+                burgerMenuClose();
+            }
+        }
+    });
+
+    //клик мимо
+    document.addEventListener('click', (e) => {
+        if (containerMenu.classList.contains('burger-menu-open') &&
+            !containerMenu.contains(e.target) &&
+            !burgerMenuTogle.contains(e.target)
+        ) {
+            burgerMenuClose();
+        }
+    });
+
+    function burgerMenuOpen() {
+        containerMenu.classList.toggle('burger-menu-open');
+        burgerMenuTogle.classList.toggle('menu-icon_close');
+        document.querySelector('body').classList.toggle('lock');
+
+    }
+
+    function burgerMenuClose() {
+        containerMenu.classList.remove('burger-menu-open');
+        burgerMenuTogle.classList.remove('menu-icon_close')
+        document.querySelector('body').classList.remove('lock');
+
+    }
 
 }
 
