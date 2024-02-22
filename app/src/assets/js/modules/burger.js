@@ -4,28 +4,34 @@
  *   блок содержащий меню должен иметь дата атребут data-horizontal_menu
  *   
  *   основные функции:
- *                 индекатор того что данный пункт ммеет подменю
- *                 блокировка скпрола при открытом меню
- *                 реакция пунктов при наведении
- *                 сркрол внутри блоков меню на всех уровнях вложенности
- *                 затемнение фона при открытии (опционально, задаётся в HTML)
- *                 выпадение подменю на десктопе
- *                 локации выпадающей части задаются  в css 
+ *      индекатор того что данный пункт ммеет подменю
+ *      блокировка скпрола при открытом меню
+ *      реакция пунктов при наведении
+ *      затемнение фона при открытии (опционально, задаётся в HTML)
+ *      выпадение подменю на десктопе
+ *      - сркрол внутри блоков меню на всех уровнях вложенности
+ *      - локации выпадающей части задаются  в css 
+ *      -! обеспечить работу нескольких меню на странице
  *   
  */
 
 function burger() {
 
     /* set this variables for your menu*/
-    const classContainerMenu = 'header-menu'; // class of block that is contenting menu
+    const classContainerMenu = 'burger-menu'; // class of blocks that is contenting menu
 
 
-    /*=============================*/
 
-    const containerMenu = document.querySelector(`.${classContainerMenu} nav`);
-    if (containerMenu === null) {
-        return false;
-    }
+
+    const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
+
+
+    перебрать все контейнеры!!!!
+
+
+        if (containerMenu === null) {
+            return false;
+        }
 
     const burgerMenuTogle = document.querySelector('.menu-icon');
     const bodyMenu = containerMenu.querySelector('ul');
@@ -47,9 +53,6 @@ function burger() {
             itemsMenu[i].append(iconDropdown);
             if (iconDropdown) {
                 iconDropdown.addEventListener('click', e => {
-
-
-                    console.log("e.target", e.target);
 
                     e.target.classList.toggle('icon-dropdown_open');
                     if (e.target.classList.contains('icon-dropdown_open')) {

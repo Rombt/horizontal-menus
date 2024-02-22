@@ -52,7 +52,9 @@ function popupClose(popupActive, doUnlock = true) {
     if (unLock) {
         popupActive.classList.remove('open');
         if (doUnlock) {
-            bodyLock(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! должно быть bodyUnLock и тогда при повторном нажатии на ссылку открытия окна окно не открывается
+            bodyLock();
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!должно быть bodyUnLock и тогда при повторном нажатии на ссылку открытия окна окно не открывается
+            // !!!снипет для burger menu
         }
     }
 }
