@@ -18,26 +18,28 @@
 function burger() {
 
     /* set this variables for your menu*/
-    const classContainerMenu = 'burger-menu'; // class of blocks that is contenting menu
+    const classContainerMenu = 'wrap-burger-menu'; // class of blocks that is contenting menu
 
 
 
 
     const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
 
+    if (containersMenu.length === null) {
+        return false;
+    }
 
-    перебрать все контейнеры!!!!
 
 
-        if (containerMenu === null) {
-            return false;
-        }
+    console.log("containersMenu", containersMenu);
 
-    const burgerMenuTogle = document.querySelector('.menu-icon');
-    const bodyMenu = containerMenu.querySelector('ul');
-    const itemsMenu = bodyMenu.querySelectorAll('li');
+
+
+    const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
+    // const bodyMenu = containerMenu.querySelector('ul');
+    // const itemsMenu = bodyMenu.querySelectorAll('li');
+    const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
     let iconDropdown;
-
     let dropTogle;
 
 
@@ -127,34 +129,48 @@ function burger() {
     }
 
     // open burger menu
-    burgerMenuTogle.addEventListener('click', burgerMenuOpen);
+    ToglesBurgerMenu.forEach(TogleBurgerMenu => {
 
-    document.addEventListener('keydown', function(e) {
-        if (e.which === 27) {
-            if (containerMenu.classList.contains('burger-menu-open')) {
-                burgerMenuClose();
-            }
-        }
-    });
+        TogleBurgerMenu.addEventListener('click', burgerMenuOpen);
+
+
+    })
+
+    // document.addEventListener('keydown', function(e) {
+    //     if (e.which === 27) {
+    //         if (containerMenu.classList.contains('burger-menu-open')) {
+    //             burgerMenuClose();
+    //         }
+    //     }
+    // });
 
     //клик мимо
-    document.addEventListener('click', (e) => {
-        if (containerMenu.classList.contains('burger-menu-open') &&
-            !containerMenu.contains(e.target) &&
-            !burgerMenuTogle.contains(e.target)
-        ) {
-            burgerMenuClose();
-        }
-    });
+    // document.addEventListener('click', (e) => {
+    //     if (containerMenu.classList.contains('burger-menu-open') &&
+    //         !containerMenu.contains(e.target) &&
+    //         !burgerMenuTogle.contains(e.target)
+    //     ) {
+    //         burgerMenuClose();
+    //     }
+    // });
 
-    function burgerMenuOpen() {
-        containerMenu.classList.toggle('burger-menu-open');
-        burgerMenuTogle.classList.toggle('menu-icon_close');
+    function burgerMenuOpen(e) {
+
+        let containerMenu = e.target.closest(`.${classContainerMenu}`);
+        let menu = containerMenu.querySelector('nav');
+
+
+        console.log("e.target", e.target);
+        console.log("containerMenu", containerMenu);
+        console.log("menu", menu);
+
+        menu.classList.toggle('burger-menu-open');
+        e.target.classList.toggle('menu-icon_close');
         document.querySelector('body').classList.toggle('lock');
 
     }
 
-    function burgerMenuClose() {
+    function burgerMenuClose(e) {
         containerMenu.classList.remove('burger-menu-open');
         burgerMenuTogle.classList.remove('menu-icon_close')
         document.querySelector('body').classList.remove('lock');
