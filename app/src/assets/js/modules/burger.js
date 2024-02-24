@@ -1,4 +1,3 @@
-// todo add icon for menu items  that contain submenu
 /*
  *   Обеспечивает основной функционал горизонтального меню для всех меню
  *   блок содержащий меню должен иметь дата атребут data-horizontal_menu
@@ -19,8 +18,9 @@ function burger() {
 
     /* set this variables for your menu*/
     const classContainerMenu = 'wrap-burger-menu'; // class of blocks that is contenting menu
-
-
+    let containerMenu,
+        menu,
+        burgerMenuTogle;
 
 
     const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
@@ -30,17 +30,9 @@ function burger() {
     }
 
 
-
-    console.log("containersMenu", containersMenu);
-
-
-
     const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
-    // const bodyMenu = containerMenu.querySelector('ul');
-    // const itemsMenu = bodyMenu.querySelectorAll('li');
     const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
     let iconDropdown;
-    let dropTogle;
 
 
     for (var i = 0; i <= itemsMenu.length - 1; i++) {
@@ -131,51 +123,80 @@ function burger() {
     // open burger menu
     ToglesBurgerMenu.forEach(TogleBurgerMenu => {
 
-        TogleBurgerMenu.addEventListener('click', burgerMenuOpen);
+        TogleBurgerMenu.addEventListener('click', e => {
 
 
+            if (document.querySelector('.burger-menu-open')) {
+
+                burgerMenuClose();
+
+                return;
+            }
+
+            burgerMenuTogle = e.target;
+            containerMenu = e.target.closest(`.${classContainerMenu}`);
+            menu = containerMenu.querySelector('nav'); // <----------------- menu start
+
+            if (burgerMenuTogle.classList.contains('menu-icon_close')) {
+
+                burgerMenuClose();
+            } else {
+
+
+                console.log("+++");
+                burgerMenuOpen();
+            }
+
+        });
     })
 
-    // document.addEventListener('keydown', function(e) {
-    //     if (e.which === 27) {
-    //         if (containerMenu.classList.contains('burger-menu-open')) {
-    //             burgerMenuClose();
-    //         }
-    //     }
-    // });
+    function burgerMenuOpen() {
+
+
+        document.querySelector('body').classList.add('lock');
+
+        menu.classList.add('burger-menu-open');
+        menu.closest('.wrap-burger-menu')
+            .querySelector('.menu-icon')
+            .classList
+            .add('menu-icon_close');
+    }
+
+    function burgerMenuClose() {
+
+        // if (!menu.classList.contains('burger-menu-open')) {
+        //     return false;
+        // }
+
+
+        document.querySelector('body').classList.remove('lock');
+        menu.classList.remove('burger-menu-open');
+
+        menu.closest('.wrap-burger-menu')
+            .querySelector('.menu-icon')
+            .classList
+            .remove('menu-icon_close');
+    }
+
+
 
     //клик мимо
-    // document.addEventListener('click', (e) => {
-    //     if (containerMenu.classList.contains('burger-menu-open') &&
-    //         !containerMenu.contains(e.target) &&
-    //         !burgerMenuTogle.contains(e.target)
-    //     ) {
-    //         burgerMenuClose();
-    //     }
-    // });
+    document.addEventListener('click', (e) => {
 
-    function burgerMenuOpen(e) {
+        if (menu !== undefined && menu.classList.contains('burger-menu-open') &&
+            !menu.contains(e.target) &&
+            !burgerMenuTogle.contains(e.target)
+        ) {
+            burgerMenuClose();
+        }
+    });
 
-        let containerMenu = e.target.closest(`.${classContainerMenu}`);
-        let menu = containerMenu.querySelector('nav');
+    document.addEventListener('keydown', function(e) {
+        if (e.which === 27) {
+            burgerMenuClose(e);
+        }
+    });
 
-
-        console.log("e.target", e.target);
-        console.log("containerMenu", containerMenu);
-        console.log("menu", menu);
-
-        menu.classList.toggle('burger-menu-open');
-        e.target.classList.toggle('menu-icon_close');
-        document.querySelector('body').classList.toggle('lock');
-
-    }
-
-    function burgerMenuClose(e) {
-        containerMenu.classList.remove('burger-menu-open');
-        burgerMenuTogle.classList.remove('menu-icon_close')
-        document.querySelector('body').classList.remove('lock');
-
-    }
 
 }
 
