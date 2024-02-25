@@ -39,21 +39,23 @@
 				data-gotoOffset
 			bm  - burger menu
 				<tabTrigger>bm</tabTrigger>
-				    <div class="menu-icon"><span></span></div>
-				    <nav>
-				        <ul>
-				            <li><a href="#">${1}</a></li>
-				            <li><a href="#">${2}</a>
-				                <ul>
-				                    <li><a href="#" data-goto="${3:smooth scroll to this class or id}">${4}</a>
-				                        <ul>
-				                            <li><a href="#">${5}</a></li>
-				                        </ul>
-				                    </li>
-				                </ul>
-				            </li>
-				        </ul>
-				    </nav>
+					<div class="wrap-burger-menu">
+					    <div class="menu-icon"><span></span></div>
+					    <nav>
+					        <ul>
+					            <li><a href="#">${1}</a></li>
+					            <li><a href="#">${2}</a>
+					                <ul>
+					                    <li><a href="#" data-goto="${3:smooth scroll to this class or id}">${4}</a>
+					                        <ul>
+					                            <li><a href="#">${5}</a></li>
+					                        </ul>
+					                    </li>
+					                </ul>
+					            </li>
+					        </ul>
+					    </nav>
+				    </div>
 				<!-- description: look  for styles  on the path app/src/assets/styles/components/burger.less  -->
 
 

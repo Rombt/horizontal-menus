@@ -1,16 +1,17 @@
 /*
  *   Обеспечивает основной функционал горизонтального меню для всех меню
- *   блок содержащий меню должен иметь дата атребут data-horizontal_menu
- *   
+ *   блок содержащий меню должен иметь класс который устанавливается в константе classContainerMenu
+ *   стили в файле burger.less
+ 
  *   основные функции:
- *      индекатор того что данный пункт ммеет подменю
- *      блокировка скпрола при открытом меню
- *      реакция пунктов при наведении
+ *      индекатор того что данный пункт имеет подменю
+ *      блокировка скпрола страницы при открытом меню в мобильной версии
+ *      реакция пунктов при наведении в версии для PC 
  *      затемнение фона при открытии (опционально, задаётся в HTML)
  *      выпадение подменю на десктопе
- *      - сркрол внутри блоков меню на всех уровнях вложенности
+ *      обеспечивает работу нескольких меню на странице
  *      - локации выпадающей части задаются  в css 
- *      -! обеспечить работу нескольких меню на странице
+ *      - сркрол внутри блоков меню на всех уровнях вложенности
  *   
  */
 
@@ -18,10 +19,13 @@ function burger() {
 
     /* set this variables for your menu*/
     const classContainerMenu = 'wrap-burger-menu'; // class of blocks that is contenting menu
+
     let containerMenu,
         menu,
         burgerMenuTogle;
 
+    let countOpenMenu = 0;
+    let iconMenuClose = 0;
 
     const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
 
@@ -33,7 +37,6 @@ function burger() {
     const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
     const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
     let iconDropdown;
-
 
     for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
@@ -121,40 +124,30 @@ function burger() {
     }
 
     // open burger menu
-    ToglesBurgerMenu.forEach(TogleBurgerMenu => {
+    ToglesBurgerMenu.forEach(togleBurgerMenu => {
 
-        TogleBurgerMenu.addEventListener('click', e => {
-
-
-            if (document.querySelector('.burger-menu-open')) {
-
-                burgerMenuClose();
-
-                return;
-            }
-
+        togleBurgerMenu.addEventListener('click', e => {
             burgerMenuTogle = e.target;
+            if (burgerMenuTogle.classList.contains('menu-icon_close')) iconMenuClose = true;
+            if (countOpenMenu > 0) burgerMenuClose();
+
             containerMenu = e.target.closest(`.${classContainerMenu}`);
-            menu = containerMenu.querySelector('nav'); // <----------------- menu start
+            menu = containerMenu.querySelector('nav');
 
             if (burgerMenuTogle.classList.contains('menu-icon_close')) {
-
                 burgerMenuClose();
-            } else {
-
-
-                console.log("+++");
+            } else if (!burgerMenuTogle.classList.contains('menu-icon_close') && iconMenuClose !== true) {
                 burgerMenuOpen();
             }
+
+            iconMenuClose = false;
 
         });
     })
 
     function burgerMenuOpen() {
-
-
+        ++countOpenMenu;
         document.querySelector('body').classList.add('lock');
-
         menu.classList.add('burger-menu-open');
         menu.closest('.wrap-burger-menu')
             .querySelector('.menu-icon')
@@ -163,22 +156,14 @@ function burger() {
     }
 
     function burgerMenuClose() {
-
-        // if (!menu.classList.contains('burger-menu-open')) {
-        //     return false;
-        // }
-
-
+        --countOpenMenu;
         document.querySelector('body').classList.remove('lock');
         menu.classList.remove('burger-menu-open');
-
         menu.closest('.wrap-burger-menu')
             .querySelector('.menu-icon')
             .classList
             .remove('menu-icon_close');
     }
-
-
 
     //клик мимо
     document.addEventListener('click', (e) => {
