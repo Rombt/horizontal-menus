@@ -3,6 +3,7 @@ import "./modules/dynamic_adapt.js";
 import "./modules/popup.js";
 
 import "./modules/burger.js";
+import "./modules/spoiler.js";
 
 
 

@@ -57,6 +57,14 @@
 					    </nav>
 				    </div>
 				<!-- description: look  for styles  on the path app/src/assets/styles/components/burger.less  -->
+			spl -simple spoilep
+				<tabTrigger>spl</tabTrigger>
+				<div class="spoiler">
+	                <div class="spoiler__title">${1:Title}</div>
+	                <div class="spoiler__text">
+	                	${2:text}
+	                </div>
+            	</div>
 
 
 		for Visual Studio Code
