@@ -1,4 +1,4 @@
-const mainContainer = '.wrapper'; // name your main container
+const mainContainerClass = 'main-wrap'; // class your main container
 //todo получать продолжительность анимации автоматичиски прочитав значени свайства transition
 const timeout = 800; // the quantity  of milliseconds must be equal to the animation time in the 'transition' property in the file popup.js
 
@@ -6,7 +6,8 @@ const popupLinks = document.querySelectorAll(".popup-link");
 const body = document.querySelector("body");
 const lockPadding = document.querySelectorAll(".lockPadding")
 
-let unlock = true;
+let unLock = true;
+
 
 if (popupLinks.length > 0) {
     for (let i = 0; i < popupLinks.length; i++) {
@@ -30,9 +31,8 @@ if (popupCloseIcon.length > 0) {
     }
 }
 
-
 function popupOpen(curentPopup) {
-    if (curentPopup && unlock) {
+    if (curentPopup && unLock) {
         const popupActive = document.querySelector('.popup.open');
         if (popupActive) {
             popupClose(popupActive, false);
@@ -48,17 +48,18 @@ function popupOpen(curentPopup) {
     }
 }
 
-function popupClose(popupActive, doUnlock = true) {
+function popupClose(popupActive, dounLock = true) {
     if (unLock) {
         popupActive.classList.remove('open');
-        if (doUnlock) {
-            bodyLock();
+        if (dounLock) {
+            bodyunLock();
         }
     }
 }
 
 function bodyLock() {
-    const lockPaddingValue = window.innerWidth - document.querySelector(mainContainer).offsetWidth + 'px'
+
+    const lockPaddingValue = window.innerWidth - document.querySelector(`.${mainContainerClass}`).offsetWidth + 'px'
     if (lockPadding.length > 0) {
         for (let i = 0; i < lockPadding.length; i++) {
             const el = lockPadding[i];
@@ -73,7 +74,8 @@ function bodyLock() {
     }, timeout);
 }
 
-function bodyUnLock() {
+function bodyunLock() {
+
     setTimeout(function() {
         if (lockPadding.length > 0) {
             for (let i = 0; i < lockPadding.length; i++) {
@@ -84,14 +86,14 @@ function bodyUnLock() {
         body.style.paddingRight = '0px';
         body.classList.remove('lock');
     }, timeout);
-    unlock = false;
+    unLock = false;
     setTimeout(function() {
         unLock = true;
     }, timeout);
 }
 
 document.addEventListener('keydown', function(e) {
-    if (e.which === 27) {
+    if (e.which === 27 && document.querySelector('.popup.open')) {
         const popupActive = document.querySelector('.popup.open');
         popupClose(popupActive);
     }

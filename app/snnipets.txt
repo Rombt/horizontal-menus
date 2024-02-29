@@ -34,10 +34,37 @@
 					data-goto="${1}"
 				<!-- description: Smooth scrolling when clicking -->
 					    
-				</snippet>
 			sso - Set element to which  will be scroll. For example a header with position: fixed.
 				<tabTrigger>sso</tabTrigger>
 				data-gotoOffset
+			bm  - burger menu
+				<tabTrigger>bm</tabTrigger>
+					<div class="wrap-burger-menu">
+					    <div class="menu-icon"><span></span></div>
+					    <nav>
+					        <ul>
+					            <li><a href="#">${1}</a></li>
+					            <li><a href="#">${2}</a>
+					                <ul>
+					                    <li><a href="#" data-goto="${3:smooth scroll to this class or id}">${4}</a>
+					                        <ul>
+					                            <li><a href="#">${5}</a></li>
+					                        </ul>
+					                    </li>
+					                </ul>
+					            </li>
+					        </ul>
+					    </nav>
+				    </div>
+				<!-- description: look  for styles  on the path app/src/assets/styles/components/burger.less  -->
+			spl -simple spoilep
+				<tabTrigger>spl</tabTrigger>
+				<div class="spoiler">
+	                <div class="spoiler__title">${1:Title}</div>
+	                <div class="spoiler__text">
+	                	${2:text}
+	                </div>
+            	</div>
 
 
 		for Visual Studio Code

@@ -28,8 +28,9 @@ testWebp(function(support) {
 });
 
 /* Smooth scrolling when clicking.
+ *  scrolling to sections pointed into param data-goto
  *  Set element to which  will be scroll. For example a header with position: fixed. 
- *  Elemen to which  will be scroll must have attribute data-gotoOffset
+ *  Element to which  will be scroll must have attribute data-gotoOffset
  */
 let toWhichWillBeScroll = document.querySelector('[data-gotoOffset]');
 toWhichWillBeScroll = toWhichWillBeScroll ? (toWhichWillBeScroll.offsetHeight + toWhichWillBeScroll.offsetTop) : 0;

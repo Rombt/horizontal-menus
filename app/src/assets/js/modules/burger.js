@@ -1,112 +1,188 @@
-/**
-    использование:
-        в готовую вёрстку добавляя атребуты data и нужные классы - список классовс пояснениями должен быть где то отдельно
-        в нужном месте страницы из сниппета получить заготовку HTML для меню
-            заготовка должна 
-                быть проивязана к базовым стилям и скриптам - желательно привязыватся не к классам а к структурным селекторам
-                    позиционироавание основного и выподающих меню до 3 уровня вложености
-                    для десктопов и мобильных версий
-                        в контейнере - вертикальное и горизонтальное выравнивание
-                        елементов меню относительно друг друга и родительского блока
-                    для кнопок бургера и закрытия меню (вместо крестика надпися назад)
-                    индекатор того что данный пункт ммеет подменю
-                    поведение
-                        блокировка скпрола при открытом меню
-                        реакция пунктов при наведении
-                        сркрол внутри блоков меню на всех уровнях вложенности
-                        затемнение фона при открытии
-                        варианты выпадения с леваилис права
-                        выпадение подменю на десктопе
+/*
+ *   Обеспечивает основной функционал горизонтального меню для всех меню
+ *   блок содержащий меню должен иметь класс который устанавливается в константе classContainerMenu
+ *   стили в файле burger.less
+ 
+ *   основные функции:
+ *      индекатор того что данный пункт имеет подменю
+ *      блокировка скпрола страницы при открытом меню в мобильной версии
+ *      реакция пунктов при наведении в версии для PC 
+ *      затемнение фона при открытии (опционально, задаётся в HTML)
+ *      выпадение подменю на десктопе
+ *      обеспечивает работу нескольких меню на странице
+ *      - локации выпадающей части задаются  в css 
+ *      - сркрол внутри блоков меню на всех уровнях вложенности
+ *   
+ */
+
+function burger() {
+
+    /* set this variables for your menu*/
+    const classContainerMenu = 'wrap-burger-menu'; // class of blocks that is contenting menu
+
+    let containerMenu,
+        menu,
+        burgerMenuTogle;
+
+    let countOpenMenu = 0;
+    let iconMenuClose = 0;
+
+    const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
+
+    if (containersMenu.length === null) {
+        return false;
+    }
 
 
+    const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
+    const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
+    let iconDropdown;
 
+    for (var i = 0; i <= itemsMenu.length - 1; i++) {
 
-*/
-
-
-
-
-
-
-// if (document.querySelector("html").classList.contains('touch')) {
-//     let menuArrows = document.querySelectorAll(".test-menu__arrow");
-//     if (menuArrows.length > 0) {
-//         menuArrows.forEach(menuArrow => {
-//             menuArrow.addEventListener('click', () => {
-//                 menuArrow.parentElement.classList.toggle('_active');
-//             })
-//         })
-//     }
-// }
-
-
-// const iconMenus = document.querySelectorAll('[data-iconMenu]');
-// if (iconMenus.length > 0) {
-//     iconMenus.forEach(iconMenu => {
-//         iconMenu.addEventListener('click', (e) => {
-//             const menu = iconMenu.closest('[data-conteinerMenu]');
-//             const bodyMenu = menu.querySelector('[data-bodyMenu]');
-
-//             if (bodyMenu.classList.contains('_openMenu')) {
-
-//                 document.body.classList.remove('_lock');
-//                 iconMenu.classList.remove('_active');
-//                 bodyMenu.classList.remove('_openMenu');
-//             } else {
-//                 document.body.classList.add('_lock');
-//                 iconMenu.classList.add('_active');
-//                 bodyMenu.classList.add('_openMenu');
-
-//             }
-
-//         })
-
-//     });
-
-// }
-
-
-
-
-let linksMenu = document.querySelectorAll('.test-menu__list li');
-
-let subMenu;
-let test_tl;
-linksMenu.forEach(linkMenu => {
-
-
-
-
-    linkMenu.addEventListener('mouseenter', e => {
-        test_tl = gsap.timeline();
-        subMenu = e.target.querySelector('.test-menu__sub-list');
-
-        if (subMenu !== null) {
-            test_tl.to(subMenu, {
-                duration: 0.5,
-                height: subMenu.scrollHeight,
-                opacity: 1,
-                // ease: 'power1',
-            });
-
-
+        if (itemsMenu[i].children.length === 0) {
+            continue; // Пропустить элементы без дочерних элементов
         }
 
-        console.log("linkMenu", linkMenu);
+        if (itemsMenu[i].querySelector('ul') && !itemsMenu[i].querySelector('.icon-dropdown')) {
+            iconDropdown = document.createElement('span');
+            iconDropdown.classList.add('icon-dropdown'); // here you can change icon for  menu item that contains submenu
+            itemsMenu[i].append(iconDropdown);
+            if (iconDropdown) {
+                iconDropdown.addEventListener('click', e => {
+
+                    e.target.classList.toggle('icon-dropdown_open');
+                    if (e.target.classList.contains('icon-dropdown_open')) {
+                        subMenuOpen(e);
+                    } else {
+                        subMenuClose(e);
+                    }
+                });
+            }
+        }
+
+        itemsMenu[i].addEventListener('mouseenter', subMenuOpen);
+        itemsMenu[i].addEventListener('mouseleave', subMenuClose);
+
+        let subMenu;
+
+        function subMenuOpen(e) {
+            if (e.type === 'click') {
+                subMenu = e.target.closest('li').querySelector('ul');
+            } else if (e.type === 'mouseenter') {
+                subMenu = e.target.querySelector('ul');
+            }
+
+            if (subMenu) {
+
+                gsap.to(subMenu, {
+                    duration: 1,
+                    ease: "power4.inOut",
+                    height: 'auto',
+                    overflow: 'visible',
+                    pointerEvents: 'auto',
+                    opacity: 1,
+                    width: 'auto',
+                });
+            }
+        }
+
+        function subMenuClose(e) {
+
+            if (e.type === 'click') {
+                subMenu = e.target.closest('li').querySelector('ul');
+            } else if (e.type === 'mouseleave') {
+                subMenu = e.target.querySelector('ul');
+                if (e.target.querySelector('.icon-dropdown_open')) {
+                    e.target.querySelector('.icon-dropdown_open').classList.remove('icon-dropdown_open');
+                }
+            }
+
+            if (document.querySelector('body').classList.contains('lock') && subMenu && subMenu.closest.tagName === 'NAV') {
+                document.querySelector('body').classList.remove('lock');
+            }
+
+            gsap.to(subMenu, {
+                duration: 1,
+                ease: "power4.inOut",
+                height: '0px',
+                overflow: 'hidden',
+                pointerEvents: 'none',
+                opacity: 0,
+                width: 0,
+            });
+        }
+    }
 
 
+    // close burger menu when Smooth scrolling
+    const gotoLinks = document.querySelectorAll('[data-goto]');
+    if (gotoLinks.length > 0) {
+        gotoLinks.forEach(gotoLink => {
+            gotoLink.addEventListener('click', burgerMenuClose);
+        });
+    }
+
+    // open burger menu
+    ToglesBurgerMenu.forEach(togleBurgerMenu => {
+
+        togleBurgerMenu.addEventListener('click', e => {
+            burgerMenuTogle = e.target;
+            if (burgerMenuTogle.classList.contains('menu-icon_close')) iconMenuClose = true;
+            if (countOpenMenu > 0) burgerMenuClose();
+
+            containerMenu = e.target.closest(`.${classContainerMenu}`);
+            menu = containerMenu.querySelector('nav');
+
+            if (burgerMenuTogle.classList.contains('menu-icon_close')) {
+                burgerMenuClose();
+            } else if (!burgerMenuTogle.classList.contains('menu-icon_close') && iconMenuClose !== true) {
+                burgerMenuOpen();
+            }
+
+            iconMenuClose = false;
+
+        });
     })
 
-    linkMenu.addEventListener('mouseleave', e => {
-        test_tl.reverse();
-    })
-});
+    function burgerMenuOpen() {
+        ++countOpenMenu;
+        document.querySelector('body').classList.add('lock');
+        menu.classList.add('burger-menu-open');
+        menu.closest('.wrap-burger-menu')
+            .querySelector('.menu-icon')
+            .classList
+            .add('menu-icon_close');
+    }
+
+    function burgerMenuClose() {
+        --countOpenMenu;
+        document.querySelector('body').classList.remove('lock');
+        menu.classList.remove('burger-menu-open');
+        menu.closest('.wrap-burger-menu')
+            .querySelector('.menu-icon')
+            .classList
+            .remove('menu-icon_close');
+    }
+
+    //клик мимо
+    document.addEventListener('click', (e) => {
+
+        if (menu !== undefined && menu.classList.contains('burger-menu-open') &&
+            !menu.contains(e.target) &&
+            !burgerMenuTogle.contains(e.target)
+        ) {
+            burgerMenuClose();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.which === 27) {
+            burgerMenuClose(e);
+        }
+    });
 
 
+}
 
-
-
-
-
-
-// tl.to('.test-box__green', { duration: 2, x: 800, ease: 'bounce' });
+burger();

@@ -1,10 +1,9 @@
 import "./modules/functions.js";
 import "./modules/dynamic_adapt.js";
-import "./modules/menu_burger.js";
 import "./modules/popup.js";
-import "./modules/burger.js";
-import "./modules/burger_1.js";
 
+import "./modules/burger.js";
+import "./modules/spoiler.js";
 
 
 

@@ -5,7 +5,6 @@ export const settings = {
     //mobileFirst: true,
     container: {
         maxWidth: "1230px",
-        // maxWidth: "1170px",
         fields: "30px"
     },
     breakPoints: {
