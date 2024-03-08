@@ -4,6 +4,7 @@ import "./modules/popup.js";
 
 import "./modules/burger.js";
 import "./modules/spoiler.js";
+import "./modules/tabs.js";
 
 
 
