@@ -71,33 +71,36 @@ export const path = {
         }
     },
 
-    get php() {
-        const path = {
-            src: {
-                html: [
-                    `${this.src.html}/*.html`,
-                    `!${this.src.html}/_*.html`,
-                    `${this.src.html}/test/*.html`,
-                ],
-                php: [
-                    `${this.src.php}/**/*.php`,
-                    `!${this.src.php}/${this.srcPluginName}/**/*.php`,
-                    `!${this.src.php}/**/_*.php`, // this drafts and files which marked for delete
-                ],
-                plug: [
-                    `${this.src.php}/${this.srcPluginName}/**/*.php`,
-                    `!${this.src.php}/${this.srcPluginName}/**/_*.php`,
-                ],
-            },
-            prod: {
-                html: `${this.prod.html}`,
-                php: `${this.prod.php}`,
-                plug: `${this.prod.plug}`,
-            }
-        };
+  get php() {
+    const path = {
+      src: {
+        html: [
+          `${this.src.html}/*.html`,
+          `!${this.src.html}/_*.html`,
+          `!${this.src.html}/-*.html`,
+          `${this.src.html}/test/*.html`,
+        ],
+        php: [
+          `${this.src.php}/**/*.php`,
+          `!${this.src.php}/${this.srcPluginName}/**/*.php`,
+          `!${this.src.php}/**/_*.php`, // these are drafts and files which marked for delete
+          `!${this.src.php}/**/-*.php`, // these are files which queued up to develope
+        ],
+        plug: [
+          `${this.src.php}/${this.srcPluginName}/**/*.php`,
+          `!${this.src.php}/${this.srcPluginName}/**/_*.php`,
+          `!${this.src.php}/${this.srcPluginName}/**/-*.php`,
+        ],
+      },
+      prod: {
+        html: `${this.prod.html}`,
+        php: `${this.prod.php}`,
+        plug: `${this.prod.plug}`,
+      },
+    };
 
-        return this.resolvDest(path);
-    },
+    return this.resolvDest(path);
+  },
 
     get styles() {
         const path = {
