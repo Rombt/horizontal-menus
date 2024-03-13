@@ -24,6 +24,8 @@ export const copyPl = (done) => {
 
     return app.gulp.src(srcPath, {
             allowEmpty: true,
+            base: app.path.src.plug,
+
         })
         .pipe(app.gulp.dest((file) => app.path.selectDestPath(file, app.path.copy.dest)))
 }
