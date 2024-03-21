@@ -11,23 +11,28 @@
  *
  */
 
-jQuery(document).ready(function ($) {
-  (function quantityProducts() {
-    var $quantityArrowMinus = $('.quantity-arrow-minus');
-    var $quantityArrowPlus = $('.quantity-arrow-plus');
-    var $quantityNum = $('.qty'); // specify the class of your input
+function quantityProducts() {
+  const QuantityBlocks = document.querySelectorAll(`.quantity`); // class of blocks quantity
+  const changeEvent = new Event('change', { bubbles: true });
 
-    $quantityArrowMinus.click(quantityMinus);
-    $quantityArrowPlus.click(quantityPlus);
+  QuantityBlocks.forEach(element => {
+    const quantityArrowMinus = element.querySelector('.quantity-arrow-minus');
+    const quantityArrowPlus = element.querySelector('.quantity-arrow-plus');
+    const input = element.querySelector(`input`);
 
-    function quantityMinus() {
-      if ($quantityNum.val() > 1) {
-        $quantityNum.val(+$quantityNum.val() - 1);
-      }
+    quantityArrowMinus.addEventListener('click', quantityMinus);
+    quantityArrowPlus.addEventListener('click', quantityPlus);
+
+    function quantityMinus(e) {
+      input.dispatchEvent(changeEvent);
+      if (input.value > 1) input.value = +input.value - 1;
     }
 
-    function quantityPlus() {
-      $quantityNum.val(+$quantityNum.val() + 1);
+    function quantityPlus(e) {
+      input.dispatchEvent(changeEvent);
+      input.value = +input.value + 1;
     }
-  })();
-});
+  });
+}
+
+quantityProducts();
