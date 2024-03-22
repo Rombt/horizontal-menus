@@ -36,3 +36,6 @@ function quantityProducts() {
 }
 
 quantityProducts();
+jQuery(document).ajaxComplete(function () { // as  after ajax loading form it elements are changed
+  quantityProducts();
+});
