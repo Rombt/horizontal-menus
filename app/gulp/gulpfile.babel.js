@@ -2,7 +2,8 @@ import gulp from "gulp";
 import { path } from "./config/path.js";
 import { plugins } from "./config/plugins.js";
 import { otfToTtf, ttfToWoff, fontStyle, copyFonts } from "./tasks/fonts.js";
-import { copy } from "./tasks/copy.js";
+import { copyPHP } from "./tasks/copyPHP.js";
+import { copyPl } from "./tasks/copyPl.js";
 import { createSvgSprite } from "./tasks/svgsprite.js";
 import { images, moveSvgSprite } from "./tasks/images.js";
 import { php } from "./tasks/php.js";
@@ -27,7 +28,7 @@ global.app = {
 
 
 function watcher() {
-   gulp.watch(path.watch.copy, { ignorePermissionErrors: true }, copy).on('unlink', (currentPath) => {
+   gulp.watch(path.watch.copy, { ignorePermissionErrors: true }, gulp.parallel(copyPHP, copyPl)).on('unlink', (currentPath) => {
       path.clearForTask(currentPath, path.copy.dest);
    })
 
@@ -51,7 +52,7 @@ function watcher() {
 const procImages = gulp.series(images, moveSvgSprite);
 
 const mainTask = gulp.series(copyFonts, gulp.parallel(procImages, styles, js, php));
-export const run = gulp.series(reset, mainTask, copy, gulp.parallel(watcher, server));
+export const run = gulp.series(reset, mainTask, gulp.parallel(copyPHP, copyPl), gulp.parallel(watcher, server));
 
 export const fonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
 export { grid };

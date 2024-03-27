@@ -71,30 +71,36 @@ export const path = {
         }
     },
 
-    get php() {
-        const path = {
-            src: {
-                html: [
-                    `${this.src.html}/*.html`,
-                    `${this.src.html}/test/*.html`,
-                ],
-                php: [
-                    `${this.src.php}/**/*.php`,
-                    `!${this.src.php}/${this.srcPluginName}/**/*.php`,
-                ],
-                plug: [
-                    `${this.src.php}/${this.srcPluginName}/**/*.php`,
-                ],
-            },
-            prod: {
-                html: `${this.prod.html}`,
-                php: `${this.prod.php}`,
-                plug: `${this.prod.plug}`,
-            }
-        };
+  get php() {
+    const path = {
+      src: {
+        html: [
+          `${this.src.html}/*.html`,
+          `!${this.src.html}/_*.html`,
+          `!${this.src.html}/-*.html`,
+          `${this.src.html}/test/*.html`,
+        ],
+        php: [
+          `${this.src.php}/**/*.php`,
+          `!${this.src.php}/${this.srcPluginName}/**/*.php`,
+          `!${this.src.php}/**/_*.php`, // these are drafts and files which marked for delete
+          `!${this.src.php}/**/-*.php`, // these are files which queued up to develope
+        ],
+        plug: [
+          `${this.src.php}/${this.srcPluginName}/**/*.php`,
+          `!${this.src.php}/${this.srcPluginName}/**/_*.php`,
+          `!${this.src.php}/${this.srcPluginName}/**/-*.php`,
+        ],
+      },
+      prod: {
+        html: `${this.prod.html}`,
+        php: `${this.prod.php}`,
+        plug: `${this.prod.plug}`,
+      },
+    };
 
-        return this.resolvDest(path);
-    },
+    return this.resolvDest(path);
+  },
 
     get styles() {
         const path = {
@@ -208,11 +214,15 @@ export const path = {
                 html: [
                     `${this.src.html}/for_test.txt`,
                     `${this.src.html}/*.txt`,
+                    `${this.src.php}/assets/styles/libs/**/*.*`,
+                    `${this.src.php}/assets/js/libs/**/*.*`,
                 ],
                 php: [
                     `${this.src.php}/README.md`,
                     `${this.src.php}/style.css`,
                     `${this.src.php}/screenshot.png`,
+                    `${this.src.php}/assets/styles/libs/**/*.*`,
+                    `${this.src.php}/assets/js/libs/**/*.*`,
                 ],
                 plug: [
                     `${this.src.php}/${this.srcPluginName}/README.md`,
@@ -300,15 +310,20 @@ export const path = {
 
         let lastFolder = nodePath.basename(destPath);
         let indexLastFolder = currentPath.lastIndexOf(lastFolder);
+
         if (indexLastFolder == -1) {
-            if (currentPath.includes(this.srcPluginName)) {
+
+            if (currentPath.includes(nodePath.basename(this.src.html))) {
+                lastFolder = nodePath.basename(this.src.html);
+            } else if (currentPath.includes(this.srcPluginName)) {
                 lastFolder = nodePath.basename(this.srcPluginName);
             } else {
                 lastFolder = nodePath.basename(this.src.php);
             }
-            indexLastFolder = currentPath.lastIndexOf(lastFolder);
+            indexLastFolder = Math.max(currentPath.lastIndexOf(`/${lastFolder}`), currentPath.lastIndexOf(`\\${lastFolder}`)) + 1; // для того что бы исключить возможные совподения имени папки и расширения
         }
         let clearPath = nodePath.join(destPath, currentPath.substring(indexLastFolder + lastFolder.length));
+
 
         app.plugins.del(clearPath, { force: true });
     },
@@ -319,10 +334,8 @@ export const path = {
             ...((Object.keys(path.prod).length !== 0) ? {
                 dest: (app.isWP && app.forPlugin) ? [path.prod.php, path.prod.plug] : (app.isWP ? path.prod.php : (app.forPlugin ? path.prod.plug : path.prod.html))
             } : {}),
-
         }
     },
-
 
 
     //--------  неспользуемые но рабочие  --------------

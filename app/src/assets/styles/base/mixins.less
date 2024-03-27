@@ -1,5 +1,5 @@
    // Адаптивное CSS свойство источник    
-   .adaptiv-prop(@property, @max_val, @min_val) {
+   .adaptive-prop(@property, @max_val, @min_val) {
 
       @addSize: @max_val - @min_val;
       @maxWidth: @_width_wraper - @_width_min_viewport;
@@ -12,8 +12,8 @@
    }
 
    // //  Адаптивный шрифт 
-   .adaptiv-font(@pcSize, @mobSize) {
-      // !!! везде!  заменить на .adaptiv-prop(@property, @max_val, @min_val) 
+   .adaptive-font(@pcSize, @mobSize) {
+      // !!! везде!  заменить на .adaptive-prop(@property, @max_val, @min_val) 
       @addSize: @pcSize - @mobSize;
       @maxWidth: @_width_wraper - @_width_min_viewport;
       font-size: calc(~"@{mobSize}px" + @addSize * ((100vw - ~"@{_width_min_viewport}px") / @maxWidth));

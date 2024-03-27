@@ -25,9 +25,6 @@ export const ftp = () => {
         destPath = app.path.ftp.html;
     }
 
-    console.log("srcPath = ", srcPath);
-    console.log("destPath = ", destPath);
-
     return app.gulp.src(srcPath, {})
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "FTP", message: "Error: <%= error.message %>" })))
         .pipe(ftpConnect.dest(destPath))

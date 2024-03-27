@@ -26,8 +26,10 @@ export const createSvgSprite = (done) => {
         .pipe(svgSprite({
             mode: {
                 stack: {
-                    sprite: '../sprite.svg',
                     example: true, // creates html page with examples icons
+                },
+                symbol: {    // Create a «symbol» sprite
+                    sprite: '../sprite.svg',
                 }
             },
         }))

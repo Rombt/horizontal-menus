@@ -12,12 +12,14 @@ export const server = (done) => {
 
     if (app.path.RootPath.includes('OSPanel')) {
         proxyPath = app.path.proxy[0];
-    } else {        // рабочий комп и домашний ноут
+    } else { // рабочий комп и домашний ноут
         proxyPath = app.path.proxy[1];
     }
 
     app.plugins.browsersync.init({
-        proxy: proxyPath,
+        // proxy: proxyPath,
+        // server: app.path.prod.html,
+        ...(app.forPlugin || app.isWP ? { proxy: proxyPath } : { server: app.path.prod.html }),
         open: false,
     })
 }
