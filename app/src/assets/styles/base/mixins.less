@@ -10,15 +10,3 @@
       }
 
    }
-
-   // //  Адаптивный шрифт 
-   .adaptive-font(@pcSize, @mobSize) {
-      // !!! везде!  заменить на .adaptive-prop(@property, @max_val, @min_val) 
-      @addSize: @pcSize - @mobSize;
-      @maxWidth: @_width_wraper - @_width_min_viewport;
-      font-size: calc(~"@{mobSize}px" + @addSize * ((100vw - ~"@{_width_min_viewport}px") / @maxWidth));
-
-      @media (min-width: ~"@{_width_wraper}px") {
-         font-size:~"@{pcSize}px"
-      }
-   }
