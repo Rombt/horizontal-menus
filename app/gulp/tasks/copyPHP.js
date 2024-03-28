@@ -27,5 +27,6 @@ export const copyPHP = (done) => {
             allowEmpty: true,
             base: app.path.src.php,
         })
+        .pipe(app.plugins.changed((file) => app.path.selectDestPath(file, app.path.copy.dest)))
         .pipe(app.gulp.dest((file) => app.path.selectDestPath(file, app.path.copy.dest)))
 }

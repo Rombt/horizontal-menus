@@ -18,6 +18,9 @@ export const php = () => {
          title: "PHP",
          message: "Error: <%= error.message %>"
       })))
+
+.pipe(app.plugins.changed((file) => app.path.selectDestPath(file, app.path.php.dest)))
+
       .pipe(app.plugins.if(!app.isWP, app.plugins.fileInclude()))
       .pipe(app.plugins.if(app.isProd, app.plugins.webpHtmlNosvg()))
       .pipe(app.plugins.if(app.forPlugin, app.plugins.rename(function (path) {

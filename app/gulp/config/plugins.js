@@ -16,6 +16,7 @@ import flatten from "gulp-flatten";
 import tap from "gulp-tap";
 import * as nodePath from 'path';
 import fs from 'fs';
+import changed from 'gulp-changed'; // аналог gulp-newer но принимает в качестве параметра dist и функции, тестирую в будущем оставить какойто один из них
 
 
 
@@ -38,5 +39,6 @@ export const plugins = {
    fs: fs,
    tap: tap,
    nodePath: nodePath,
+   changed: changed,
 
 }
