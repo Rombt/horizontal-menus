@@ -58,7 +58,7 @@ export const fontStyle = (done) => {
     arrfontsFiles.map((styleFile, index) => {
         app.plugins.fs.readdir(app.path.fonts.src[index], function(err, fontsFiles) {
             if (styleFile) {
-                if (!app.plugins.fs.existsSync(styleFile)) {
+                // if (!app.plugins.fs.existsSync(styleFile)) {     // неудобно и не нужно т.к. генерация шрифтов запускается только вручную!
                     app.plugins.fs.writeFile(styleFile, '', cd);
                     let newFileOnly;
                     for (var i = 0; i < fontsFiles.length; i++) {
@@ -94,10 +94,10 @@ export const fontStyle = (done) => {
                             newFileOnly = fontFileName;
                         }
                     }
-                } else {
+                // } else {
 
-                    console.log(`File fonts.${app.isSASS ? 'sass' : 'less'} has already existing. For update you need to delete it!`);
-                }
+                //     console.log(`File fonts.${app.isSASS ? 'sass' : 'less'} has already existing. For update you need to delete it!`);
+                // }
             }
         });
 

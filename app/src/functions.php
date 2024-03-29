@@ -1,7 +1,7 @@
 <?php
 
 
-// require_once get_template_directory() . '/inc/functions/class-tgm-plugin-activation.php';
+require_once get_template_directory() . '/inc/functions/class-tgm-plugin-activation.php';
 // require_once get_template_directory() . '/inc/functions/Redux/redux-options.php';
 
 // require_once get_template_directory() . '/inc/functions/general-front.php';
@@ -97,8 +97,6 @@ function rstr_site_setup()
 		array(
 			'header_nav' => esc_html__('Header Navigation', 'restaurant-site'),
 			'footer_nav' => esc_html__('Footer Navigation', 'restaurant-site'),
-			'food_menu' => esc_html__('Food Menu', 'restaurant-site'),
-			'brows_recipes' => esc_html__('Brows Recipes', 'restaurant-site'),
 		)
 	);
 
@@ -117,11 +115,11 @@ function restaurant_site_register_required_plugins()
 {
 	$plugins = array(
 		array(
-			'name' => 'Restaurant site core',
+			'name' => 'core plugin',
 			// The plugin name.
-			'slug' => 'restaurant-site-core',
+			'slug' => 'core-plugin',
 			// The plugin slug (typically the folder name).
-			'source' => get_template_directory() . '/plugins/restaurant-site-core.zip',
+			'source' => get_template_directory() . '/plugins/core-plugin.zip',
 			// The plugin source.
 			'required' => true,
 			// If false, the plugin is only 'recommended' instead of required.
@@ -148,7 +146,7 @@ function restaurant_site_register_required_plugins()
 	);
 
 	$config = array(
-		'id' => 'restaurant-site',
+		'id' => 'rombt-core-plugin',
 		// Unique ID for hashing notices for multiple instances of TGMPA.
 		'default_path' => '',
 		// Default absolute path to bundled plugins.
@@ -166,7 +164,7 @@ function restaurant_site_register_required_plugins()
 
 	);
 
-	// tgmpa( $plugins, $config );
+	tgmpa($plugins, $config);
 }
 add_action('tgmpa_register', 'restaurant_site_register_required_plugins');
 

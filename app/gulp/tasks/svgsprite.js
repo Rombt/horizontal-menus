@@ -15,11 +15,11 @@ import svgSprite from "gulp-svg-sprite";
 export const createSvgSprite = (done) => {
 
 
-    if (app.plugins.fs.existsSync(`${app.path.svg.dest}/sprite.svg`)
-    ) {
-        console.log("sprite.svg has already existing, for re-creation you must delete it.");
-        return done();
-    }
+    // if (app.plugins.fs.existsSync(`${app.path.svg.dest}/sprite.svg`) // неудобно!!
+    // ) {
+    //     console.log("sprite.svg has already existing, for re-creation you must delete it.");
+    //     return done();
+    // }
 
     return app.gulp.src(app.path.svg.src, { "allowEmpty": true })
         .pipe(app.plugins.plumber(app.plugins.notify.onError({ title: "SVG", message: "Error: <%= error.message %>" })))
