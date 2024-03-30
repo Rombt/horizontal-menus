@@ -1,4 +1,8 @@
-.wrap-burger-menu {
+/* for test */
+#my-menu,
+.wrap-burger-menu,
+/* for work */
+.cont-horisont-menu {
     padding: 10px 10px 10px 10px;
     height: 70px;
     display: flex;
@@ -218,6 +222,7 @@
         .burger-menu-open {
             left: 0;
             transition: left 0.5s ease;
+            z-index: 1;
         }
     }
 
@@ -230,7 +235,7 @@
         display: none;
     }
 
-    .drop-menu {
+    .menu-overflow-drop-cont {
 
         position: absolute;
         height: max-content;
@@ -248,7 +253,7 @@
     }
 
 
-    .show-hide-menu {
+    .toggle-overflow-menu {
         display: block;
         position: absolute;
         right: 15px;

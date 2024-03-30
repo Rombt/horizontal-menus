@@ -4,6 +4,7 @@
  *   стили в файле burger.less
  
  *   основные функции:
+ *      при переполнении контейнера лишние пункты скрываются в выпадающее меню
  *      индекатор того что данный пункт имеет подменю
  *      блокировка скпрола страницы при открытом меню в мобильной версии
  *      реакция пунктов при наведении в версии для PC 
@@ -17,44 +18,38 @@
 
 function burger() {
 
-    /* set this variables for your menu*/
     const classContainerMenu = 'wrap-burger-menu'; // class of blocks that is contenting menu
 
     let containerMenu,
         menu,
         burgerMenuTogle;
-
     let countOpenMenu = 0;
     let iconMenuClose = 0;
 
 
-    const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
-    const _containersMenu = document.querySelectorAll(`.${classContainerMenu}`);
+    const containersMenu = document.querySelectorAll(`.${classContainerMenu}`);
 
-
-    if (containersMenu.length === null || _containersMenu.length === null) {
+    if (containersMenu.length === null) {
         return false;
     }
 
-    _containersMenu.forEach((menu) => {
+    containersMenu.forEach((menu) => {
         let widthAllItems = 0;
         let totalSpace = 0;
         const toggle = menu.querySelector('.show-hide-menu');
-        let wrapDropMenu = document.createElement('div');
-        wrapDropMenu.classList.add('drop-menu', 'hidden')
-
-
+        let menuOverflowDrop = document.createElement('div');
+        menuOverflowDrop.classList.add('menu-overflow-drop', 'hidden')
 
         menu.querySelectorAll('nav>ul>li').forEach((elMenu) => {
             widthAllItems += elMenu.offsetWidth;
             if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {
                 toggle.classList.remove('hidden');
-                wrapDropMenu.append(elMenu);
+                menuOverflowDrop.append(elMenu);
             }
         })
 
-        if (wrapDropMenu.childElementCount > 0) {
-            menu.querySelector('nav').append(wrapDropMenu);
+        if (menuOverflowDrop.childElementCount > 0) {
+            menu.querySelector('nav').append(menuOverflowDrop);
         }
         menu.style.visibility = 'visible'; // показываю меню после окончательногоформирования
     })
@@ -63,7 +58,7 @@ function burger() {
     const toglesShowHideMenu = document.querySelectorAll(`.show-hide-menu`);
     toglesShowHideMenu.forEach(togle => {
         togle.addEventListener('click', e => {
-            togle.closest('nav').querySelector('.drop-menu').classList.toggle('hidden');
+            togle.closest('nav').querySelector('.menu-overflow-drop').classList.toggle('hidden');
         })
     });
 

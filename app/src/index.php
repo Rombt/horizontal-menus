@@ -12,9 +12,11 @@
 <body>
 
 <div class="main-wrapper">
+
+
 <div class="container">
 	<div class="row">
-    <div class="wrap-burger-menu">
+    <div class="cont-horisont-menu">
         <div class="menu-icon"><span></span></div>
         <nav>
             <ul>
@@ -116,6 +118,39 @@
         </nav>
     </div>
 	</div>
+</div>
+<div class="container">
+	<div class="row">
+    <div id="my-menu">
+        <div class="menu-icon"><span></span></div>
+        <nav>
+            <ul>
+                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 2</a></li>
+
+                <li><a href="#">item 9999</a>
+                    <ul>
+                        <li><a href="#" ></a>
+                            <ul>
+                                <li><a href="#">level 2 item 1</a></li>
+                                <li><a href="#">level 2 item 2</a></li>
+                                <li><a href="#">level 2 item 3</a></li>
+                                <li><a href="#">level 2 item 4</a></li>
+                                <li><a href="#">level 2 item 5</a></li>
+                                <li><a href="#">level 2 item 6</a></li>
+                                <li><a href="#">level 2 item 7</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        	<div class="show-hide-menu hidden"><span></span></div>
+        </nav>
+    </div>
+	</div>
+</div>
+
+
 </div>
 
 
