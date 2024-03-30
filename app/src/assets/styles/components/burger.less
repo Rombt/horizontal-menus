@@ -7,9 +7,11 @@
 
 
     nav {
+
         width: 100%;
         position: relative;
         padding: 0 30px;
+        box-sizing: border-box;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -40,7 +42,6 @@
             li {
                 position: relative;
                 width: max-content;
-                cursor: pointer;
                 padding: 5px 55px 5px 5px;
 
                 ul {
@@ -220,10 +221,75 @@
         }
     }
 
+
+
     );
 
 
+    .hidden {
+        display: none;
+    }
+
+    .drop-menu {
+
+        position: absolute;
+        height: max-content;
+        width: max-content;
+        padding: 20px 10px 20px 10px;
+        z-index: 5;
+
+        top: 0px;
+        right: 0px;
+        transform: translate(100%, 0);
+
+
+        background-color: #C8FBDA;
+
+    }
+
+
+    .show-hide-menu {
+        display: block;
+        position: absolute;
+        right: 15px;
+        height: 40%;
+        width: 20px;
+        cursor: pointer;
+
+        span,
+        &:after,
+        &:before {
+            content: '';
+
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #2B2B2C;
+        }
+
+        span {
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &:after {
+            top: 0px;
+        }
+
+        &:before {
+            bottom: 0px;
+        }
+
+        &_hidden {
+            display: none;
+        }
+
+    }
 
 
 
+    visibility: hidden; // скрываю до окончания поного фармирования потом показываю js
 }

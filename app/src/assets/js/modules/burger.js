@@ -27,12 +27,45 @@ function burger() {
     let countOpenMenu = 0;
     let iconMenuClose = 0;
 
-    const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
 
-    if (containersMenu.length === null) {
+    const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
+    const _containersMenu = document.querySelectorAll(`.${classContainerMenu}`);
+
+
+    if (containersMenu.length === null || _containersMenu.length === null) {
         return false;
     }
 
+    _containersMenu.forEach((menu) => {
+        let widthAllItems = 0;
+        let totalSpace = 0;
+        const toggle = menu.querySelector('.show-hide-menu');
+        let wrapDropMenu = document.createElement('div');
+        wrapDropMenu.classList.add('drop-menu', 'hidden')
+
+
+
+        menu.querySelectorAll('nav>ul>li').forEach((elMenu) => {
+            widthAllItems += elMenu.offsetWidth;
+            if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {
+                toggle.classList.remove('hidden');
+                wrapDropMenu.append(elMenu);
+            }
+        })
+
+        if (wrapDropMenu.childElementCount > 0) {
+            menu.querySelector('nav').append(wrapDropMenu);
+        }
+        menu.style.visibility = 'visible'; // показываю меню после окончательногоформирования
+    })
+
+
+    const toglesShowHideMenu = document.querySelectorAll(`.show-hide-menu`);
+    toglesShowHideMenu.forEach(togle => {
+        togle.addEventListener('click', e => {
+            togle.closest('nav').querySelector('.drop-menu').classList.toggle('hidden');
+        })
+    });
 
     const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
     const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
@@ -114,7 +147,6 @@ function burger() {
         }
     }
 
-
     // close burger menu when Smooth scrolling
     const gotoLinks = document.querySelectorAll('[data-goto]');
     if (gotoLinks.length > 0) {
@@ -163,6 +195,11 @@ function burger() {
             .querySelector('.menu-icon')
             .classList
             .remove('menu-icon_close');
+    }
+
+    function burgerMenuAdapt() {
+
+
     }
 
     //клик мимо

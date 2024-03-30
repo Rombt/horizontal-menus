@@ -26,9 +26,9 @@
                 <li><a href="#">item 6</a></li>
                 <li><a href="#">item 7</a></li>
                 <li><a href="#">item 8</a></li>
-                <li><a href="#">item 9</a></li>
+                <li><a href="#">item 9999</a>
                     <ul>
-                        <li><a href="#" data-goto="smooth scroll to this class or id"></a>
+                        <li><a href="#" ></a>
                             <ul>
                                 <li><a href="#">level 2 item 1</a></li>
                                 <li><a href="#">level 2 item 2</a></li>
@@ -42,15 +42,89 @@
                     </ul>
                 </li>
             </ul>
+        	<div class="show-hide-menu hidden"><span></span></div>
         </nav>
     </div>
 	</div>
 </div>
+<div class="container">
+	<div class="row">
+    <div class="wrap-burger-menu">
+        <div class="menu-icon"><span></span></div>
+        <nav>
+            <ul>
+                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 2</a></li>
+                <li><a href="#">item 3</a></li>
+                <li><a href="#">item 4</a></li>
+                <li><a href="#">item 5</a></li>
+                <li><a href="#">item 6</a></li>
+                <li><a href="#">item 7</a></li>
+                <li><a href="#">item 8</a></li>
+                <li><a href="#">item 9999</a>
+                    <ul>
+                        <li><a href="#" ></a>
+                            <ul>
+                                <li><a href="#">level 2 item 1</a></li>
+                                <li><a href="#">level 2 item 2</a></li>
+                                <li><a href="#">level 2 item 3</a></li>
+                                <li><a href="#">level 2 item 4</a></li>
+                                <li><a href="#">level 2 item 5</a></li>
+                                <li><a href="#">level 2 item 6</a></li>
+                                <li><a href="#">level 2 item 7</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        	<div class="show-hide-menu hidden"><span></span></div>
+        </nav>
+    </div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+    <div class="wrap-burger-menu">
+        <div class="menu-icon"><span></span></div>
+        <nav>
+            <ul>
+                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 2</a></li>
+                <li><a href="#">item 3</a></li>
+                <li><a href="#">item 4</a></li>
+                <li><a href="#">item 5</a></li>
+                <li><a href="#">item 6</a></li>
+                <li><a href="#">item 7</a></li>
+                <li><a href="#">item 8</a></li>
+                <li><a href="#">item 9999</a>
+                    <ul>
+                        <li><a href="#" ></a>
+                            <ul>
+                                <li><a href="#">level 2 item 1</a></li>
+                                <li><a href="#">level 2 item 2</a></li>
+                                <li><a href="#">level 2 item 3</a></li>
+                                <li><a href="#">level 2 item 4</a></li>
+                                <li><a href="#">level 2 item 5</a></li>
+                                <li><a href="#">level 2 item 6</a></li>
+                                <li><a href="#">level 2 item 7</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        	<div class="show-hide-menu hidden"><span></span></div>
+        </nav>
+    </div>
+	</div>
 </div>
 
 
 
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="assets/js/libs/gsap.min.js"></script>
+<script src="assets/js/app.main.min.js"></script>
 
 </body>
 
