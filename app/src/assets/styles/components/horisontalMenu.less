@@ -69,7 +69,10 @@
 
     .to(767px, {
 
-        .menu-icon {
+        /* for test */
+        .toggle-burge-menu,
+        /* for work */
+        .toggle-burge {
             height: 30px;
             width: 40px;
             position: absolute;
@@ -179,7 +182,9 @@
                 }
             }
 
-
+            /* for test */
+            .icon-dropdown-menu,
+            /* for work */
             .icon-dropdown {
                 height: 30px;
                 width: 30px;
@@ -227,11 +232,48 @@
         }
     }
 
-
-
     );
 
+    /* for test */
+    .icon-dropdown-menu,
+    /* for work */
+    .icon-dropdown {
+        height: 30px;
+        width: 30px;
+        display: block;
+        border: 1px solid blue;
+        border-radius: 50%;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 2;
+        transition: all ease 0.5s;
 
+        &:after,
+        &:before {
+            content: "";
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            height: 1px;
+            width: 50%;
+            background-color: blue;
+
+        }
+
+        &:after {
+            transform: translate(-62%, 0) rotate(45deg);
+        }
+
+        &:before {
+            transform: translate(0, 0) rotate(-45deg);
+        }
+
+        &_open {
+            transform: rotate(180deg);
+            transition: all ease 0.5s;
+        }
+    }
 
 
     .menu-overflow-drop-cont {

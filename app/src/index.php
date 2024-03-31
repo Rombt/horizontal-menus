@@ -17,10 +17,27 @@
 <div class="container">
 	<div class="row">
     <div class="cont-horisont-menu cont-red">
-        <div class="menu-icon"><span></span></div>
+        <div class="toggle-burge"><span></span></div>
         <nav>
             <ul>
-                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 1</a>
+                    <ul>
+                        <li><a href="#" >level 2 item 1</a>
+                            <ul>
+                                <li><a href="#">level 3 item 1</a></li>
+                                <li><a href="#">level 3 item 2</a></li>
+                                <li><a href="#">level 3 item 3</a></li>
+                                <li><a href="#">level 3 item 4</a></li>
+                                <li><a href="#">level 3 item 5</a></li>
+                                <li><a href="#">level 3 item 6</a></li>
+                                <li><a href="#">level 3 item 7</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" >level 2 item 2</a>
+                        <li><a href="#" >level 2 item 3</a>
+                    </ul>
+
+                </li>
                 <li><a href="#">item 2</a></li>
                 <li><a href="#">item 3</a></li>
                 <li><a href="#">item 4</a></li>
@@ -52,7 +69,7 @@
 <div class="container">
 	<div class="row">
     <div class="wrap-burger-menu cont-blue">
-        <div class="menu-icon"><span></span></div>
+        <div class="toggle-burge"><span></span></div>
         <nav>
             <ul>
                 <li><a href="#">item 1</a></li>
@@ -87,7 +104,7 @@
 <div class="container">
 	<div class="row">
     <div class="wrap-burger-menu cont-green">
-        <div class="menu-icon"><span></span></div>
+        <div class="toggle-burge-menu"><span></span></div>
         <nav>
             <ul>
                 <li><a href="#">item 1</a></li>
@@ -122,7 +139,7 @@
 <div class="container">
 	<div class="row">
     <div id="my-menu" class="cont-gray">
-        <div class="menu-icon"><span></span></div>
+        <div class="toggle-burge-menu"><span></span></div>
         <nav>
             <ul>
                 <li><a href="#">item 1</a></li>

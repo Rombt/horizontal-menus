@@ -64,6 +64,7 @@ function burger() {
         })
     });
 
+    //=======================================================================
     const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
     const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
     let iconDropdown;
@@ -80,7 +81,6 @@ function burger() {
             itemsMenu[i].append(iconDropdown);
             if (iconDropdown) {
                 iconDropdown.addEventListener('click', e => {
-
                     e.target.classList.toggle('icon-dropdown_open');
                     if (e.target.classList.contains('icon-dropdown_open')) {
                         subMenuOpen(e);

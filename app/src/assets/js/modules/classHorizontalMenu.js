@@ -7,8 +7,12 @@
         селекторы могут предаватся как строкой так и массивом
 
  *   основные функции:
-    при переполнении контейнера пункты меню которые не поместились скрываются в выпадающем меню
+ *      при переполнении контейнера пункты меню которые не поместились скрываются в выпадающем меню
+        icon-dropdown для десктопа и мобильной версии могут быть разными и устанавливаются в scc 
  *      
+
+    todo:
+        возможность отключать icon-dropdown для меню desk topa независимо от мобильной версии из html 
  *   
  */
 
@@ -21,10 +25,10 @@ class HorizonalMenu {
         this.nl_containersMenu = this._getArrNodeLists(this.сontainerMenu);
 
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
-        // this.nl_toggleOverflow = this._getArrNodeLists(this.toggleOverflow);
+        this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
 
         if (this.nl_containersMenu.length === null) {
-            throw new Error('menus are absent on this page');
+            throw new Error('Menus with given selectors  are absent on this page');
         }
 
         this.forEachMenu();
@@ -35,7 +39,11 @@ class HorizonalMenu {
     forEachMenu() {
         this.nl_containersMenu.forEach(arrNodeList => {
             arrNodeList.forEach(menu => {
+
+                console.log("menu", menu);
+
                 this.menuContainerOverflow(menu);
+                this.setSubMenuIcon(menu);
             })
         })
     }
@@ -47,7 +55,6 @@ class HorizonalMenu {
         menu.querySelectorAll('nav>ul>li').forEach((elMenu) => {
 
             if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {
-                console.log("       elMenu.getBoundingClientRect().right", elMenu.getBoundingClientRect().right);
                 overflowDropContainer.append(elMenu);
             }
         })
@@ -64,6 +71,35 @@ class HorizonalMenu {
         }
         menu.style.visibility = 'visible'; // показываю меню после окончательногоформирования
     }
+
+    setSubMenuIcon(menu) {
+
+        // search sub menu and set sub menu icon if finde
+        const itemsMenu = menu.querySelectorAll(`nav li`);
+        for (let i = 0; i <= itemsMenu.length - 1; i++) {
+            if (itemsMenu[i].querySelectorAll('ul').length === 0) {
+                continue; // Пропустить элементы без sub menu
+            }
+
+            let iconDropdown = document.createElement('div');
+            const paternDot = /^\./;
+
+            if (Array.isArray(this.iconDropdownClass)) {
+                this.iconDropdownClass.forEach(el => {
+                    iconDropdown.classList.add(el.replace(paternDot, ""));
+                })
+                itemsMenu[i].append(iconDropdown);
+            } else {
+                if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
+                    iconDropdown.classList.add(this.iconDropdownClass.replace(paternDot, "")); // here you can change icon for  menu item that contains submenu
+                    itemsMenu[i].append(iconDropdown);
+                }
+
+            }
+        }
+    }
+
+
 
     /*
         возвращает массив nodeList элементов по их селекторам
@@ -82,9 +118,13 @@ class HorizonalMenu {
 
 const param = {
     // сontainerMenu: '#my-menu',
-    сontainerMenu: ['#my-menu', '.wrap-burger-menu', '.cont-horisont-menu'],
+    сontainerMenu: ['.cont-horisont-menu', '.wrap-burger-menu', '#my-menu'],
     // toggleOverflow: '.toggle-overflow-menu',
     toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
+    // toggleBurger: '.toggle-burge',
+    toggleBurger: ['.toggle-burge', '.toggle-burge-menu'],
+    // iconDropdownClass: '.icon-dropdown',
+    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
 }
 
 const menu = new HorizonalMenu(param);
