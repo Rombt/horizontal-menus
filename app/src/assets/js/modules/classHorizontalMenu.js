@@ -24,6 +24,9 @@
                     '.bonus-icon',
                     'some-icon'
                     ];
+        оброботка такой ситуации:
+            для каждого меню должен быть только один элемент с классом активации на странице
+                при этом добавление класса активации должно убирать этот класс с других элементов есле они не родители
  *   
  */
 
@@ -156,6 +159,19 @@ class HorizonalMenu {
         } else {
             e.target.parentElement.classList.toggle(this._clearClassName(this.activeClass));
         }
+
+        // оброботка такой ситуации:
+        //     для каждого меню должен быть только один элемент с классом активации на странице
+        //         при этом добавление класса активации должно убирать этот класс с других элементов есле они не родители
+        //             e.target.classList.toggle('icon-dropdown_open');
+        //             if (e.target.classList.contains('icon-dropdown_open')) {
+        //                 subMenuOpen(e);
+        //             } else {
+        //                 subMenuClose(e);
+        //             }
+
+
+
     }
 
 
