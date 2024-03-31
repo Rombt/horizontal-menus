@@ -19,11 +19,6 @@
 
     todo:
         возможность отключать icon-dropdown для меню desk topa независимо от мобильной версии из html 
-        вынести в params
-                arr_nodesToListenClick = [
-                    '.bonus-icon',
-                    'some-icon'
-                    ];
         оброботка такой ситуации:
             для каждого меню должен быть только один элемент с классом активации на странице
                 при этом добавление класса активации должно убирать этот класс с других элементов есле они не родители
@@ -32,11 +27,6 @@
 
 class HorizonalMenu {
 
-    arr_nodesToListenClick = [
-        '.bonus-icon',
-        'some-icon'
-    ];
-
 
     constructor(param) {
 
@@ -44,9 +34,14 @@ class HorizonalMenu {
         this.nl_containersMenu = this._getArrNodeLists(this.сontainerMenu);
 
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
-        this.arr_nodesToListenClick.push(this.toggleOverflow);
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
+
+
+        this.arr_nodesToListenClick = param.arr_nodesToListenClick;
+        this.arr_nodesToListenClick.push(this.toggleOverflow);
         this.arr_nodesToListenClick.push(this.iconDropdownClass);
+
+
 
         this.activeClass = param.activeClass || '.rmbt_active';
 
@@ -227,7 +222,9 @@ const param = {
     toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
     toggleBurger: ['.toggle-burge', '.toggle-burge-menu'],
     iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
-    // activeClass: ['.rmbt_active', 'rmbt_active-menu'],
+    iconDropdownClass: ['newToggle'],
+    activeClass: ['.rmbt_active', 'rmbt_active-menu'],
+    arr_nodesToListenClick: ['.bonus-icon', 'some-icon']
 }
 
 const menu = new HorizonalMenu(param);
