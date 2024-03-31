@@ -8,15 +8,31 @@
 
  *   основные функции:
  *      при переполнении контейнера пункты меню которые не поместились скрываются в выпадающем меню
-        icon-dropdown для десктопа и мобильной версии могут быть разными и устанавливаются в scc 
- *      
+        добавляет иконку, icon-dropdown, для активации выподающего меню с классами указанными в массиве
+            icon-dropdown для десктопа и мобильной версии могут быть разными и устанавливаются в scc 
+ *      реакция на события
+            click
+                прослушивает событие для элементов из param.toggleOverflow и param.iconDropdownClass, 
+                    а также все те элементы которые будут добавлены в arr_nodesToListenClick
+                по событию добавляет либо удаляет класс указанный в param.activeClass
+                по умолчанию rmbt_active на ближайшего робителя элемента
 
     todo:
         возможность отключать icon-dropdown для меню desk topa независимо от мобильной версии из html 
+        вынести в params
+                arr_nodesToListenClick = [
+                    '.bonus-icon',
+                    'some-icon'
+                    ];
  *   
  */
 
 class HorizonalMenu {
+
+    arr_nodesToListenClick = [
+        '.bonus-icon',
+        'some-icon'
+    ];
 
 
     constructor(param) {
@@ -25,11 +41,17 @@ class HorizonalMenu {
         this.nl_containersMenu = this._getArrNodeLists(this.сontainerMenu);
 
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
+        this.arr_nodesToListenClick.push(this.toggleOverflow);
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
+        this.arr_nodesToListenClick.push(this.iconDropdownClass);
+
+        this.activeClass = param.activeClass || '.rmbt_active';
 
         if (this.nl_containersMenu.length === null) {
             throw new Error('Menus with given selectors  are absent on this page');
         }
+
+
 
         this.forEachMenu();
 
@@ -44,6 +66,11 @@ class HorizonalMenu {
 
                 this.menuContainerOverflow(menu);
                 this.setSubMenuIcon(menu);
+
+                this.listenClick(menu);
+                // this.clickOut(menu);
+                // this.hover(menu);
+                // this.keydown(menu);
             })
         })
     }
@@ -82,11 +109,10 @@ class HorizonalMenu {
             }
 
             let iconDropdown = document.createElement('div');
-            const paternDot = /^\./;
 
             if (Array.isArray(this.iconDropdownClass)) {
                 this.iconDropdownClass.forEach(el => {
-                    iconDropdown.classList.add(el.replace(paternDot, ""));
+                    iconDropdown.classList.add(this._clearClassName(el));
                 })
                 itemsMenu[i].append(iconDropdown);
             } else {
@@ -99,6 +125,69 @@ class HorizonalMenu {
         }
     }
 
+    listenClick(menu) {
+        if (!this.arr_nodesToListenClick) {
+            throw new Error('Nodes to listen click are absent');
+        }
+        this.arr_nodesToListenClick.forEach(el => {
+            if (Array.isArray(el)) {
+                el.forEach(nodeSel => {
+                    menu.querySelectorAll(`.${this._clearClassName(nodeSel)}`)
+                        .forEach(node => {
+                            node.addEventListener('click', this.processingClick.bind(this))
+                        });
+                })
+            }
+            menu.querySelectorAll(el).forEach(node => {
+                node.addEventListener('click', this.processingClick.bind(this))
+            });
+        })
+    }
+
+    /*
+        вешает на ближайшего родителя класс
+    */
+    processingClick(e) {
+        if (Array.isArray(this.activeClass)) {
+            this.activeClass.forEach(el => {
+                e.target.parentElement.classList.toggle(this._clearClassName(el));
+            })
+
+        } else {
+            e.target.parentElement.classList.toggle(this._clearClassName(this.activeClass));
+        }
+    }
+
+
+
+
+    //=====================================================
+
+
+
+    // clickOut(menu) {
+
+    // }
+
+    // hover(menu) {
+
+    // }
+
+    // keydown(menu) {
+
+    // }
+
+
+    //========= helpers ============
+
+    /*
+        очистка имён классов
+    */
+
+    _clearClassName(str) {
+        const paternDot = /^\./;
+        return str.replace(paternDot, "")
+    }
 
 
     /*
@@ -111,20 +200,18 @@ class HorizonalMenu {
             return [document.querySelectorAll(date)];
         }
     }
+
 }
 
 
 
 
 const param = {
-    // сontainerMenu: '#my-menu',
     сontainerMenu: ['.cont-horisont-menu', '.wrap-burger-menu', '#my-menu'],
-    // toggleOverflow: '.toggle-overflow-menu',
     toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
-    // toggleBurger: '.toggle-burge',
     toggleBurger: ['.toggle-burge', '.toggle-burge-menu'],
-    // iconDropdownClass: '.icon-dropdown',
     iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
+    // activeClass: ['.rmbt_active', 'rmbt_active-menu'],
 }
 
 const menu = new HorizonalMenu(param);
