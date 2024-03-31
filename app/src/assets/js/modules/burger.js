@@ -40,6 +40,8 @@ function burger() {
         let menuOverflowDrop = document.createElement('div');
         menuOverflowDrop.classList.add('menu-overflow-drop', 'hidden')
 
+
+
         menu.querySelectorAll('nav>ul>li').forEach((elMenu) => {
             widthAllItems += elMenu.offsetWidth;
             if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {

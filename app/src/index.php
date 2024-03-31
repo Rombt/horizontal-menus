@@ -16,7 +16,77 @@
 
 <div class="container">
 	<div class="row">
-    <div class="cont-horisont-menu">
+    <div class="cont-horisont-menu cont-red">
+        <div class="menu-icon"><span></span></div>
+        <nav>
+            <ul>
+                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 2</a></li>
+                <li><a href="#">item 3</a></li>
+                <li><a href="#">item 4</a></li>
+                <li><a href="#">item 5</a></li>
+                <li><a href="#">item 6</a></li>
+                <li><a href="#">item 7</a></li>
+                <li><a href="#">item 8</a></li>
+                <li><a href="#">item 9999</a>
+                    <ul>
+                        <li><a href="#" ></a>
+                            <ul>
+                                <li><a href="#">level 2 item 1</a></li>
+                                <li><a href="#">level 2 item 2</a></li>
+                                <li><a href="#">level 2 item 3</a></li>
+                                <li><a href="#">level 2 item 4</a></li>
+                                <li><a href="#">level 2 item 5</a></li>
+                                <li><a href="#">level 2 item 6</a></li>
+                                <li><a href="#">level 2 item 7</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        	<div class="toggle-overflow-menu hidden"><span></span></div>
+        </nav>
+    </div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+    <div class="wrap-burger-menu cont-blue">
+        <div class="menu-icon"><span></span></div>
+        <nav>
+            <ul>
+                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 2</a></li>
+                <li><a href="#">item 3</a></li>
+                <li><a href="#">item 4</a></li>
+                <li><a href="#">item 5</a></li>
+                <li><a href="#">item 6</a></li>
+                <li><a href="#">item 7</a></li>
+                <li><a href="#">item 8</a></li>
+                <li><a href="#">item 9999</a>
+                    <ul>
+                        <li><a href="#" ></a>
+                            <ul>
+                                <li><a href="#">level 2 item 1</a></li>
+                                <li><a href="#">level 2 item 2</a></li>
+                                <li><a href="#">level 2 item 3</a></li>
+                                <li><a href="#">level 2 item 4</a></li>
+                                <li><a href="#">level 2 item 5</a></li>
+                                <li><a href="#">level 2 item 6</a></li>
+                                <li><a href="#">level 2 item 7</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        	<div class="toggle-overflow-menu hidden"><span></span></div>
+        </nav>
+    </div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+    <div class="wrap-burger-menu cont-green">
         <div class="menu-icon"><span></span></div>
         <nav>
             <ul>
@@ -51,84 +121,13 @@
 </div>
 <div class="container">
 	<div class="row">
-    <div class="wrap-burger-menu">
+    <div id="my-menu" class="cont-gray">
         <div class="menu-icon"><span></span></div>
         <nav>
             <ul>
                 <li><a href="#">item 1</a></li>
                 <li><a href="#">item 2</a></li>
-                <li><a href="#">item 3</a></li>
-                <li><a href="#">item 4</a></li>
-                <li><a href="#">item 5</a></li>
-                <li><a href="#">item 6</a></li>
-                <li><a href="#">item 7</a></li>
-                <li><a href="#">item 8</a></li>
-                <li><a href="#">item 9999</a>
-                    <ul>
-                        <li><a href="#" ></a>
-                            <ul>
-                                <li><a href="#">level 2 item 1</a></li>
-                                <li><a href="#">level 2 item 2</a></li>
-                                <li><a href="#">level 2 item 3</a></li>
-                                <li><a href="#">level 2 item 4</a></li>
-                                <li><a href="#">level 2 item 5</a></li>
-                                <li><a href="#">level 2 item 6</a></li>
-                                <li><a href="#">level 2 item 7</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        	<div class="show-hide-menu hidden"><span></span></div>
-        </nav>
-    </div>
-	</div>
-</div>
-<div class="container">
-	<div class="row">
-    <div class="wrap-burger-menu">
-        <div class="menu-icon"><span></span></div>
-        <nav>
-            <ul>
-                <li><a href="#">item 1</a></li>
-                <li><a href="#">item 2</a></li>
-                <li><a href="#">item 3</a></li>
-                <li><a href="#">item 4</a></li>
-                <li><a href="#">item 5</a></li>
-                <li><a href="#">item 6</a></li>
-                <li><a href="#">item 7</a></li>
-                <li><a href="#">item 8</a></li>
-                <li><a href="#">item 9999</a>
-                    <ul>
-                        <li><a href="#" ></a>
-                            <ul>
-                                <li><a href="#">level 2 item 1</a></li>
-                                <li><a href="#">level 2 item 2</a></li>
-                                <li><a href="#">level 2 item 3</a></li>
-                                <li><a href="#">level 2 item 4</a></li>
-                                <li><a href="#">level 2 item 5</a></li>
-                                <li><a href="#">level 2 item 6</a></li>
-                                <li><a href="#">level 2 item 7</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        	<div class="show-hide-menu hidden"><span></span></div>
-        </nav>
-    </div>
-	</div>
-</div>
-<div class="container">
-	<div class="row">
-    <div id="my-menu">
-        <div class="menu-icon"><span></span></div>
-        <nav>
-            <ul>
-                <li><a href="#">item 1</a></li>
-                <li><a href="#">item 2</a></li>
-
-                <li><a href="#">item 9999</a>
+                <li><a href="#">item 3</a>
                     <ul>
                         <li><a href="#" ></a>
                             <ul>
