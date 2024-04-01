@@ -5,7 +5,7 @@ import './modules/spoiler.js';
 import './modules/tabs.js';
 import './modules/arrowsInputNumberStyle.js';
 import './modules/classHorizontalMenu.js';
-import './modules/sliders.js';
+// import './modules/sliders.js';
 
 
 // let tl = gsap.timeline();
