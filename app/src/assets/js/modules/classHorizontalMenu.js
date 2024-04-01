@@ -84,7 +84,7 @@ class HorizonalMenu {
 
         if (overflowDropContainer.childElementCount > 0) {
             if (Array.isArray(this.toggleOverflow)) {
-                this.toggleOverflow.forEach(el => {
+                this._flattenArray(this.toggleOverflow).forEach(el => {
                     if (menu.querySelector(el)) menu.querySelector(el).classList.remove('hidden');
                 });
             } else {
@@ -113,7 +113,7 @@ class HorizonalMenu {
             let iconDropdown = document.createElement('div');
 
             if (Array.isArray(this.iconDropdownClass)) {
-                this.iconDropdownClass.forEach(el => {
+                this._flattenArray(this.iconDropdownClass).forEach(el => {
                     iconDropdown.classList.add(this._clearClassName(el));
                 });
                 itemsMenu[i].append(iconDropdown);
@@ -131,37 +131,23 @@ class HorizonalMenu {
             throw new Error('Nodes to listen click are absent');
         }
 
-
-        console.log("arr_nodesToListenClick", this.arr_nodesToListenClick);
-        console.log("flattenArray(this.arr_nodesToListenClick) = ", this.flattenArray(this.arr_nodesToListenClick));
-
-        this.arr_nodesToListenClick.forEach(el => {
-            if (Array.isArray(el)) {
-
-
-                console.log("el = ", el);
-                console.log("_uniqueArr(el) = ", this._uniqueArr(el));
-
-                // el.forEach(nodeSel => {
-                //     menu.querySelectorAll(`.${this._clearClassName(nodeSel)}`).forEach(node => {
-                //         node.addEventListener('click', this.processingClick.bind(this));
-                //     });
-                // });
-            } else {
-                menu.querySelectorAll(el).forEach(node => {
-                    node.addEventListener('click', this.processingClick.bind(this));
-                });
-
-            }
+        this._flattenArray(this.arr_nodesToListenClick).forEach(el => {
+            menu.querySelectorAll(`.${el}`).forEach(node => {
+                node.addEventListener('click', this.processingClick.bind(this));
+            });
         });
     }
 
     /*
-          вешает на ближайшего родителя класс
-      */
+        вариант 1
+            вешает на ближайшего родителя все классы из массива activeClass
+        вариант 2 
+            задавать в параметрах какому меню какой класс активации вешать  -- нужно ли?? 
+                проще одноимённые классы изолировать внутри селектора родителя
+    */
     processingClick(e) {
         if (Array.isArray(this.activeClass)) {
-            this.activeClass.forEach(el => {
+            this._flattenArray(this.activeClass).forEach(el => {
                 e.target.parentElement.classList.toggle(this._clearClassName(el));
             });
         } else {
@@ -177,6 +163,17 @@ class HorizonalMenu {
         //             } else {
         //                 subMenuClose(e);
         //             }
+
+        /*
+            если на странице есть элемент который содержит хотябы один класс из массива activeClass 
+            то этот класс у него нужно удалить
+            а также все те манипуляции из burgerMenuOpen() блокировка bode и прочее
+
+        */
+
+
+
+
     }
 
     //=====================================================
@@ -198,11 +195,11 @@ class HorizonalMenu {
     /*
         преобразует одномерный массив из n-мерного массива
     */
-    flattenArray(arr) {
+    _flattenArray(arr) {
         let flatArray = [];
         arr.forEach(element => {
             if (Array.isArray(element)) {
-                flatArray.push(...this.flattenArray(element));
+                flatArray.push(...this._flattenArray(element));
             } else {
                 flatArray.push(element);
             }
@@ -248,9 +245,7 @@ const param = {
     iconDropdownClass: ['newToggle'],
     activeClass: ['.rmbt_active', 'rmbt_active-menu'],
     toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
-
-
-    // arr_nodesToListenClick: ['.bonus-icon', 'some-icon'],
+    arr_nodesToListenClick: ['.bonus-icon', 'some-icon'],
 };
 
 const menu = new HorizonalMenu(param);
