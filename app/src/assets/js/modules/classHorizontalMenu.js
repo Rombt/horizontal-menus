@@ -33,9 +33,16 @@ class HorizonalMenu {
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
 
-        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burge', '.toggle-overflow-menu'];
+        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burge', '.toggle-overflow-menu', '.toggle-overflow-menu', '.toggle-overflow-menu'];
+
+
+
+        // console.log("***this.arr_nodesToListenClick", this.arr_nodesToListenClick);
+
         this.arr_nodesToListenClick.push(this.toggleOverflow);
         this.arr_nodesToListenClick.push(this.iconDropdownClass);
+
+        // console.log("+++this.arr_nodesToListenClick", this.arr_nodesToListenClick);
 
         this.activeClass = param.activeClass || '.rmbt_active';
 
@@ -123,17 +130,29 @@ class HorizonalMenu {
         if (!this.arr_nodesToListenClick) {
             throw new Error('Nodes to listen click are absent');
         }
+
+
+        console.log("arr_nodesToListenClick", this.arr_nodesToListenClick);
+        console.log("flattenArray(this.arr_nodesToListenClick) = ", this.flattenArray(this.arr_nodesToListenClick));
+
         this.arr_nodesToListenClick.forEach(el => {
             if (Array.isArray(el)) {
-                el.forEach(nodeSel => {
-                    menu.querySelectorAll(`.${this._clearClassName(nodeSel)}`).forEach(node => {
-                        node.addEventListener('click', this.processingClick.bind(this));
-                    });
+
+
+                console.log("el = ", el);
+                console.log("_uniqueArr(el) = ", this._uniqueArr(el));
+
+                // el.forEach(nodeSel => {
+                //     menu.querySelectorAll(`.${this._clearClassName(nodeSel)}`).forEach(node => {
+                //         node.addEventListener('click', this.processingClick.bind(this));
+                //     });
+                // });
+            } else {
+                menu.querySelectorAll(el).forEach(node => {
+                    node.addEventListener('click', this.processingClick.bind(this));
                 });
+
             }
-            menu.querySelectorAll(el).forEach(node => {
-                node.addEventListener('click', this.processingClick.bind(this));
-            });
         });
     }
 
@@ -177,6 +196,31 @@ class HorizonalMenu {
     //========= helpers ============
 
     /*
+        преобразует одномерный массив из n-мерного массива
+    */
+    flattenArray(arr) {
+        let flatArray = [];
+        arr.forEach(element => {
+            if (Array.isArray(element)) {
+                flatArray.push(...this.flattenArray(element));
+            } else {
+                flatArray.push(element);
+            }
+        });
+        return this._uniqueArr(flatArray);
+    }
+
+    /*
+        удаляет повторяющиеся значения
+    */
+    _uniqueArr(arr) {
+
+        // let _arr = arr.map(el => _clearClassName(el))
+
+        return [...new Set(arr.map(el => this._clearClassName(el)))];
+    }
+
+    /*
           очистка имён классов
       */
 
@@ -199,14 +243,14 @@ class HorizonalMenu {
 
 const param = {
     сontainerMenu: ['.cont-horizont-menu', '.wrap-burger-menu', '#my-menu'],
+    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
+    toggleBurger: ['.toggle-burge', '.toggle-burge-menu'],
+    iconDropdownClass: ['newToggle'],
+    activeClass: ['.rmbt_active', 'rmbt_active-menu'],
+    toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
 
 
-    // toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
-    // iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
     // arr_nodesToListenClick: ['.bonus-icon', 'some-icon'],
-    //   toggleBurger: ['.toggle-burge', '.toggle-burge-menu'],
-    //   iconDropdownClass: ['newToggle'],
-    //   activeClass: ['.rmbt_active', 'rmbt_active-menu'],
 };
 
 const menu = new HorizonalMenu(param);
