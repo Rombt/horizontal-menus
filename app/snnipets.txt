@@ -37,10 +37,10 @@
 			sso - Set element to which  will be scroll. For example a header with position: fixed.
 				<tabTrigger>sso</tabTrigger>
 				data-gotoOffset
-			bm  - burger menu
+			hm  - horizont menu
 				<tabTrigger>bm</tabTrigger>
-				    <div class="wrap-burger-menu">
-				        <div class="menu-icon"><span></span></div>
+				    <div class="cont-horizont-menu">
+				        <div class="toggle-burge"><span></span></div>
 				        <nav>
 				            <ul>
 				                <li><a href="#">${1}</a></li>
@@ -54,7 +54,6 @@
 				                    </ul>
 				                </li>
 				            </ul>
-				            <div class="show-hide-menu_hidden"><span></span></div>
 				        </nav>
 				    </div>
 				<!-- description: look  for styles  on the path app/src/assets/styles/components/burger.less  -->
