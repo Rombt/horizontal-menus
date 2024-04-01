@@ -1,0 +1,348 @@
+/* for test */
+#my-menu,
+.wrap-burger-menu,
+.cont-horisont-menu,
+/* for work */
+.cont-horisont-menu {
+    padding: 10px 10px 10px 10px;
+    height: 70px;
+    display: flex;
+    position: relative;
+
+
+
+    nav {
+
+        width: 100%;
+        position: relative;
+        padding: 0 30px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 15px;
+        color: #000;
+
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        >ul {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            flex-grow: 1;
+
+            li {
+                position: relative;
+                width: max-content;
+                padding: 5px 55px 5px 5px;
+
+                ul {
+                    position: absolute;
+                    left: 20px;
+                    top: 100%;
+                    padding: 10px 10px 10px 10px;
+                    z-index: 2;
+                    height: 0px;
+                    overflow: hidden;
+                    opacity: 0;
+                    pointer-events: none;
+                    width: 0;
+                }
+            }
+
+        }
+
+    }
+
+    .to(767px, {
+
+        /* for test */
+        .toggle-burge-menu,
+        /* for work */
+        .toggle-burge {
+            height: 30px;
+            width: 40px;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translate(0, -50%);
+
+            span,
+            &:after,
+            &:before {
+                content: "";
+                position: absolute;
+                right: 0;
+                height: 10%;
+                width: 100%;
+                background-color: #000;
+                transition: all ease 0.5s;
+            }
+
+            span {
+                top: 50%;
+                transform: translate(0, -50%) scale(1.0);
+                pointer-events: none;
+            }
+
+            &:after {
+                top: 0;
+            }
+
+            &:before {
+                bottom: 0;
+            }
+
+            &_close {
+
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                transform: translate(0, 0);
+
+                span,
+                &:after,
+                &:before {
+                    background-color: blue;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                    transition: all ease 0.5s;
+                }
+
+                span {
+                    transform: scale(0);
+                }
+
+                &:after {
+                    transform: rotate(45deg);
+                }
+
+                &:before {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+
+        a {
+            font-size: 24px;
+        }
+
+        nav {
+
+            position: fixed;
+            top: 0;
+            padding: 100px 20px 50px 20px;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            align-items: flex-start;
+
+            width: min-content;
+            min-width: 50vw;
+            height: 85vh; //!! высота окна?????
+
+            left: -100%;
+            transition: left 1s ease;
+
+            >ul {
+
+                display: block;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: start;
+                top: 0px;
+                overflow-y: auto;
+                height: 100%;
+
+                li {
+                    margin: 0px 10px 20px 0px;
+                    display: block;
+                    padding-right: 55px;
+
+                    &:last-child {
+                        margin-bottom: 0px;
+                    }
+
+                    ul {
+                        position: relative;
+                        top: 0;
+                    }
+                }
+            }
+
+            /* for test */
+            .icon-dropdown-menu,
+            /* for work */
+            .icon-dropdown {
+                height: 30px;
+                width: 30px;
+                display: block;
+                border: 1px solid blue;
+                border-radius: 50%;
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                z-index: 2;
+                transition: all ease 0.5s;
+
+                &:after,
+                &:before {
+                    content: "";
+                    position: absolute;
+                    right: 10%;
+                    top: 50%;
+                    height: 1px;
+                    width: 50%;
+                    background-color: blue;
+
+                }
+
+                &:after {
+                    transform: translate(-62%, 0) rotate(45deg);
+                }
+
+                &:before {
+                    transform: translate(0, 0) rotate(-45deg);
+                }
+
+                &_open {
+                    transform: rotate(180deg);
+                    transition: all ease 0.5s;
+                }
+            }
+
+        }
+
+        .burger-menu-open {
+            left: 0;
+            transition: left 0.5s ease;
+            z-index: 1;
+        }
+    }
+
+    );
+
+    /* for test */
+    .newToggle,
+    .icon-dropdown-menu,
+    /* for work */
+    .icon-dropdown {
+        height: 30px;
+        width: 30px;
+        display: block;
+        border: 1px solid blue;
+        border-radius: 50%;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 2;
+        transition: all ease 0.5s;
+
+        &:after,
+        &:before {
+            content: "";
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            height: 1px;
+            width: 50%;
+            background-color: blue;
+
+        }
+
+        &:after {
+            transform: translate(-62%, 0) rotate(45deg);
+        }
+
+        &:before {
+            transform: translate(0, 0) rotate(-45deg);
+        }
+
+        &_open {
+            transform: rotate(180deg);
+            transition: all ease 0.5s;
+        }
+    }
+
+
+    .menu-overflow-drop-cont {
+
+        position: absolute;
+        height: max-content;
+        width: max-content;
+        padding: 20px 10px 20px 10px;
+        z-index: 5;
+
+        top: 0px;
+        right: 0px;
+        transform: translate(100%, 0);
+
+
+        background-color: #C8FBDA;
+
+    }
+
+    /* for test */
+    .show-hide-menu,
+    /* for work */
+    .toggle-overflow-menu {
+        display: block;
+        position: absolute;
+        right: 15px;
+        height: 40%;
+        width: 20px;
+        cursor: pointer;
+
+        span,
+        &:after,
+        &:before {
+            content: '';
+
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #2B2B2C;
+        }
+
+        span {
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &:after {
+            top: 0px;
+        }
+
+        &:before {
+            bottom: 0px;
+        }
+
+        &_hidden {
+            display: none;
+        }
+
+    }
+
+
+
+    visibility: hidden; // скрываю до окончания поного фармирования потом показываю js
+
+    .hidden {
+        display: none;
+    }
+}
