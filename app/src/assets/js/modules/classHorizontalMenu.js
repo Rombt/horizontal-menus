@@ -25,15 +25,15 @@
  *   
  */
 
-class HorizonalMenu {
+class HorizontalMenu {
     constructor(param) {
-        this.сontainerMenu = param.сontainerMenu || '.cont-horizont-menu';
-        this.nl_containersMenu = this._getArrNodeLists(this.сontainerMenu);
+        this.containerMenu = param.containerMenu || '.cont-horizont-menu';
+        this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
 
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
 
-        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burge', '.toggle-overflow-menu', '.toggle-overflow-menu', '.toggle-overflow-menu'];
+        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burger', '.toggle-overflow-menu', '.toggle-overflow-menu', '.toggle-overflow-menu'];
 
 
 
@@ -99,7 +99,7 @@ class HorizonalMenu {
             menu.querySelector('nav').append(toggleOverflowMenu);
             menu.querySelector('nav').append(overflowDropContainer);
         }
-        menu.style.visibility = 'visible'; // показываю меню после окончательногоформирования
+        menu.style.visibility = 'visible'; // показываю меню после окончательного формирования
     }
 
     setSubMenuIcon(menu) {
@@ -154,7 +154,7 @@ class HorizonalMenu {
             e.target.parentElement.classList.toggle(this._clearClassName(this.activeClass));
         }
 
-        // оброботка такой ситуации:
+        // обработка такой ситуации:
         //     для каждого меню должен быть только один элемент с классом активации на странице
         //         при этом добавление класса активации должно убирать этот класс с других элементов есле они не родители
         //             e.target.classList.toggle('icon-dropdown_open');
@@ -165,7 +165,7 @@ class HorizonalMenu {
         //             }
 
         /*
-            если на странице есть элемент который содержит хотябы один класс из массива activeClass 
+            если на странице есть элемент который содержит хотя бы один класс из массива activeClass 
             то этот класс у него нужно удалить
             а также все те манипуляции из burgerMenuOpen() блокировка bode и прочее
 
@@ -222,8 +222,8 @@ class HorizonalMenu {
       */
 
     _clearClassName(str) {
-        const paternDot = /^\./;
-        return str.replace(paternDot, '');
+        const patternDot = /^\./;
+        return str.replace(patternDot, '');
     }
 
     /*
@@ -239,13 +239,13 @@ class HorizonalMenu {
 }
 
 const param = {
-    сontainerMenu: ['.cont-horizont-menu', '.wrap-burger-menu', '#my-menu'],
+    containerMenu: ['.cont-horizont-menu', '.wrap-burger-menu', '#my-menu'],
     iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
-    toggleBurger: ['.toggle-burge', '.toggle-burge-menu'],
+    toggleBurger: ['.toggle-burger', '.toggle-burger-menu'],
     iconDropdownClass: ['newToggle'],
     activeClass: ['.rmbt_active', 'rmbt_active-menu'],
     toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
     arr_nodesToListenClick: ['.bonus-icon', 'some-icon'],
 };
 
-const menu = new HorizonalMenu(param);
+const menu = new HorizontalMenu(param);
