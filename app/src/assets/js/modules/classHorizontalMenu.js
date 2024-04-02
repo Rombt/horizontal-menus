@@ -18,6 +18,7 @@
                 по умолчанию rmbt_active на ближайшего родителя элемента
 
     todo:
+        добавить все те манипуляции из burgerMenuOpen() блокировка body и прочее
         возможность отключать icon-dropdown для меню desk top независимо от мобильной версии из html 
         обработка такой ситуации:
             для каждого меню должен быть только один элемент с классом активации на странице
@@ -26,6 +27,14 @@
  */
 
 class HorizontalMenu {
+
+    // селекторы скрытых пунтков меню или контейнеров
+    hiddenClasses = {
+        overflow: '.overflow-drop-cont',
+        burger: '.burger-drop-cont',
+    }
+
+
     constructor(param) {
         this.containerMenu = param.containerMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
@@ -33,16 +42,11 @@ class HorizontalMenu {
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
 
-        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burger', '.toggle-overflow-menu', '.toggle-overflow-menu', '.toggle-overflow-menu'];
-
-
-
-        // console.log("***this.arr_nodesToListenClick", this.arr_nodesToListenClick);
-
+        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burger', '.toggle-overflow-menu']; // нет логики!! оптимизировать!!
         this.arr_nodesToListenClick.push(this.toggleOverflow);
         this.arr_nodesToListenClick.push(this.iconDropdownClass);
 
-        // console.log("+++this.arr_nodesToListenClick", this.arr_nodesToListenClick);
+        this.single = param.single || 'true';
 
         this.activeClass = param.activeClass || '.rmbt_active';
 
@@ -75,7 +79,7 @@ class HorizontalMenu {
 
     menuContainerOverflow(menu) {
         let overflowDropContainer = document.createElement('div');
-        overflowDropContainer.classList.add('menu-overflow-drop-cont', 'hidden');
+        overflowDropContainer.classList.add(this._clearClassName(this.hiddenClasses.overflow));
         menu.querySelectorAll('nav>ul>li').forEach(elMenu => {
             if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {
                 overflowDropContainer.append(elMenu);
@@ -146,13 +150,31 @@ class HorizontalMenu {
                 проще одноимённые классы изолировать внутри селектора родителя
     */
     processingClick(e) {
+
+        let className = '';
         if (Array.isArray(this.activeClass)) {
-            this._flattenArray(this.activeClass).forEach(el => {
-                e.target.parentElement.classList.toggle(this._clearClassName(el));
+            let flatArr = this._flattenArray(this.activeClass)
+
+            flatArr.forEach(el => {
+                className = this._clearClassName(el)
+
+                this.checSingle(className);
+
+                e.target.parentElement
+                    .querySelector(this.hiddenClasses.overflow)
+                    .classList.add(className);
             });
         } else {
-            e.target.parentElement.classList.toggle(this._clearClassName(this.activeClass));
+            className = this._clearClassName(this.activeClass);
+
+            this.checSingle(className);
+
+            e.target.parentElement
+                .querySelector(this.hiddenClasses.overflow)
+                .classList.add(this._clearClassName(this.activeClass));
         }
+
+
 
         // обработка такой ситуации:
         //     для каждого меню должен быть только один элемент с классом активации на странице
@@ -164,17 +186,9 @@ class HorizontalMenu {
         //                 subMenuClose(e);
         //             }
 
-        /*
-            если на странице есть элемент который содержит хотя бы один класс из массива activeClass 
-            то этот класс у него нужно удалить
-            а также все те манипуляции из burgerMenuOpen() блокировка bode и прочее
-
-        */
-
-
-
 
     }
+
 
     //=====================================================
 
@@ -189,6 +203,14 @@ class HorizontalMenu {
     // keydown(menu) {
 
     // }
+
+
+    checSingle(className) {
+        if (this.single === 'true') {
+            let openMenu = document.querySelector(`.${className}`);
+            if (openMenu) openMenu.classList.remove(className)
+        }
+    }
 
     //========= helpers ============
 
@@ -246,6 +268,9 @@ const param = {
     activeClass: ['.rmbt_active', 'rmbt_active-menu'],
     toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
     arr_nodesToListenClick: ['.bonus-icon', 'some-icon'],
+
+
+    // single: 'false', // допeскает одновременное открытие нескольких меню 
 };
 
 const menu = new HorizontalMenu(param);

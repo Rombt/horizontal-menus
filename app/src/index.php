@@ -129,7 +129,6 @@
                                 </ul>
                             </li>
                         </ul>
-                        <div class="show-hide-menu hidden"><span></span></div>
                     </nav>
                 </div>
             </div>
@@ -158,7 +157,6 @@
                                 </ul>
                             </li>
                         </ul>
-                        <div class="show-hide-menu hidden"><span></span></div>
                     </nav>
                 </div>
             </div>
