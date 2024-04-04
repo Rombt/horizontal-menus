@@ -1,6 +1,6 @@
 /* for test */
 #my-menu,
-.wrap-burger-menu,
+.wrap-drop-menu,
 /* for work */
 .cont-horizont-menu {
     padding: 10px 10px 10px 10px;
@@ -69,9 +69,9 @@
     .to(767px, {
 
         /* for test */
-        .toggle-burger-menu,
+        .toggle-drop-menu,
         /* for work */
-        .toggle-burger {
+        .toggle-drop {
             height: 30px;
             width: 40px;
             position: absolute;
@@ -224,7 +224,7 @@
 
         }
 
-        .burger-menu-open {
+        .drop-menu-open {
             left: 0;
             transition: left 0.5s ease;
             z-index: 1;
@@ -283,7 +283,6 @@
         width: max-content;
         padding: 20px 10px 20px 10px;
         z-index: 5;
-
         top: 0px;
         right: 0px;
         transform: translate(100%, 0);
@@ -291,12 +290,19 @@
 
         background-color: #C8FBDA;
 
-        display: none;
+
+        // height: 0px;
+        // overflow: hidden;
+        // pointerEvents: none;
+        // opacity: 0;
+        // width: 0px;
 
     }
 
     /* for test */
     .show-hide-menu,
+    .show-overflow-menu,
+
     /* for work */
     .toggle-overflow-menu {
         display: block;
@@ -333,23 +339,19 @@
             bottom: 0px;
         }
 
-        &_hidden {
-            display: none;
-        }
-
     }
 
 
 
     visibility: hidden; // скрываю до окончания поного фармирования потом показываю js
 
-    // .hidden {
-    //     display: none;
-    // }
-
-
-    .rmbt_active {
-        display: block;
+    .rmbt-hidden {
+        display: none;
     }
+
+
+    // .rmbt_visible {
+    //     display: block;
+    // }
 
 }

@@ -1,54 +1,73 @@
-/*
- *   Обеспечивает основной функционал горизонтального меню для всех меню
- *   базовые стили в файле horizontalMenu.less
-        
-        поиск меню - на основе css селектору обёртки меню 
-        обработка событий меню - по css селектору соответствующих элементов (иконок, кнопок)
-        селекторы могут передаваться как строкой так и массивом
+/* Обеспечивает основной функционал горизонтального меню для всех меню
+    *
+    базовые стили в файле horizontalMenu.less
 
- *   основные функции:
- *      при переполнении контейнера пункты меню которые не поместились скрываются в выпадающем меню
-        добавляет иконку, icon-dropdown, для активации выпадающего меню с классами указанными в массиве
-            icon-dropdown для десктопа и мобильной версии могут быть разными и устанавливаются в scc 
- *      реакция на события
-            click
-                прослушивает событие для элементов из param.toggleOverflow и param.iconDropdownClass, 
-                    а также все те элементы которые будут добавлены в arr_nodesToListenClick
-                по событию добавляет либо удаляет класс указанный в param.activeClass
-                по умолчанию rmbt_active на ближайшего родителя элемента
+поиск меню - на основе css селектору обёртки меню
+обработка событий меню - по css селектору соответствующих элементов(иконок, кнопок)
+селекторы могут передаваться как строкой так и массивом
 
-    todo:
-        добавить все те манипуляции из burgerMenuOpen() блокировка body и прочее
-        возможность отключать icon-dropdown для меню desk top независимо от мобильной версии из html 
-        обработка такой ситуации:
-            для каждого меню должен быть только один элемент с классом активации на странице
-                при этом добавление класса активации должно убирать этот класс с других элементов если они не родители
- *   
- */
+    *
+    основные функции:
+    *
+    при переполнении контейнера пункты меню которые не поместились скрываются в выпадающем меню
+добавляет иконку, icon - dropdown, для активации выпадающего меню с классами указанными в массиве
+icon - dropdown для десктопа и мобильной версии могут быть разными и устанавливаются в scc *
+    реакция на события
+click
+прослушивает событие для элементов из param.toggleOverflow и param.iconDropdownClass,
+    а также все те элементы которые будут добавлены в arr_classesForListenClick
+по событию добавляет либо удаляет класс указанный в param.visibleClass
+по умолчанию rmbt_active на ближайшего родителя элемента
+
+todo:
+
+    !!!скрытие любого элемента только путём назначение ему класса 'rmbt-hidden'
+показ элемента только путём назначение ему класса '.rmbt_visible'
+или средствами gsap
+
+
+
+добавить все те манипуляции из dropProcEssingClick() блокировка body и прочее
+возможность отключать icon - dropdown для меню desk top независимо от мобильной версии из html
+обработка такой ситуации:
+    для каждого меню должен быть только один элемент с классом активации на странице
+при этом добавление класса активации должно убирать этот класс с других элементов если они не родители
+    */
+
 
 class HorizontalMenu {
 
-    // селекторы скрытых пунтков меню или контейнеров
-    hiddenClasses = {
+
+
+
+
+
+
+    //================================================================
+
+    // классы скрытых пунтков меню или контейнеров
+    hiddenMenuCont = {
         overflow: '.overflow-drop-cont',
-        burger: '.burger-drop-cont',
+        drop: 'ul',
     }
 
 
     constructor(param) {
         this.containerMenu = param.containerMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
-
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
+        this.arr_classesForListenClick = param.arr_classesForListenClick || ['.toggle-drop', '.toggle-overflow-menu']; // нет логики!! оптимизировать!!
+        this.visibleClass = param.visibleClass || '.rmbt_visible';
+        this.hiddenClass = param.hiddenClass || '.hiddenClass';
 
-        this.arr_nodesToListenClick = param.arr_nodesToListenClick || ['.toggle-burger', '.toggle-overflow-menu']; // нет логики!! оптимизировать!!
-        this.arr_nodesToListenClick.push(this.toggleOverflow);
-        this.arr_nodesToListenClick.push(this.iconDropdownClass);
 
+        this.arr_classesForListenClick.push(this.toggleOverflow);
+        this.arr_classesForListenClick.push(this.iconDropdownClass);
         this.single = param.single || 'true';
 
-        this.activeClass = param.activeClass || '.rmbt_active';
+
+        // this.visibleClass = param.visibleClass || '.rmbt_visible';
 
         if (this.nl_containersMenu.length === null) {
             throw new Error('Menus with given selectors  are absent on this page');
@@ -60,12 +79,18 @@ class HorizontalMenu {
     forEachMenu() {
         this.nl_containersMenu.forEach(arrNodeList => {
             for (let i = 0; i <= arrNodeList.length - 1; i++) {
+                let contCurrentMenu = arrNodeList[i];
 
-                if (!arrNodeList[i].querySelector('nav')) continue;
+                if (!contCurrentMenu.querySelector('nav')) continue;
 
-                this.menuContainerOverflow(arrNodeList[i]);
-                this.setSubMenuIcon(arrNodeList[i]);
-                this.listenClick(arrNodeList[i]);
+                this.menuContainerOverflow(contCurrentMenu);
+                this.setSubMenuIcon(contCurrentMenu);
+                this.listenClick(contCurrentMenu);
+
+
+
+
+
 
                 // this.clickOut(arrNodeList[i]);
                 // this.hover(arrNodeList[i]);
@@ -77,43 +102,40 @@ class HorizontalMenu {
         });
     }
 
-    menuContainerOverflow(menu) {
+    menuContainerOverflow(contCurrentMenu) {
         let overflowDropContainer = document.createElement('div');
-        overflowDropContainer.classList.add(this._clearClassName(this.hiddenClasses.overflow));
-        menu.querySelectorAll('nav>ul>li').forEach(elMenu => {
-            if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {
+        overflowDropContainer.classList.add(this._clearClassName(this.hiddenMenuCont.overflow), this._clearClassName(this.hiddenClass));
+        contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
+            if (elMenu.getBoundingClientRect().right > contCurrentMenu.getBoundingClientRect().right) {
                 overflowDropContainer.append(elMenu);
             }
         });
 
         if (overflowDropContainer.childElementCount > 0) {
-            if (Array.isArray(this.toggleOverflow)) {
-                this._flattenArray(this.toggleOverflow).forEach(el => {
-                    if (menu.querySelector(el)) menu.querySelector(el).classList.remove('hidden');
-                });
-            } else {
-                if (menu.querySelector(this.toggleOverflow)) menu.querySelector(this.toggleOverflow).classList.remove('hidden');
-            }
 
             let toggleOverflowMenu = document.createElement('div');
             let span = document.createElement('span');
             toggleOverflowMenu.append(span);
-            toggleOverflowMenu.classList.add('toggle-overflow-menu');
 
-            menu.querySelector('nav').append(toggleOverflowMenu);
-            menu.querySelector('nav').append(overflowDropContainer);
-        }
-        menu.style.visibility = 'visible'; // показываю меню после окончательного формирования
-    }
-
-    setSubMenuIcon(menu) {
-        // search sub menu and set sub menu icon if finde
-        const itemsMenu = menu.querySelectorAll(`nav li`);
-        for (let i = 0; i <= itemsMenu.length - 1; i++) {
-            if (itemsMenu[i].querySelectorAll('ul').length === 0) {
-                continue; // Пропустить элементы без sub menu
+            if (Array.isArray(this.toggleOverflow)) {
+                this._flattenArray(this.toggleOverflow).forEach(el => {
+                    toggleOverflowMenu.classList.add(el);
+                });
+            } else {
+                toggleOverflowMenu.classList.add(this._clearClassName(this.toggleOverflow));
             }
 
+            contCurrentMenu.querySelector('nav').append(toggleOverflowMenu);
+            contCurrentMenu.querySelector('nav').append(overflowDropContainer);
+        }
+        contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
+    }
+
+    setSubMenuIcon(contCurrentMenu) {
+        //     // search sub menu and set sub menu icon if finde
+        const itemsMenu = contCurrentMenu.querySelectorAll(`nav li`);
+        for (let i = 0; i <= itemsMenu.length - 1; i++) {
+            if (itemsMenu[i].querySelectorAll('ul').length === 0) continue; // Пропустить элементы без sub menu
             let iconDropdown = document.createElement('div');
 
             if (Array.isArray(this.iconDropdownClass)) {
@@ -130,63 +152,54 @@ class HorizontalMenu {
         }
     }
 
-    listenClick(menu) {
-        if (!this.arr_nodesToListenClick) {
+    listenClick(contCurrentMenu) {
+        if (!this.arr_classesForListenClick) {
             throw new Error('Nodes to listen click are absent');
         }
-
-        this._flattenArray(this.arr_nodesToListenClick).forEach(el => {
-            menu.querySelectorAll(`.${el}`).forEach(node => {
-                node.addEventListener('click', this.processingClick.bind(this));
+        this._flattenArray(this.arr_classesForListenClick).forEach(classeForListenClick => {
+            contCurrentMenu.querySelectorAll(`.${classeForListenClick}`).forEach(node => {
+                node.addEventListener('click', this.procEssingClick.bind(this));
             });
         });
     }
 
-    /*
-        вариант 1
-            вешает на ближайшего родителя все классы из массива activeClass
-        вариант 2 
-            задавать в параметрах какому меню какой класс активации вешать  -- нужно ли?? 
-                проще одноимённые классы изолировать внутри селектора родителя
-    */
-    processingClick(e) {
+    procEssingClick(e) {
+        let currentMenu = e.target.parentElement.querySelector(this.hiddenMenuCont.overflow);
+        if (!currentMenu) return;
+        this.OpenMenu(currentMenu);
+    }
 
-        let className = '';
-        if (Array.isArray(this.activeClass)) {
-            let flatArr = this._flattenArray(this.activeClass)
+    OpenMenu(currentMenu) {
 
-            flatArr.forEach(el => {
-                className = this._clearClassName(el)
+        if (this.checSingle() !== null) this.closeMenu(this.checSingle());
 
-                this.checSingle(className);
 
-                e.target.parentElement
-                    .querySelector(this.hiddenClasses.overflow)
-                    .classList.add(className);
+        try {
+
+            gsap.to(currentMenu, {
+                duration: 1,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
             });
-        } else {
-            className = this._clearClassName(this.activeClass);
 
-            this.checSingle(className);
+        } catch {
 
-            e.target.parentElement
-                .querySelector(this.hiddenClasses.overflow)
-                .classList.add(this._clearClassName(this.activeClass));
+
+            currentMenu.classList.remove(this.hiddenClass);
+            currentMenu.classList.add(this.visibleClass);
         }
 
 
+    }
 
-        // обработка такой ситуации:
-        //     для каждого меню должен быть только один элемент с классом активации на странице
-        //         при этом добавление класса активации должно убирать этот класс с других элементов есле они не родители
-        //             e.target.classList.toggle('icon-dropdown_open');
-        //             if (e.target.classList.contains('icon-dropdown_open')) {
-        //                 subMenuOpen(e);
-        //             } else {
-        //                 subMenuClose(e);
-        //             }
+    closeMenu(menu) {
 
-
+        menu.classList.remove(this.visibleClass);
+        menu.classList.add(this.hiddenClass);
     }
 
 
@@ -205,11 +218,12 @@ class HorizontalMenu {
     // }
 
 
-    checSingle(className) {
+    checSingle() {
+
         if (this.single === 'true') {
-            let openMenu = document.querySelector(`.${className}`);
-            if (openMenu) openMenu.classList.remove(className)
+            return document.querySelector(`.${this.visibleClass}`);
         }
+        return null;
     }
 
     //========= helpers ============
@@ -261,13 +275,20 @@ class HorizontalMenu {
 }
 
 const param = {
-    containerMenu: ['.cont-horizont-menu', '.wrap-burger-menu', '#my-menu'],
+    containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'],
     iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
-    toggleBurger: ['.toggle-burger', '.toggle-burger-menu'],
-    iconDropdownClass: ['newToggle'],
-    activeClass: ['.rmbt_active', 'rmbt_active-menu'],
-    toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
-    arr_nodesToListenClick: ['.bonus-icon', 'some-icon'],
+    arr_classesForListenClick: ['.bonus-icon', 'some-icon'],
+    visibleClass: 'rmbt_visible', // классы для показа любых элементов
+    hiddenClass: 'rmbt-hidden', // классы для скрытия любых элементов
+
+
+
+    // toggleDrop: ['.toggle-drop', '.toggle-drop-menu'],
+    // iconDropdownClass: ['newToggle'],
+    // toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
+
+
+    // openingMode: 
 
 
     // single: 'false', // допeскает одновременное открытие нескольких меню 

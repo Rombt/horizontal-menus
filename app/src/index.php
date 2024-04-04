@@ -67,7 +67,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="wrap-burger-menu cont-blue">
+                <div class="wrap-drop-menu cont-blue">
                     <div class="toggle-burge"><span></span></div>
                     <nav>
                         <ul>
@@ -101,7 +101,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="wrap-burger-menu cont-green">
+                <div class="wrap-drop-menu cont-green">
                     <div class="toggle-burge-menu"><span></span></div>
                     <nav>
                         <ul>
@@ -170,7 +170,7 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="assets/js/libs/gsap.min.js"></script>
+    <!-- <script src="assets/js/libs/gsap.min.js"></script> -->
     <script src="assets/js/app.main.min.js"></script>
 
 </body>
