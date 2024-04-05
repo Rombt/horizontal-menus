@@ -10,6 +10,16 @@
   min-height: 100vh;
   margin: 0px auto;
   position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: @margin_bottom_section;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  row-gap: @margin_bottom_section;
 }
 
 /*центрующий контейнер контентной ширины*/
@@ -21,6 +31,8 @@
   max-width: @width_main-wrapper;
   .wrapper-full();
   margin: 0 auto;
+
+  border: 1px solid rgb(247, 6, 6);
 }
 
 .debug-grid {
@@ -39,8 +51,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    // height: 100%;
-    height: auto; // тестировать
+    height: 100%;
     object-fit: cover;
     object-position: center;
   }
@@ -143,6 +154,7 @@
     }
   }
 }
+
 body.rmbt-lock {
   overflow: hidden;
 }
