@@ -62,7 +62,8 @@ class HorizontalMenu {
         this.single = param.single || 'true';
 
 
-        // this.visibleClass = param.visibleClass || '.rmbt_visible';
+        this.visibleClass = param.visibleClass || '.rmbt_visible';
+        !!!!!!!!!!!менюшки показываются без этой строки
 
         if (this.nl_containersMenu.length === null) {
             throw new Error('Menus with given selectors  are absent on this page');
@@ -79,13 +80,9 @@ class HorizontalMenu {
                 if (!contCurrentMenu.querySelector('nav')) continue;
 
                 this.menuContainerOverflow(contCurrentMenu);
+                this.menuContainerDrop(contCurrentMenu)
                 this.setSubMenuIcon(contCurrentMenu);
                 this.listenClick(contCurrentMenu);
-
-
-
-
-
 
                 // this.clickOut(arrNodeList[i]);
                 // this.hover(arrNodeList[i]);
@@ -99,12 +96,13 @@ class HorizontalMenu {
 
     menuContainerDrop(contCurrentMenu) {
 
-        let subMenu = contCurrentMenu.querySelectorAll('ul');
+        let subMenu = contCurrentMenu.querySelectorAll('nav>ul ul');
 
-        if (subMenu) {
-            subMenu.classList.add(this.hiddenMenuCont.drop);
+        if (subMenu.length > 0) {
+            subMenu.forEach(el => {
+                el.classList.add(this._clearClassName(this.hiddenMenuCont.drop), this._clearClassName(this.hiddenClass));
+            })
         }
-
     }
 
     menuContainerOverflow(contCurrentMenu) {
@@ -126,9 +124,6 @@ class HorizontalMenu {
         }
         contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
     }
-
-
-
 
     setSubMenuIcon(contCurrentMenu) {
         // search sub menu and set sub menu icon if finde
@@ -179,7 +174,8 @@ class HorizontalMenu {
     }
 
     procEssingClick(e) {
-        let currentMenu = e.target.parentElement.querySelector(this.hiddenMenuCont.overflow);
+        let currentMenu = e.target.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
+            e.target.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
         this.OpenMenu(currentMenu);
     }
@@ -187,7 +183,6 @@ class HorizontalMenu {
     OpenMenu(currentMenu) {
 
         if (this.checSingle() !== null) this.closeMenu(this.checSingle());
-
 
         try {
 
@@ -202,13 +197,9 @@ class HorizontalMenu {
             });
 
         } catch {
-
-
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass);
         }
-
-
     }
 
     closeMenu(menu) {
