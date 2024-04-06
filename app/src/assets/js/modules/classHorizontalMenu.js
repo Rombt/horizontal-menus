@@ -45,6 +45,8 @@ class HorizontalMenu {
         drop: '.drop-cont',
     }
 
+
+
     // visibleClass: 'rmbt_visible', // классы для показа любых элементов
     // hiddenClass: 'rmbt-hidden', // классы для скрытия любых элементов
 
@@ -53,6 +55,9 @@ class HorizontalMenu {
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
+
+        this.iconDropdownClassOpen = param.iconDropdownModeOpen || '.icon-dropdown_open';
+
         this.arr_classesForListenClick = param.arr_classesForListenClick || ['.toggle-drop', '.toggle-overflow-menu']; // нет логики!! оптимизировать!!
         this.visibleClass = param.visibleClass || '.rmbt_visible';
         this.hiddenClass = param.hiddenClass || '.rmbt-hidden';
@@ -122,17 +127,74 @@ class HorizontalMenu {
         contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
     }
 
+    /* 
+        search sub menu and set sub menu icon if finde 
+    */
     setSubMenuIcon(contCurrentMenu) {
-        // search sub menu and set sub menu icon if finde
+        let exit = false;
+
+
+        if (contCurrentMenu.classList.contains(this.visibleClass)) {
+            if (Array.isArray(this.iconDropdownClass)) {
+                this._flattenArray(this.iconDropdownClass).forEach(el => {
+                    contCurrentMenu.closest('li').childNodes.forEach(node => {
+                        try {
+                            if (node.classList.contains(el)) {
+                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
+                                exit = true;
+                                return;
+                            }
+                        } catch {
+
+                        }
+                        if (exit) {
+                            return;
+                        }
+                    })
+
+                    if (exit) {
+
+                        console.log("***");
+                        return;
+                    }
+                });
+            } else {
+                if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
+                    contCurrentMenu.closest('li').childNodes.forEach(node => {
+                        try {
+                            if (node.classList.contains(el)) {
+                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
+                                exit = true;
+                                return;
+                            }
+                        } catch {
+
+                        }
+                    })
+                    if (exit) {
+                        return;
+                    }
+                }
+            }
+        }
+        if (exit) {
+            return;
+        }
+
+
+
         const itemsMenu = contCurrentMenu.querySelectorAll(`nav li`);
         for (let i = 0; i <= itemsMenu.length - 1; i++) {
             if (itemsMenu[i].querySelectorAll('ul').length === 0) continue; // Пропустить элементы без sub menu
             let iconDropdown = document.createElement('div');
-
             if (Array.isArray(this.iconDropdownClass)) {
                 this._flattenArray(this.iconDropdownClass).forEach(el => {
                     iconDropdown.classList.add(this._clearClassName(el));
                 });
+
+
+
+                console.log("itemsMenu[i]", itemsMenu[i]);
                 itemsMenu[i].append(iconDropdown);
             } else {
                 if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
@@ -175,9 +237,6 @@ class HorizontalMenu {
             e.target.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
         this.OpenMenu(currentMenu);
-
-
-        this.setSubMenuIcon(contCurrentMenu)
     }
 
     OpenMenu(currentMenu) {
@@ -202,6 +261,8 @@ class HorizontalMenu {
         } catch {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass);
+
+            this.setSubMenuIcon(currentMenu);
         }
     }
 
@@ -230,7 +291,7 @@ class HorizontalMenu {
     checSingle() {
 
         if (this.single === 'true') {
-            return document.querySelector(`.${this.visibleClass}`);
+            return document.querySelector(`.${ this.visibleClass }`);
         }
         return null;
     }
@@ -285,11 +346,13 @@ class HorizontalMenu {
 
 const param = {
     containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'],
-    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'],
+    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'], // определяет внешний вид иконки когда subMenu закрыто
+
+    iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
+
     arr_classesForListenClick: ['.bonus-icon', 'some-icon'],
     visibleClass: 'rmbt_visible', // классы для показа любых элементов
     hiddenClass: 'rmbt-hidden', // классы для скрытия любых элементов
-
 
 
     // toggleDrop: ['.toggle-drop', '.toggle-drop-menu'],
