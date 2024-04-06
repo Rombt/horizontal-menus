@@ -62,9 +62,6 @@ class HorizontalMenu {
         this.single = param.single || 'true';
 
 
-        this.visibleClass = param.visibleClass || '.rmbt_visible';
-        !!!!!!!!!!!менюшки показываются без этой строки
-
         if (this.nl_containersMenu.length === null) {
             throw new Error('Menus with given selectors  are absent on this page');
         }
@@ -178,11 +175,17 @@ class HorizontalMenu {
             e.target.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
         this.OpenMenu(currentMenu);
+
+
+        this.setSubMenuIcon(contCurrentMenu)
     }
 
     OpenMenu(currentMenu) {
 
-        if (this.checSingle() !== null) this.closeMenu(this.checSingle());
+        if (!currentMenu.closest('.rmbt_visible')) {
+            if (this.checSingle() !== null) this.closeMenu(this.checSingle());
+        }
+
 
         try {
 
