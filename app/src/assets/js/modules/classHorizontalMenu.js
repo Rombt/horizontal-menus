@@ -80,8 +80,8 @@ class HorizontalMenu {
 
                 if (!contCurrentMenu.querySelector('nav')) continue;
 
+                this.menuContainerDrop(contCurrentMenu);
                 this.menuContainerOverflow(contCurrentMenu);
-                this.menuContainerDrop(contCurrentMenu)
                 this.setSubMenuIcon(contCurrentMenu);
                 this.listenClick(contCurrentMenu);
 
@@ -97,7 +97,14 @@ class HorizontalMenu {
 
     menuContainerDrop(contCurrentMenu) {
 
+
+        console.log("contCurrentMenu", contCurrentMenu);
+
         let subMenu = contCurrentMenu.querySelectorAll('nav>ul ul');
+
+
+        console.log("subMenu", subMenu);
+
 
         if (subMenu.length > 0) {
             subMenu.forEach(el => {
@@ -221,9 +228,18 @@ class HorizontalMenu {
     }
 
     processingClick(e) {
+
+
+        console.log("e", e);
+
         let currentMenu = e.target.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
             e.target.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
+
+
+        console.log("currentMenu", currentMenu);
+
+
         this.OpenMenu(currentMenu);
     }
 
@@ -232,8 +248,11 @@ class HorizontalMenu {
         if (!currentMenu.closest('.rmbt_visible'))
             if (this.checSingle() !== null) this.closeMenu(this.checSingle());
 
-        try {
 
+
+        // console.log("currentMenu", currentMenu);
+
+        try {
             gsap.to(currentMenu, {
                 duration: 1,
                 ease: "power4.inOut",
@@ -247,7 +266,6 @@ class HorizontalMenu {
         } catch {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass);
-
         }
 
         this.setSubMenuIconOpen(currentMenu)
