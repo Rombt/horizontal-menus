@@ -131,49 +131,8 @@ class HorizontalMenu {
         search sub menu and set sub menu icon if finde 
     */
     setSubMenuIcon(contCurrentMenu) {
-        let exit = false;
 
-
-
-
-        if (contCurrentMenu.classList.contains(this.visibleClass)) {
-            if (Array.isArray(this.iconDropdownClass)) {
-                this._flattenArray(this.iconDropdownClass).forEach(el => {
-                    contCurrentMenu.closest('li').childNodes.forEach(node => {
-                        try {
-                            if (node.classList.contains(el)) {
-                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
-                                exit = true;
-                                return;
-                            }
-                        } catch {
-
-                        }
-                        if (exit) return;
-                    })
-
-                    if (exit) return;
-                });
-            } else {
-                if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
-                    contCurrentMenu.closest('li').childNodes.forEach(node => {
-                        try {
-                            if (node.classList.contains(el)) {
-                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
-                                exit = true;
-                                return;
-                            }
-                        } catch {
-
-                        }
-                    })
-                    if (exit) return;
-                }
-            }
-        }
-        if (exit) return;
-
-
+        if (this.setSubMenuIconOpen(contCurrentMenu)) return;
 
         const itemsMenu = contCurrentMenu.querySelectorAll(`nav li`);
         for (let i = 0; i <= itemsMenu.length - 1; i++) {
@@ -192,6 +151,44 @@ class HorizontalMenu {
                 }
             }
         }
+    }
+
+    setSubMenuIconOpen(contCurrentMenu) {
+
+        let exit = false;
+        if (contCurrentMenu.classList.contains(this.visibleClass)) {
+            if (Array.isArray(this.iconDropdownClass)) {
+                this._flattenArray(this.iconDropdownClass).forEach(el => {
+                    contCurrentMenu.closest('li').childNodes.forEach(node => {
+                        try {
+                            if (node.classList.contains(el)) {
+                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
+                                exit = true;
+                                return;
+                            }
+                        } catch {}
+                        if (exit) return;
+                    })
+
+                    if (exit) return;
+                });
+            } else {
+                if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
+                    contCurrentMenu.closest('li').childNodes.forEach(node => {
+                        try {
+                            if (node.classList.contains(el)) {
+                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
+                                exit = true;
+                                return;
+                            }
+                        } catch {}
+                    })
+                    if (exit) return;
+                }
+            }
+        }
+        if (exit) return exit;
+
     }
 
     setOverflowMenuIcon(contCurrentMenu) {
@@ -230,10 +227,8 @@ class HorizontalMenu {
 
     OpenMenu(currentMenu) {
 
-        if (!currentMenu.closest('.rmbt_visible')) {
+        if (!currentMenu.closest('.rmbt_visible'))
             if (this.checSingle() !== null) this.closeMenu(this.checSingle());
-        }
-
 
         try {
 
@@ -253,6 +248,8 @@ class HorizontalMenu {
 
             this.setSubMenuIcon(currentMenu);
         }
+
+
     }
 
     closeMenu(menu) {
