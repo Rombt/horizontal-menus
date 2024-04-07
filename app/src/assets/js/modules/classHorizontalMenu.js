@@ -132,17 +132,16 @@ class HorizontalMenu {
     */
     setSubMenuIcon(contCurrentMenu) {
 
-        if (this.setSubMenuIconOpen(contCurrentMenu)) return;
-
         const itemsMenu = contCurrentMenu.querySelectorAll(`nav li`);
         for (let i = 0; i <= itemsMenu.length - 1; i++) {
             if (itemsMenu[i].querySelectorAll('ul').length === 0) continue; // Пропустить элементы без sub menu
             let iconDropdown = document.createElement('div');
             if (Array.isArray(this.iconDropdownClass)) {
                 this._flattenArray(this.iconDropdownClass).forEach(el => {
-                    iconDropdown.classList.add(this._clearClassName(el));
+                    if (!iconDropdown.classList.contains(el)) {
+                        iconDropdown.classList.add(this._clearClassName(el));
+                    }
                 });
-
                 itemsMenu[i].append(iconDropdown);
             } else {
                 if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
@@ -159,18 +158,28 @@ class HorizontalMenu {
         if (contCurrentMenu.classList.contains(this.visibleClass)) {
             if (Array.isArray(this.iconDropdownClass)) {
                 this._flattenArray(this.iconDropdownClass).forEach(el => {
-                    contCurrentMenu.closest('li').childNodes.forEach(node => {
-                        try {
-                            if (node.classList.contains(el)) {
-                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
-                                exit = true;
-                                return;
-                            }
-                        } catch {}
-                        if (exit) return;
-                    })
 
-                    if (exit) return;
+
+
+
+                    if (contCurrentMenu.closest('li')) {
+
+                        contCurrentMenu.closest('li').childNodes.forEach(node => {
+                            try {
+                                if (node.classList.contains(el)) {
+                                    node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
+                                    exit = true;
+                                    return;
+                                }
+                            } catch {}
+                            if (exit) return;
+                        })
+
+                        if (exit) return;
+
+                    } else {
+                        return false;
+                    }
                 });
             } else {
                 if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
@@ -187,7 +196,10 @@ class HorizontalMenu {
                 }
             }
         }
-        if (exit) return exit;
+
+
+        console.log("exit", exit);
+        if (exit) { return true } else { return false };
 
     }
 
@@ -246,7 +258,7 @@ class HorizontalMenu {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass);
 
-            this.setSubMenuIcon(currentMenu);
+            this.setSubMenuIconOpen(currentMenu)
         }
 
 
