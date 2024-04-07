@@ -134,6 +134,8 @@ class HorizontalMenu {
         let exit = false;
 
 
+
+
         if (contCurrentMenu.classList.contains(this.visibleClass)) {
             if (Array.isArray(this.iconDropdownClass)) {
                 this._flattenArray(this.iconDropdownClass).forEach(el => {
@@ -147,16 +149,10 @@ class HorizontalMenu {
                         } catch {
 
                         }
-                        if (exit) {
-                            return;
-                        }
+                        if (exit) return;
                     })
 
-                    if (exit) {
-
-                        console.log("***");
-                        return;
-                    }
+                    if (exit) return;
                 });
             } else {
                 if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
@@ -171,15 +167,11 @@ class HorizontalMenu {
 
                         }
                     })
-                    if (exit) {
-                        return;
-                    }
+                    if (exit) return;
                 }
             }
         }
-        if (exit) {
-            return;
-        }
+        if (exit) return;
 
 
 
@@ -192,9 +184,6 @@ class HorizontalMenu {
                     iconDropdown.classList.add(this._clearClassName(el));
                 });
 
-
-
-                console.log("itemsMenu[i]", itemsMenu[i]);
                 itemsMenu[i].append(iconDropdown);
             } else {
                 if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
