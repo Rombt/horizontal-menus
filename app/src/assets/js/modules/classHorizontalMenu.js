@@ -16,7 +16,7 @@
         реакция на события
     click
     прослушивает событие для элементов из param.toggleOverflow и param.iconDropdownClass,
-        а также все те элементы которые будут добавлены в arr_classesForListenClick
+        а также все те элементы которые будут добавлены в classForListenClick
     по событию добавляет либо удаляет класс указанный в param.visibleClass
     по умолчанию rmbt_active на ближайшего родителя элемента
 
@@ -28,7 +28,7 @@
 
 
 
-    добавить все те манипуляции из dropProcEssingClick() блокировка body и прочее
+    добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
     возможность отключать icon - dropdown для меню desk top независимо от мобильной версии из html
     обработка такой ситуации:
         для каждого меню должен быть только один элемент с классом активации на странице
@@ -45,25 +45,24 @@ class HorizontalMenu {
         drop: '.drop-cont',
     }
 
-
-
-    // visibleClass: 'rmbt_visible', // классы для показа любых элементов
-    // hiddenClass: 'rmbt-hidden', // классы для скрытия любых элементов
+    // visibleClass: 'rmbt_visible', // класс для показа любых элементов
+    // hiddenClass: 'rmbt-hidden', // класс для скрытия любых элементов
+    // classForListenClick : '.listen-click-here',  // элемент которому будет назначен этот класс будет назначен слушатель click 
 
     constructor(param) {
         this.containerMenu = param.containerMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
         this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
         this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
-
         this.iconDropdownClassOpen = param.iconDropdownModeOpen || '.icon-dropdown_open';
 
-        this.arr_classesForListenClick = param.arr_classesForListenClick || ['.toggle-drop', '.toggle-overflow-menu']; // нет логики!! оптимизировать!!
+
+        this.classForListenClick = param.classForListenClick || '.listen-click-here';
+
+
         this.visibleClass = param.visibleClass || '.rmbt_visible';
         this.hiddenClass = param.hiddenClass || '.rmbt-hidden';
 
-        this.arr_classesForListenClick.push(this.toggleOverflow);
-        this.arr_classesForListenClick.push(this.iconDropdownClass);
         this.single = param.single || 'true';
 
 
@@ -142,13 +141,13 @@ class HorizontalMenu {
                         iconDropdown.classList.add(this._clearClassName(el));
                     }
                 });
-                itemsMenu[i].append(iconDropdown);
             } else {
                 if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
                     iconDropdown.classList.add(this._clearClassName(this.iconDropdownClass));
-                    itemsMenu[i].append(iconDropdown);
                 }
             }
+            iconDropdown.classList.add(this._clearClassName(this.classForListenClick));
+            itemsMenu[i].append(iconDropdown);
         }
     }
 
@@ -158,12 +157,7 @@ class HorizontalMenu {
         if (contCurrentMenu.classList.contains(this.visibleClass)) {
             if (Array.isArray(this.iconDropdownClass)) {
                 this._flattenArray(this.iconDropdownClass).forEach(el => {
-
-
-
-
                     if (contCurrentMenu.closest('li')) {
-
                         contCurrentMenu.closest('li').childNodes.forEach(node => {
                             try {
                                 if (node.classList.contains(el)) {
@@ -174,9 +168,7 @@ class HorizontalMenu {
                             } catch {}
                             if (exit) return;
                         })
-
                         if (exit) return;
-
                     } else {
                         return false;
                     }
@@ -197,8 +189,6 @@ class HorizontalMenu {
             }
         }
 
-
-        console.log("exit", exit);
         if (exit) { return true } else { return false };
 
     }
@@ -216,21 +206,21 @@ class HorizontalMenu {
             toggleDropMenu.classList.add(this._clearClassName(this.toggleOverflow));
         }
 
+
+        toggleDropMenu.classList.add(this._clearClassName(this.classForListenClick));
         contCurrentMenu.querySelector('nav').append(toggleDropMenu);
     }
 
     listenClick(contCurrentMenu) {
-        if (!this.arr_classesForListenClick) {
+        if (!this.classForListenClick) {
             throw new Error('Nodes to listen click are absent');
         }
-        this._flattenArray(this.arr_classesForListenClick).forEach(classeForListenClick => {
-            contCurrentMenu.querySelectorAll(`.${classeForListenClick}`).forEach(node => {
-                node.addEventListener('click', this.procEssingClick.bind(this));
-            });
+        contCurrentMenu.querySelectorAll(`.${this._clearClassName(this.classForListenClick)}`).forEach(node => {
+            node.addEventListener('click', this.processingClick.bind(this));
         });
     }
 
-    procEssingClick(e) {
+    processingClick(e) {
         let currentMenu = e.target.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
             e.target.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
@@ -258,9 +248,9 @@ class HorizontalMenu {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass);
 
-            this.setSubMenuIconOpen(currentMenu)
         }
 
+        this.setSubMenuIconOpen(currentMenu)
 
     }
 
@@ -344,11 +334,10 @@ class HorizontalMenu {
 
 const param = {
     containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'],
-    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu'], // определяет внешний вид иконки когда subMenu закрыто
+    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu', 'some-icon-q'], // определяет внешний вид иконки когда subMenu закрыто
 
     iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
 
-    arr_classesForListenClick: ['.bonus-icon', 'some-icon'],
     visibleClass: 'rmbt_visible', // классы для показа любых элементов
     hiddenClass: 'rmbt-hidden', // классы для скрытия любых элементов
 
