@@ -47,6 +47,7 @@ class HorizontalMenu {
 
     // visibleClass: 'rmbt_visible', // класс для показа любых элементов
     // hiddenClass: 'rmbt-hidden', // класс для скрытия любых элементов
+    // iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
     // classForListenClick : '.listen-click-here',  // элемент которому будет назначен этот класс будет назначен слушатель click 
 
     constructor(param) {
@@ -97,15 +98,7 @@ class HorizontalMenu {
 
     menuContainerDrop(contCurrentMenu) {
 
-
-        console.log("contCurrentMenu", contCurrentMenu);
-
         let subMenu = contCurrentMenu.querySelectorAll('nav>ul ul');
-
-
-        console.log("subMenu", subMenu);
-
-
         if (subMenu.length > 0) {
             subMenu.forEach(el => {
                 el.classList.add(this._clearClassName(this.hiddenMenuCont.drop), this._clearClassName(this.hiddenClass));
@@ -230,17 +223,32 @@ class HorizontalMenu {
     processingClick(e) {
 
 
-        console.log("e", e);
+        // this.iconDropdownClassOpen
 
-        let currentMenu = e.target.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
-            e.target.parentElement.querySelector(this.hiddenMenuCont.drop);
+        let menuIcon = e.target;
+
+
+        console.log("menuIcon", menuIcon);
+
+        if (menuIcon.classList.contains(this._clearClassName(this.iconDropdownClassOpen))) {
+            menuIcon.closest('li')
+                .querySelector(`ul.${this.visibleClass}`)
+                .classList.add(this.hiddenClass)
+                .classList.remove(this.visibleClass);
+
+
+            menuIcon.classList.replace(this.iconDropdownClassOpen, this.hiddenClass);
+            return;
+        }
+
+
+        let currentMenu = menuIcon.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
+            menuIcon.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
 
-
-        console.log("currentMenu", currentMenu);
-
-
         this.OpenMenu(currentMenu);
+
+
     }
 
     OpenMenu(currentMenu) {
