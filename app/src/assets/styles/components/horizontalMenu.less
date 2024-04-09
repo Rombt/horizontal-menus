@@ -9,7 +9,6 @@
     position: relative;
 
 
-
     nav {
 
         width: 100%;
@@ -43,6 +42,8 @@
             position: relative;
             flex-grow: 1;
 
+
+
             li {
                 position: relative;
                 width: max-content;
@@ -55,6 +56,9 @@
                     padding: 10px 10px 10px 10px;
                     z-index: 2;
 
+                    border: 1px solid #72CEAE;
+                    background-color: #89FBD4;
+
                     // height: 0px;
                     // overflow: hidden;
                     // opacity: 0;
@@ -66,6 +70,87 @@
         }
 
     }
+
+
+    .overflow-cont {
+        display: flex;
+        flex-direction: column;
+
+        position: absolute;
+        height: max-content;
+        width: max-content;
+        padding: 20px 10px 20px 10px;
+        z-index: 5;
+        top: 0px;
+        right: 0px;
+        transform: translate(100%, 0);
+
+
+        border: 1px solid #72CEAE;
+        background-color: #89FBD4;
+
+
+
+        ul {
+            left: 100%;
+            top: 50%;
+
+        }
+
+        li {}
+
+
+
+    }
+
+
+    /* for test */
+    .newToggle,
+    .icon-dropdown-menu,
+    /* for work */
+    .icon-dropdown {
+        height: 20px;
+        width: 20px;
+        display: block;
+        border-radius: 50%;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 2;
+        transition: all ease 0.5s;
+        cursor: pointer;
+        padding: 2px;
+
+        border: 1px solid blue;
+
+        &:after,
+        &:before {
+            content: "";
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            height: 2px;
+            width: 50%;
+            background-color: blue;
+
+        }
+
+        &:after {
+            transform: translate(-62%, 0) rotate(45deg);
+        }
+
+        &:before {
+            transform: translate(0, 0) rotate(-45deg);
+        }
+
+        &_open {
+            transform: rotate(180deg);
+            transition: all ease 0.5s;
+        }
+    }
+
+
+
 
     .to(767px, {
 
@@ -242,64 +327,8 @@
 
     );
 
-    /* for test */
-    .newToggle,
-    .icon-dropdown-menu,
-    /* for work */
-    .icon-dropdown {
-        height: 30px;
-        width: 30px;
-        display: block;
-        border: 1px solid blue;
-        border-radius: 50%;
-        position: absolute;
-        right: 5px;
-        top: 5px;
-        z-index: 2;
-        transition: all ease 0.5s;
-
-        &:after,
-        &:before {
-            content: "";
-            position: absolute;
-            right: 10%;
-            top: 50%;
-            height: 1px;
-            width: 50%;
-            background-color: blue;
-
-        }
-
-        &:after {
-            transform: translate(-62%, 0) rotate(45deg);
-        }
-
-        &:before {
-            transform: translate(0, 0) rotate(-45deg);
-        }
-
-        &_open {
-            transform: rotate(180deg);
-            transition: all ease 0.5s;
-        }
-    }
 
 
-    .overflow-cont {
-
-        position: absolute;
-        height: max-content;
-        width: max-content;
-        padding: 20px 10px 20px 10px;
-        z-index: 5;
-        top: 0px;
-        right: 0px;
-        transform: translate(100%, 0);
-
-
-        background-color: #C8FBDA;
-
-    }
 
     /* for test */
     .show-hide-menu,
