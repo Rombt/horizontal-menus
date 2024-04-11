@@ -272,13 +272,33 @@ class HorizontalMenu {
     }
 
     closeMenu(menu) {
-        let iconMenu = menu.closest('li').querySelector(this.iconDropdownClassOpen);
-        if (iconMenu) {
-            iconMenu.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
+
+        let nl_subMenus = menu.querySelectorAll('ul');
+
+        if (nl_subMenus.length > 0) {
+            nl_subMenus.forEach(subMenu => close.call(this, subMenu))
         }
-        menu.classList.remove(this.visibleClass);
-        menu.classList.add(this.hiddenClass);
+
+        close.call(this, menu);
+
+        function close(menu) {
+
+
+            let selContMenu;
+            if (!menu.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow))) { // не переворачивает иконку drop menu в меню Overflow при открытии другого меню
+                let iconMenuOpen = menu.closest('li').querySelector(this.iconDropdownClassOpen);
+                if (iconMenuOpen) iconMenuOpen.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
+            }
+
+
+            menu.classList.remove(this.visibleClass);
+            menu.classList.add(this.hiddenClass);
+
+        }
+
+
     }
+
 
 
     //=====================================================
