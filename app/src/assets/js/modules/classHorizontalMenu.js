@@ -222,20 +222,15 @@ class HorizontalMenu {
 
     processingClick(e) {
 
-
-        // this.iconDropdownClassOpen
-
         let menuIcon = e.target;
 
-
-        console.log("menuIcon", menuIcon);
-
         if (menuIcon.classList.contains(this._clearClassName(this.iconDropdownClassOpen))) {
-            menuIcon.closest('li')
-                .querySelector(`ul.${this.visibleClass}`)
-                .classList.add(this.hiddenClass)
-                .classList.remove(this.visibleClass);
+            menuIcon.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
+            let ulVisible = menuIcon.closest('li').querySelector(`ul.${this.visibleClass}`);
+            if (ulVisible) {
 
+                this.closeMenu(ulVisible);
+            }
 
             menuIcon.classList.replace(this.iconDropdownClassOpen, this.hiddenClass);
             return;
@@ -255,10 +250,6 @@ class HorizontalMenu {
 
         if (!currentMenu.closest('.rmbt_visible'))
             if (this.checSingle() !== null) this.closeMenu(this.checSingle());
-
-
-
-        // console.log("currentMenu", currentMenu);
 
         try {
             gsap.to(currentMenu, {
@@ -281,7 +272,10 @@ class HorizontalMenu {
     }
 
     closeMenu(menu) {
-
+        let iconMenu = menu.closest('li').querySelector(this.iconDropdownClassOpen);
+        if (iconMenu) {
+            iconMenu.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
+        }
         menu.classList.remove(this.visibleClass);
         menu.classList.add(this.hiddenClass);
     }
