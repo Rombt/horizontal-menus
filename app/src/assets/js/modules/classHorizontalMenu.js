@@ -219,6 +219,11 @@ class HorizontalMenu {
         document.addEventListener('click', e => {
             let exit = 0;
             let target = e.target;
+
+
+            console.log("target = ", target);
+
+
             if (Array.isArray(this.classForListenClick)) {
                 this.classForListenClick.forEach(el => {
                     if (target.classList.contains(el)) {
@@ -235,6 +240,11 @@ class HorizontalMenu {
                 }
             }
             if (exit) return;
+
+            if (target.classList.contains(this._clearClassName(this.hiddenMenuCont.drop)) ||
+                target.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow)) ||
+                target.parentNode.classList.contains(this._clearClassName(this.hiddenMenuCont.drop)) ||
+                target.parentNode.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow))) return;
             this.clickOut();
         });
     }
@@ -388,7 +398,6 @@ class HorizontalMenu {
 
     _getAllOpenMenus() {
         return document.querySelectorAll(`.${this.visibleClass}`)
-
     }
 }
 
