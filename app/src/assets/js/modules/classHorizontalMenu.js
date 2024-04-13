@@ -195,6 +195,7 @@ class HorizontalMenu {
     }
 
     setOverflowMenuIcon(contCurrentMenu) {
+
         let toggleDropMenu = document.createElement('div');
         let span = document.createElement('span');
         toggleDropMenu.append(span);
@@ -219,22 +220,29 @@ class HorizontalMenu {
         document.addEventListener('click', e => {
             let exit = 0;
             let target = e.target;
-
-
-            console.log("target = ", target);
-
-
             if (Array.isArray(this.classForListenClick)) {
                 this.classForListenClick.forEach(el => {
-                    if (target.classList.contains(el)) {
+                    if (target.classList.contains(el) ||
+                        target.parentNode.classList.contains(el)
+                    ) {
                         this.processingClick(target);
+                        exit = 1;
+                        return;
+                    } else if (target.parentNode.classList.contains(el)) {
+                        this.processingClick(target.parentNode);
                         exit = 1;
                         return;
                     }
                 })
             } else {
+
                 if (target.classList.contains(this._clearClassName(this.classForListenClick))) {
                     this.processingClick(target);
+                    exit = 1;
+                    return;
+                } else if (target.parentNode.classList.contains(this._clearClassName(this.classForListenClick))) {
+
+                    this.processingClick(target.parentNode);
                     exit = 1;
                     return;
                 }
