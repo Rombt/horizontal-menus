@@ -72,6 +72,8 @@ class HorizontalMenu {
         }
 
         this.forEachMenu();
+        this.listenClick();
+        this.listenKeydown();
     }
 
     forEachMenu() {
@@ -84,9 +86,9 @@ class HorizontalMenu {
                 this.menuContainerDrop(contCurrentMenu);
                 this.menuContainerOverflow(contCurrentMenu);
                 this.setSubMenuIcon(contCurrentMenu);
-                this.listenClick(contCurrentMenu);
 
-                // this.clickOut(arrNodeList[i]);
+                // this.listenClick(contCurrentMenu);
+                // this.clickOut(contCurrentMenu);
                 // this.hover(arrNodeList[i]);
                 // this.keydown(arrNodeList[i]);
             }
@@ -190,7 +192,6 @@ class HorizontalMenu {
         }
 
         if (exit) { return true } else { return false };
-
     }
 
     setOverflowMenuIcon(contCurrentMenu) {
@@ -206,44 +207,64 @@ class HorizontalMenu {
             toggleDropMenu.classList.add(this._clearClassName(this.toggleOverflow));
         }
 
-
         toggleDropMenu.classList.add(this._clearClassName(this.classForListenClick));
         contCurrentMenu.querySelector('nav').append(toggleDropMenu);
     }
 
-    listenClick(contCurrentMenu) {
+    listenClick() {
         if (!this.classForListenClick) {
             throw new Error('Nodes to listen click are absent');
         }
-        contCurrentMenu.querySelectorAll(`.${this._clearClassName(this.classForListenClick)}`).forEach(node => {
-            node.addEventListener('click', this.processingClick.bind(this));
+
+        document.addEventListener('click', e => {
+            let exit = 0;
+            let target = e.target;
+            if (Array.isArray(this.classForListenClick)) {
+                this.classForListenClick.forEach(el => {
+                    if (target.classList.contains(el)) {
+                        this.processingClick(target);
+                        exit = 1;
+                        return;
+                    }
+                })
+            } else {
+                if (target.classList.contains(this._clearClassName(this.classForListenClick))) {
+                    this.processingClick(target);
+                    exit = 1;
+                    return;
+                }
+            }
+            if (exit) return;
+            this.clickOut();
         });
     }
 
-    processingClick(e) {
+    listenKeydown() {
 
-        let menuIcon = e.target;
+        document.addEventListener('keydown', e => {
+
+            if (e.which === 27) {
+                let nl_menus = this._getAllOpenMenus();
+                if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
+            }
+        })
+    }
+
+    processingClick(menuIcon) {
 
         if (menuIcon.classList.contains(this._clearClassName(this.iconDropdownClassOpen))) {
             menuIcon.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
             let ulVisible = menuIcon.closest('li').querySelector(`ul.${this.visibleClass}`);
-            if (ulVisible) {
-
-                this.closeMenu(ulVisible);
-            }
-
+            if (ulVisible) this.closeMenu(ulVisible);
             menuIcon.classList.replace(this.iconDropdownClassOpen, this.hiddenClass);
             return;
         }
-
 
         let currentMenu = menuIcon.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
             menuIcon.parentElement.querySelector(this.hiddenMenuCont.drop);
         if (!currentMenu) return;
 
         this.OpenMenu(currentMenu);
-
-
     }
 
     OpenMenu(currentMenu) {
@@ -268,7 +289,6 @@ class HorizontalMenu {
         }
 
         this.setSubMenuIconOpen(currentMenu)
-
     }
 
     closeMenu(menu) {
@@ -278,11 +298,9 @@ class HorizontalMenu {
         if (nl_subMenus.length > 0) {
             nl_subMenus.forEach(subMenu => close.call(this, subMenu))
         }
-
         close.call(this, menu);
 
         function close(menu) {
-
 
             let selContMenu;
             if (!menu.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow))) { // не переворачивает иконку drop menu в меню Overflow при открытии другого меню
@@ -290,22 +308,19 @@ class HorizontalMenu {
                 if (iconMenuOpen) iconMenuOpen.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
             }
 
-
             menu.classList.remove(this.visibleClass);
             menu.classList.add(this.hiddenClass);
-
         }
-
-
     }
 
+    clickOut() {
 
+        let nl_menus = this._getAllOpenMenus();
+
+        if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
+    }
 
     //=====================================================
-
-    // clickOut(menu) {
-
-    // }
 
     // hover(menu) {
 
@@ -369,6 +384,11 @@ class HorizontalMenu {
         } else {
             return [document.querySelectorAll(date)];
         }
+    }
+
+    _getAllOpenMenus() {
+        return document.querySelectorAll(`.${this.visibleClass}`)
+
     }
 }
 
