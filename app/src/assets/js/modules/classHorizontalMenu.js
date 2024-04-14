@@ -31,6 +31,8 @@ class HorizontalMenu {
         drop: 'drop-cont',
     }
 
+    classForListenClick = [];
+
     // const param = {
     //     containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'], // селекторы контейнеров меню которые будут обрабатываться
     //     iconDropdownClass: '.icon-dropdown', // определяет внешний вид иконки когда subMenu закрыто 
@@ -38,6 +40,8 @@ class HorizontalMenu {
     //     visibleClass: 'rmbt_visible', // классы для показа элементов
     //     hiddenClass: 'rmbt-hidden', // классы для скрытия элементов
     //     toggleOverflow: '.toggle-overflow-menu', // определяет внешний вид иконки overflow menu
+    //     toggleBurger: 'icon-dropdown', // определяет внешний вид иконки Burgerr menu
+    //     classForListenClick: [], // классы элементов на которых будет прослушивание click (для открывания и закрывания меню)
     //     // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
     // };
 
@@ -45,12 +49,17 @@ class HorizontalMenu {
         this.containerMenu = param.containerMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
         this.toggleOverflow = this._clearClassName(param.toggleOverflow || 'toggle-overflow-menu');
+        this.toggleBurger = this._clearClassName(param.toggleBurger || 'toggle-Burgerr');
         this.iconDropdownClass = this._clearClassName(param.iconDropdownClass || 'icon-dropdown');
         this.iconDropdownClassOpen = this._clearClassName(param.iconDropdownModeOpen || 'icon-dropdown_open');
-        this.classForListenClick = this._clearClassName(param.classForListenClick || 'listen-click-here');
         this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt_visible');
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
+
+        this.classForListenClick.push(this.toggleOverflow);
+        this.classForListenClick.push(this.iconDropdownClass);
+        this.classForListenClick.push(this.toggleBurger);
+        if (param.classForListenClick) this.classForListenClick.push(param.classForListenClick);
 
 
         if (this.nl_containersMenu.length === null) {
@@ -126,7 +135,6 @@ class HorizontalMenu {
             if (!itemsMenu[i].querySelector(`.${this.iconDropdownClass}`)) {
                 iconDropdown.classList.add(this.iconDropdownClass);
             }
-            iconDropdown.classList.add(this.classForListenClick);
             itemsMenu[i].append(iconDropdown);
         }
     }
@@ -179,22 +187,10 @@ class HorizontalMenu {
                         return;
                     }
                 })
-            } else {
-
-                if (target.classList.contains(this.classForListenClick)) {
-                    this.processingClick(target);
-                    exit = 1;
-                    return;
-                } else if (target.parentNode.classList.contains(this.classForListenClick)) {
-
-                    this.processingClick(target.parentNode);
-                    exit = 1;
-                    return;
-                }
             }
             if (exit) return;
 
-            if (target.classList.contains(this.hiddenMenuCont.drop) ||
+            if (target.classList.contains(this.hiddenMenuCont.drop) || // click внутри контейнеров меню либо их потомков но не ссыллок 
                 target.classList.contains(this.hiddenMenuCont.overflow) ||
                 target.parentNode.classList.contains(this.hiddenMenuCont.drop) ||
                 target.parentNode.classList.contains(this.hiddenMenuCont.overflow)) return;

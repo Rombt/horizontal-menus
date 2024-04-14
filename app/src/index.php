@@ -17,7 +17,7 @@
         <div class="container">
             <div class="row">
                 <div class="cont-horizont-menu cont-red">
-                    <div class="toggle-burge"><span></span></div>
+                    <div class="toggle-burger"><span></span></div>
                     <nav>
                         <ul>
                             <li><a href="#">item 1</a>
@@ -72,7 +72,7 @@
         <div class="container">
             <div class="row">
                 <div class="wrap-drop-menu cont-blue">
-                    <div class="toggle-burge"><span></span></div>
+                    <div class="toggle-burger"><span></span></div>
                     <nav>
                         <ul>
                             <li><a href="#">item 1</a></li>
@@ -106,7 +106,7 @@
         <div class="container">
             <div class="row">
                 <div class="wrap-drop-menu cont-green">
-                    <div class="toggle-burge-menu"><span></span></div>
+                    <div class="toggle-burger-menu"><span></span></div>
                     <nav>
                         <ul>
                             <li><a href="#">item 1</a></li>
@@ -140,7 +140,7 @@
         <div class="container">
             <div class="row">
                 <div id="my-menu" class="cont-gray">
-                    <div class="toggle-burge-menu"><span></span></div>
+                    <div class="toggle-burger-menu"><span></span></div>
                     <nav>
                         <ul>
                             <li><a href="#">item 1</a></li>
