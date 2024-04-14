@@ -37,7 +37,7 @@ class HorizontalMenu {
     //     containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'], // селекторы контейнеров меню которые будут обрабатываться
     //     iconDropdownClass: '.icon-dropdown', // определяет внешний вид иконки когда subMenu закрыто 
     //     iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
-    //     visibleClass: 'rmbt_visible', // классы для показа элементов
+    //     visibleClass: 'rmbt-visible', // классы для показа элементов
     //     hiddenClass: 'rmbt-hidden', // классы для скрытия элементов
     //     toggleOverflow: '.toggle-overflow-menu', // определяет внешний вид иконки overflow menu
     //     toggleBurger: 'icon-dropdown', // определяет внешний вид иконки Burgerr menu
@@ -49,10 +49,10 @@ class HorizontalMenu {
         this.containerMenu = param.containerMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
         this.toggleOverflow = this._clearClassName(param.toggleOverflow || 'toggle-overflow-menu');
-        this.toggleBurger = this._clearClassName(param.toggleBurger || 'toggle-Burgerr');
+        this.toggleBurger = this._clearClassName(param.toggleBurger || 'toggle-burger');
         this.iconDropdownClass = this._clearClassName(param.iconDropdownClass || 'icon-dropdown');
         this.iconDropdownClassOpen = this._clearClassName(param.iconDropdownModeOpen || 'icon-dropdown_open');
-        this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt_visible');
+        this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt-visible');
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
 
@@ -85,7 +85,6 @@ class HorizontalMenu {
                 this.setBurgerMenuIcon(contCurrentMenu);
 
                 // this.hover(arrNodeList[i]);
-                // this.keydown(arrNodeList[i]);
             }
 
 
@@ -205,7 +204,6 @@ class HorizontalMenu {
     listenKeydown() {
 
         document.addEventListener('keydown', e => {
-
             if (e.which === 27) {
                 let nl_menus = this._getAllOpenMenus();
                 if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
@@ -225,34 +223,109 @@ class HorizontalMenu {
 
         let currentMenu = menuIcon.parentElement.querySelector(`.${this.hiddenMenuCont.overflow}`) ||
             menuIcon.parentElement.querySelector(`.${this.hiddenMenuCont.drop}`);
-        if (!currentMenu) return;
+        if (currentMenu) this.OpenMenu(currentMenu);
 
-        this.OpenMenu(currentMenu);
+        if (menuIcon.classList.contains(this.toggleBurger)) {
+
+            console.log("menuIcon = ", menuIcon);
+
+            this.containerMenu.forEach(menuClass => {
+
+
+                let parentContMenu = menuIcon.closest(menuClass);
+
+                if (parentContMenu) {
+                    let currentMenu = parentContMenu.querySelector('nav');
+
+                    this.OpenMenu(currentMenu, 'burger');
+                }
+
+            })
+
+
+        }
+
     }
 
-    OpenMenu(currentMenu) {
+    OpenMenu(currentMenu, mod = 'drop') {
 
         if (!currentMenu.closest(`.${this.visibleClass}`)) {
             if (this.checSingle() !== null) this.closeMenu(this.checSingle());
         }
 
-        try {
-            gsap.to(currentMenu, {
-                duration: 1,
-                ease: "power4.inOut",
-                height: 'auto',
-                overflow: 'visible',
-                pointerEvents: 'auto',
-                opacity: 1,
-                width: 'auto',
-            });
+        if (mod == 'overflow') {
+            try {
+                gsap.to(currentMenu, {
+                    duration: 1,
+                    ease: "power4.inOut",
+                    height: 'auto',
+                    overflow: 'visible',
+                    pointerEvents: 'auto',
+                    opacity: 1,
+                    width: 'auto',
+                });
 
-        } catch {
-            currentMenu.classList.remove(this.hiddenClass);
-            currentMenu.classList.add(this.visibleClass);
+            } catch {
+
+                this.visibleClass += '_overflow';
+
+
+                currentMenu.classList.remove(this.hiddenClass);
+                currentMenu.classList.add(this.visibleClass);
+            }
+
+            this.setSubMenuIconOpen(currentMenu)
+
+        } else if (mod == 'drop') {
+            try {
+                gsap.to(currentMenu, {
+                    duration: 1,
+                    ease: "power4.inOut",
+                    height: 'auto',
+                    overflow: 'visible',
+                    pointerEvents: 'auto',
+                    opacity: 1,
+                    width: 'auto',
+                });
+
+            } catch {
+
+                /// !!!!!!!!!!!  для каждого вида меню добавлять свой модификатор при открытии
+
+                // if (!this.visibleClass.includes('_drop')) this.visibleClass += '_drop';
+
+
+                currentMenu.classList.remove(this.hiddenClass);
+                currentMenu.classList.add(this.visibleClass);
+            }
+
+            this.setSubMenuIconOpen(currentMenu)
+        } else if (mod == 'burger') {
+
+            try {
+                gsap.to(currentMenu, {
+                    duration: 1,
+                    ease: "power4.inOut",
+                    height: 'auto',
+                    overflow: 'visible',
+                    pointerEvents: 'auto',
+                    opacity: 1,
+                    width: 'auto',
+                });
+
+            } catch {
+                this.visibleClass += '_durger';
+
+                currentMenu.classList.remove(this.hiddenClass);
+                currentMenu.classList.add(this.visibleClass);
+            }
+
+            this.setSubMenuIconOpen(currentMenu)
         }
 
-        this.setSubMenuIconOpen(currentMenu)
+
+
+
     }
 
     closeMenu(menu) {
@@ -296,11 +369,6 @@ class HorizontalMenu {
     // hover(menu) {
 
     // }
-
-    // keydown(menu) {
-
-    // }
-
 
 
 
