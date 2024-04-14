@@ -1,69 +1,55 @@
 /* 
-    Обеспечивает основной функционал горизонтального меню для всех меню
-        *
+    Обеспечивает основной функционал горизонтального меню для всех меню на странице
         базовые стили в файле horizontalMenu.less
 
     поиск меню - на основе css селектору обёртки меню
-    обработка событий меню - по css селектору соответствующих элементов(иконок, кнопок)
-    селекторы могут передаваться как строкой так и массивом
+    обработка событий меню - по css селектору соответствующих элементов(иконок, кнопок) без классов(!)
 
-        *
-        основные функции:
-        *
+    основные функции:
         при переполнении контейнера пункты меню которые не поместились скрываются в выпадающем меню
-    добавляет иконку, icon - dropdown, для активации выпадающего меню с классами указанными в массиве
-    icon - dropdown для десктопа и мобильной версии могут быть разными и устанавливаются в scc *
+        добавляет иконку, icon - dropdown, для активации выпадающего меню 
         реакция на события
-    click
-    прослушивает событие для элементов из param.toggleOverflow и param.iconDropdownClass,
-        а также все те элементы которые будут добавлены в classForListenClick
-    по событию добавляет либо удаляет класс указанный в param.visibleClass
-    по умолчанию rmbt_active на ближайшего родителя элемента
+            click
+                прослушивает событие на всей странице 
+                для элементов с классами из classForListenClick открывает и закрывает скрытое меню 
+                    добавляея либо удаляет классы visibleClass - hiddenClass или средствами gsap
 
     todo:
 
-        !!!скрытие любого элемента только путём назначение ему класса 'rmbt-hidden'
-    показ элемента только путём назначение ему класса '.rmbt_visible'
-    или средствами gsap
-
-
-
-    добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
-    возможность отключать icon - dropdown для меню desk top независимо от мобильной версии из html
-    обработка такой ситуации:
-        для каждого меню должен быть только один элемент с классом активации на странице
-    при этом добавление класса активации должно убирать этот класс с других элементов если они не родители
+        добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
+        возможность отключать icon - dropdown для меню desk top независимо от мобильной версии из html
+        обработка такой ситуации:
+            для каждого меню должен быть только один элемент с классом активации на странице
+        при этом добавление класса активации должно убирать этот класс с других элементов если они не родители
     */
-
 
 class HorizontalMenu {
 
-
     // классы скрытых пунтков меню или контейнеров
     hiddenMenuCont = {
-        overflow: '.overflow-cont',
-        drop: '.drop-cont',
+        overflow: 'overflow-cont',
+        drop: 'drop-cont',
     }
 
-    // visibleClass: 'rmbt_visible', // класс для показа любых элементов
-    // hiddenClass: 'rmbt-hidden', // класс для скрытия любых элементов
-    // iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
-    // classForListenClick : '.listen-click-here',  // элемент которому будет назначен этот класс будет назначен слушатель click 
+    // const param = {
+    //     containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'], // селекторы контейнеров меню которые будут обрабатываться
+    //     iconDropdownClass: '.icon-dropdown', // определяет внешний вид иконки когда subMenu закрыто 
+    //     iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
+    //     visibleClass: 'rmbt_visible', // классы для показа элементов
+    //     hiddenClass: 'rmbt-hidden', // классы для скрытия элементов
+    //     toggleOverflow: '.toggle-overflow-menu', // определяет внешний вид иконки overflow menu
+    //     // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
+    // };
 
     constructor(param) {
         this.containerMenu = param.containerMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containerMenu);
-        this.toggleOverflow = param.toggleOverflow || '.show-overflow-menu';
-        this.iconDropdownClass = param.iconDropdownClass || '.icon-dropdown';
-        this.iconDropdownClassOpen = param.iconDropdownModeOpen || '.icon-dropdown_open';
-
-
-        this.classForListenClick = param.classForListenClick || '.listen-click-here';
-
-
-        this.visibleClass = param.visibleClass || '.rmbt_visible';
-        this.hiddenClass = param.hiddenClass || '.rmbt-hidden';
-
+        this.toggleOverflow = this._clearClassName(param.toggleOverflow || 'toggle-overflow-menu');
+        this.iconDropdownClass = this._clearClassName(param.iconDropdownClass || 'icon-dropdown');
+        this.iconDropdownClassOpen = this._clearClassName(param.iconDropdownModeOpen || 'icon-dropdown_open');
+        this.classForListenClick = this._clearClassName(param.classForListenClick || 'listen-click-here');
+        this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt_visible');
+        this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
 
 
@@ -103,14 +89,14 @@ class HorizontalMenu {
         let subMenu = contCurrentMenu.querySelectorAll('nav>ul ul');
         if (subMenu.length > 0) {
             subMenu.forEach(el => {
-                el.classList.add(this._clearClassName(this.hiddenMenuCont.drop), this._clearClassName(this.hiddenClass));
+                el.classList.add(this.hiddenMenuCont.drop, this.hiddenClass);
             })
         }
     }
 
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = document.createElement('ul');
-        overflowCont.classList.add(this._clearClassName(this.hiddenMenuCont.overflow), this._clearClassName(this.hiddenClass));
+        overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
 
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
             if (elMenu.getBoundingClientRect().right > contCurrentMenu.getBoundingClientRect().right) {
@@ -137,61 +123,28 @@ class HorizontalMenu {
         for (let i = 0; i <= itemsMenu.length - 1; i++) {
             if (itemsMenu[i].querySelectorAll('ul').length === 0) continue; // Пропустить элементы без sub menu
             let iconDropdown = document.createElement('div');
-            if (Array.isArray(this.iconDropdownClass)) {
-                this._flattenArray(this.iconDropdownClass).forEach(el => {
-                    if (!iconDropdown.classList.contains(el)) {
-                        iconDropdown.classList.add(this._clearClassName(el));
-                    }
-                });
-            } else {
-                if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
-                    iconDropdown.classList.add(this._clearClassName(this.iconDropdownClass));
-                }
+            if (!itemsMenu[i].querySelector(`.${this.iconDropdownClass}`)) {
+                iconDropdown.classList.add(this.iconDropdownClass);
             }
-            iconDropdown.classList.add(this._clearClassName(this.classForListenClick));
+            iconDropdown.classList.add(this.classForListenClick);
             itemsMenu[i].append(iconDropdown);
         }
     }
 
     setSubMenuIconOpen(contCurrentMenu) {
-
-        let exit = false;
-        if (contCurrentMenu.classList.contains(this.visibleClass)) {
-            if (Array.isArray(this.iconDropdownClass)) {
-                this._flattenArray(this.iconDropdownClass).forEach(el => {
-                    if (contCurrentMenu.closest('li')) {
-                        contCurrentMenu.closest('li').childNodes.forEach(node => {
-                            try {
-                                if (node.classList.contains(el)) {
-                                    node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
-                                    exit = true;
-                                    return;
-                                }
-                            } catch {}
-                            if (exit) return;
-                        })
-                        if (exit) return;
-                    } else {
-                        return false;
-                    }
-                });
-            } else {
-                if (!itemsMenu[i].querySelector(this.iconDropdownClass)) {
-                    contCurrentMenu.closest('li').childNodes.forEach(node => {
-                        try {
-                            if (node.classList.contains(el)) {
-                                node.classList.add(this._clearClassName(this.iconDropdownClassOpen));
-                                exit = true;
-                                return;
-                            }
-                        } catch {}
-                    })
-                    if (exit) return;
-                }
-            }
+        let parentLi = contCurrentMenu.closest('li');
+        if (parentLi === null) {
+            return;
         }
-
-        if (exit) { return true } else { return false };
+        parentLi.childNodes.forEach(node => {
+            try {
+                if (node.classList.contains(this.iconDropdownClass)) {
+                    node.classList.add(this.iconDropdownClassOpen);
+                    exit = true;
+                    return;
+                }
+            } catch {}
+        })
     }
 
     setOverflowMenuIcon(contCurrentMenu) {
@@ -199,16 +152,8 @@ class HorizontalMenu {
         let toggleDropMenu = document.createElement('div');
         let span = document.createElement('span');
         toggleDropMenu.append(span);
-
-        if (Array.isArray(this.toggleOverflow)) {
-            this._flattenArray(this.toggleOverflow).forEach(el => {
-                toggleDropMenu.classList.add(el);
-            });
-        } else {
-            toggleDropMenu.classList.add(this._clearClassName(this.toggleOverflow));
-        }
-
-        toggleDropMenu.classList.add(this._clearClassName(this.classForListenClick));
+        toggleDropMenu.classList.add(this.toggleOverflow);
+        toggleDropMenu.classList.add(this.classForListenClick);
         contCurrentMenu.querySelector('nav').append(toggleDropMenu);
     }
 
@@ -236,11 +181,11 @@ class HorizontalMenu {
                 })
             } else {
 
-                if (target.classList.contains(this._clearClassName(this.classForListenClick))) {
+                if (target.classList.contains(this.classForListenClick)) {
                     this.processingClick(target);
                     exit = 1;
                     return;
-                } else if (target.parentNode.classList.contains(this._clearClassName(this.classForListenClick))) {
+                } else if (target.parentNode.classList.contains(this.classForListenClick)) {
 
                     this.processingClick(target.parentNode);
                     exit = 1;
@@ -249,10 +194,10 @@ class HorizontalMenu {
             }
             if (exit) return;
 
-            if (target.classList.contains(this._clearClassName(this.hiddenMenuCont.drop)) ||
-                target.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow)) ||
-                target.parentNode.classList.contains(this._clearClassName(this.hiddenMenuCont.drop)) ||
-                target.parentNode.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow))) return;
+            if (target.classList.contains(this.hiddenMenuCont.drop) ||
+                target.classList.contains(this.hiddenMenuCont.overflow) ||
+                target.parentNode.classList.contains(this.hiddenMenuCont.drop) ||
+                target.parentNode.classList.contains(this.hiddenMenuCont.overflow)) return;
             this.clickOut();
         });
     }
@@ -270,16 +215,16 @@ class HorizontalMenu {
 
     processingClick(menuIcon) {
 
-        if (menuIcon.classList.contains(this._clearClassName(this.iconDropdownClassOpen))) {
-            menuIcon.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
+        if (menuIcon.classList.contains(this.iconDropdownClassOpen)) {
+            menuIcon.classList.remove(this.iconDropdownClassOpen);
             let ulVisible = menuIcon.closest('li').querySelector(`ul.${this.visibleClass}`);
             if (ulVisible) this.closeMenu(ulVisible);
             menuIcon.classList.replace(this.iconDropdownClassOpen, this.hiddenClass);
             return;
         }
 
-        let currentMenu = menuIcon.parentElement.querySelector(this.hiddenMenuCont.overflow) ||
-            menuIcon.parentElement.querySelector(this.hiddenMenuCont.drop);
+        let currentMenu = menuIcon.parentElement.querySelector(`.${this.hiddenMenuCont.overflow}`) ||
+            menuIcon.parentElement.querySelector(`.${this.hiddenMenuCont.drop}`);
         if (!currentMenu) return;
 
         this.OpenMenu(currentMenu);
@@ -287,8 +232,9 @@ class HorizontalMenu {
 
     OpenMenu(currentMenu) {
 
-        if (!currentMenu.closest('.rmbt_visible'))
+        if (!currentMenu.closest(`.${this.visibleClass}`)) {
             if (this.checSingle() !== null) this.closeMenu(this.checSingle());
+        }
 
         try {
             gsap.to(currentMenu, {
@@ -320,10 +266,9 @@ class HorizontalMenu {
 
         function close(menu) {
 
-            let selContMenu;
-            if (!menu.classList.contains(this._clearClassName(this.hiddenMenuCont.overflow))) { // не переворачивает иконку drop menu в меню Overflow при открытии другого меню
-                let iconMenuOpen = menu.closest('li').querySelector(this.iconDropdownClassOpen);
-                if (iconMenuOpen) iconMenuOpen.classList.remove(this._clearClassName(this.iconDropdownClassOpen));
+            if (!menu.classList.contains(this.hiddenMenuCont.overflow)) {
+                let iconMenuOpen = menu.closest('li').querySelector(`.${this.iconDropdownClassOpen}`);
+                if (iconMenuOpen) iconMenuOpen.classList.remove(this.iconDropdownClassOpen);
             }
 
             menu.classList.remove(this.visibleClass);
@@ -338,6 +283,14 @@ class HorizontalMenu {
         if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
     }
 
+    checSingle() {
+
+        if (this.single === 'true') {
+            return document.querySelector(`.${ this.visibleClass }`);
+        }
+        return null;
+    }
+
     //=====================================================
 
     // hover(menu) {
@@ -349,13 +302,7 @@ class HorizontalMenu {
     // }
 
 
-    checSingle() {
 
-        if (this.single === 'true') {
-            return document.querySelector(`.${ this.visibleClass }`);
-        }
-        return null;
-    }
 
     //========= helpers ============
 
@@ -378,8 +325,6 @@ class HorizontalMenu {
         удаляет повторяющиеся значения
     */
     _uniqueArr(arr) {
-
-        // let _arr = arr.map(el => _clearClassName(el))
 
         return [...new Set(arr.map(el => this._clearClassName(el)))];
     }
@@ -411,23 +356,6 @@ class HorizontalMenu {
 
 const param = {
     containerMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'],
-    iconDropdownClass: ['.icon-dropdown', 'icon-dropdown-menu', 'some-icon-q'], // определяет внешний вид иконки когда subMenu закрыто
-
-    iconDropdownClassOpen: '.icon-dropdown_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropdownClass НЕбудет удалён
-
-    visibleClass: 'rmbt_visible', // классы для показа любых элементов
-    hiddenClass: 'rmbt-hidden', // классы для скрытия любых элементов
-
-
-    // toggleDrop: ['.toggle-drop', '.toggle-drop-menu'],
-    // iconDropdownClass: ['newToggle'],
-    // toggleOverflow: ['.toggle-overflow-menu', '.show-hide-menu'],
-
-
-    // openingMode: 
-
-
-    // single: 'false', // допeскает одновременное открытие нескольких меню 
 };
 
 const menu = new HorizontalMenu(param);
