@@ -59,7 +59,7 @@ class HorizontalMenu {
         this.classForListenClick.push(this.toggleOverflow);
         this.classForListenClick.push(this.iconDropdownClass);
         this.classForListenClick.push(this.toggleBurger);
-        if (param.classForListenClick) this.classForListenClick.push(param.classForListenClick);
+        if (param.classForListenClick) this.classForListenClick.push(param.classForListenClick); // а нужно ли??
 
 
         if (this.nl_containersMenu.length === null) {
@@ -82,8 +82,8 @@ class HorizontalMenu {
                 this.menuContainerOverflow(contCurrentMenu);
                 this.setSubMenuIcon(contCurrentMenu);
 
-                // this.listenClick(contCurrentMenu);
-                // this.clickOut(contCurrentMenu);
+                this.setBurgerMenuIcon(contCurrentMenu);
+
                 // this.hover(arrNodeList[i]);
                 // this.keydown(arrNodeList[i]);
             }
@@ -114,10 +114,7 @@ class HorizontalMenu {
         });
 
         if (overflowCont.childElementCount > 0) {
-
             this.setOverflowMenuIcon(contCurrentMenu)
-
-
             contCurrentMenu.querySelector('nav').append(overflowCont);
         }
         contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
@@ -127,7 +124,6 @@ class HorizontalMenu {
         search sub menu and set sub menu icon if finde 
     */
     setSubMenuIcon(contCurrentMenu) {
-
         const itemsMenu = contCurrentMenu.querySelectorAll(`nav li`);
         for (let i = 0; i <= itemsMenu.length - 1; i++) {
             if (itemsMenu[i].querySelectorAll('ul').length === 0) continue; // Пропустить элементы без sub menu
@@ -163,6 +159,14 @@ class HorizontalMenu {
         toggleDropMenu.classList.add(this.toggleOverflow);
         toggleDropMenu.classList.add(this.classForListenClick);
         contCurrentMenu.querySelector('nav').append(toggleDropMenu);
+    }
+
+    setBurgerMenuIcon(contCurrentMenu) {
+        let toggleBurgerCont = document.createElement('div');
+        let toggleBurgerSpan = document.createElement('span');
+        toggleBurgerCont.classList.add('toggle-burger');
+        toggleBurgerCont.append(toggleBurgerSpan);
+        contCurrentMenu.prepend(toggleBurgerCont);
     }
 
     listenClick() {
