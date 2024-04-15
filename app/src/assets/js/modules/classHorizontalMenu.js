@@ -156,7 +156,6 @@ class HorizontalMenu {
         let span = document.createElement('span');
         toggleDropMenu.append(span);
         toggleDropMenu.classList.add(this.toggleOverflow);
-        toggleDropMenu.classList.add(this.classForListenClick);
         contCurrentMenu.querySelector('nav').append(toggleDropMenu);
     }
 
