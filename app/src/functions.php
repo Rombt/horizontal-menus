@@ -8,6 +8,11 @@
 // require_once get_template_directory() . '/inc/functions/comment_default.php';
 // require_once get_template_directory() . '/inc/functions/ajax.php';
 
+// if (class_exists('WooCommerce')) {
+// 	require_once get_template_directory() . '/woocommerce/wc-functions.php';
+// 	require_once get_template_directory() . '/woocommerce/wc-functions-remove.php';
+// }
+
 
 define('rs_PATH_THEME', get_template_directory());
 define('rs_URL_THEME', esc_url(get_template_directory_uri()));
