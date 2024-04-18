@@ -1,7 +1,7 @@
 <?php
 
 /**
- * the place for function those will be used much times in admin  part your site
+ * This is the place for functions that will be used frequently in the admin part of your site.
  */
 
 
