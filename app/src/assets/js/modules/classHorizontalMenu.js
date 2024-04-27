@@ -304,9 +304,21 @@ class HorizontalMenu {
 
     OpenMenu(currentMenu, modifier) {
 
-        // if (!currentMenu.closest(`.${this.visibleClass}`)) {
-        //     if (this.checSingle() !== null) this.closeMenu(this.checSingle(), modifier);
-        // }
+        if (!currentMenu.closest(`.${this.visibleClass}`)) {
+
+
+            console.log("this.single = ", this.single);
+            console.log("this.checSingle() = ", this.checSingle());
+
+            if (this.checSingle() !== 0) {
+
+                this.checSingle().forEach(openMenu => {
+
+                    this.closeMenu(openMenu, modifier)
+                })
+
+            };
+        }
 
         try {
             gsap.to(currentMenu, {
@@ -350,10 +362,19 @@ class HorizontalMenu {
 
     checSingle() {
 
-        if (this.single === 'true') {
-            return document.querySelector(`.${ this.visibleClass }`);
+        if (this.single !== 'true') {
+            return null;
         }
-        return null;
+
+        let entries = Object.entries(this.modifiers);
+        let arr_openMenus = entries.map(([key, mod]) => {
+            let openMenus = document.querySelectorAll(`.${this.visibleClass}_${mod}`);
+            if (openMenus.length > 0) return [...openMenus];
+        }).filter(item => item !== undefined);
+
+
+        if (arr_openMenus.length > 0) return this._flattenArray(arr_openMenus);
+        return 0;
     }
 
     //=====================================================
@@ -409,6 +430,10 @@ class HorizontalMenu {
       */
 
     _clearClassName(str) {
+
+
+        console.log("str", str); //!!!!!!!!!! debuger !!!!!!!!!!!!!!!
+
         const patternDot = /^\./;
         return str.replace(patternDot, '');
     }
