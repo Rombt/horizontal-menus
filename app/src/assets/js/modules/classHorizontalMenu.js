@@ -73,7 +73,7 @@ class HorizontalMenu {
             iconOverflowOpen: '.icon-overflow_open', // определяет внешний вид иконки overflow menu когда overflow menu открыто
             
             iconBurger: 'icon-drop', // определяет внешний вид иконки Burgerr menu
-            iconBurgerOpen: 'icon-drop_open', // определяет внешний вид иконки Burgerr menu когда Burgerr menu открыто
+            iconBurgerOpen: 'icon-drop_open', // определяет внешний вид иконки Burgerr menu когда Burgerr menu открыто  iconBurger НЕбудет удалён
             
             // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
         };
@@ -87,6 +87,7 @@ class HorizontalMenu {
 
         this.iconOverflow = this._clearClassName(param.iconOverflow || 'icon-overflow');
         this.iconBurger = this._clearClassName(param.iconBurger || 'icon-burger');
+        this.iconBurgerOpen = this._clearClassName(param.iconBurgerOpen || 'icon-burger_open');
         this.iconDropClass = this._clearClassName(param.iconDropClass || 'icon-drop');
         this.iconDropClassOpen = this._clearClassName(param.iconDropdownmodifiereOpen || 'icon-drop_open');
         this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt-visible');
@@ -181,20 +182,58 @@ class HorizontalMenu {
         contCurrentMenu.prepend(iconBurger);
     }
 
-    setSubMenuIconOpen(contCurrentMenu) {
-        let parentLi = contCurrentMenu.closest('li');
-        if (parentLi === null) {
-            return;
-        }
-        parentLi.childNodes.forEach(node => {
-            try {
-                if (node.classList.contains(this.iconDropClass)) {
-                    node.classList.add(this.iconDropClassOpen);
-                    exit = true;
+    // setSubMenuIconOpen(contCurrentMenu) {
+    //     let parentLi = contCurrentMenu.closest('li');
+    //     if (parentLi === null) {
+    //         return;
+    //     }
+    //     parentLi.childNodes.forEach(node => {
+    //         try {
+    //             if (node.classList.contains(this.iconDropClass)) {
+    //                 node.classList.add(this.iconDropClassOpen);
+    //                 exit = true;
+    //                 return;
+    //             }
+    //         } catch {}
+    //     })
+    // }
+    setIconMenuOpen(currentMenu, modifier) {
+
+        switch (modifier) {
+            case this.modifiers.drop:
+                let parentLi = currentMenu.closest('li');
+                if (parentLi === null) {
                     return;
                 }
-            } catch {}
-        })
+                parentLi.childNodes.forEach(node => {
+                    try {
+                        if (node.classList.contains(this.iconDropClass)) {
+                            node.classList.add(this.iconDropClassOpen);
+                            exit = true;
+                            return;
+                        }
+                    } catch {}
+                })
+                break
+
+            case this.modifiers.burger:
+                this.containersMenu.forEach(menuSel => {
+                    let parrentMenu = currentMenu.closest(menuSel);
+
+                    if (parrentMenu) {
+                        let iconBurger = parrentMenu.querySelector(`.${this.iconBurger}`);
+                        iconBurger.classList.add(this.iconBurgerOpen);
+                        currentMenu.prepend(iconBurger);
+                    }
+                })
+
+                break
+            case this.modifiers.overflow:
+                break
+                // default:
+                //   break
+        }
+
     }
 
     listenClick() {
@@ -281,8 +320,6 @@ class HorizontalMenu {
         }
     }
 
-
-
     OpenMenu(currentMenu, modifier) {
 
         // if (!currentMenu.closest(`.${this.visibleClass}`)) {
@@ -305,7 +342,8 @@ class HorizontalMenu {
             currentMenu.classList.add(this.visibleClass + '_' + modifier);
         }
 
-        this.setSubMenuIconOpen(currentMenu)
+        // this.setSubMenuIconOpen(currentMenu)
+        this.setIconMenuOpen(currentMenu, modifier);
     }
 
 
