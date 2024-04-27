@@ -42,21 +42,39 @@ class HorizontalMenu {
         burger: 'burger-cont',
     }
 
-    arr_modifiers = ['drop', 'overflow', 'burger'];
+    modifiers = { // объект, модификаторы классов для различия разных типов меню
+        drop: 'drop',
+        overflow: 'overflow',
+        burger: 'burger',
+    }
 
     classForListenClick = [];
 
     /*
         const param = {
             containersMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'], // селекторы контейнеров меню которые будут обрабатываться
-            classForListenClick: [], // классы элементов на которых будет прослушивание click (для открывания и закрывания меню)
-            arr_modifiers = [drop, overflow, burger]   // массив, модификаторы классов для различия разных типов меню
-            iconDropClass: '.icon-drop', // определяет внешний вид иконки когда subMenu закрыто 
-            iconDropClassOpen: '.icon-drop_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropClass НЕбудет удалён
+
+            ??!! classForListenClick: [], // классы элементов на которых будет прослушивание click (для открывания и закрывания меню)
+           
+
+            modifiers = {      // объект, модификаторы классов для различия разных типов меню
+                    drop:'drop',
+                    overflow:'overflow',
+                    burger:'burger',
+            }
+            
             visibleClass: 'rmbt-visible', // классы для показа элементов
             hiddenClass: 'rmbt-hidden', // классы для скрытия элементов
+
+            iconDropClass: '.icon-drop', // определяет внешний вид иконки когда subMenu закрыто 
+            iconDropClassOpen: '.icon-drop_open', // Класс который определяет внешний вид иконки когда subMenu открыто. iconDropClass НЕбудет удалён
+            
             iconOverflow: '.icon-overflow', // определяет внешний вид иконки overflow menu
+            iconOverflowOpen: '.icon-overflow_open', // определяет внешний вид иконки overflow menu когда overflow menu открыто
+            
             iconBurger: 'icon-drop', // определяет внешний вид иконки Burgerr menu
+            iconBurgerOpen: 'icon-drop_open', // определяет внешний вид иконки Burgerr menu когда Burgerr menu открыто
+            
             // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
         };
 
@@ -79,12 +97,13 @@ class HorizontalMenu {
         this.classForListenClick.push(this.iconDropClass);
         this.classForListenClick.push(this.iconBurger);
         // if (param.classForListenClick) this.classForListenClick.push(param.classForListenClick); // а нужно ли?? добавить если возникнет потребность
-
-
         this.forEachMenu();
 
 
         this.listenClick();
+
+
+
         this.listenKeydown();
     }
 
@@ -95,18 +114,11 @@ class HorizontalMenu {
                 let contCurrentMenu = arrNodeList[i];
                 if (!contCurrentMenu.querySelector('nav')) continue;
 
-
                 this.menuContainerDrop(contCurrentMenu);
-
                 this.menuContainerOverflow(contCurrentMenu);
                 this.setSubMenuIcon(contCurrentMenu);
-
                 this.setBurgerIcon(contCurrentMenu);
-
-                // this.hover(arrNodeList[i]);
             }
-
-
         });
     }
 
@@ -161,7 +173,13 @@ class HorizontalMenu {
         contCurrentMenu.querySelector('nav').append(iconOverflow);
     }
 
-
+    setBurgerIcon(contCurrentMenu) {
+        let iconBurger = document.createElement('div');
+        let iconBurgerSpan = document.createElement('span');
+        iconBurger.classList.add(this.iconBurger);
+        iconBurger.append(iconBurgerSpan);
+        contCurrentMenu.prepend(iconBurger);
+    }
 
     setSubMenuIconOpen(contCurrentMenu) {
         let parentLi = contCurrentMenu.closest('li');
@@ -179,49 +197,60 @@ class HorizontalMenu {
         })
     }
 
-
-    setBurgerIcon(contCurrentMenu) {
-        let iconBurger = document.createElement('div');
-        let iconBurgerSpan = document.createElement('span');
-        iconBurger.classList.add('icon-burger');
-        iconBurger.append(iconBurgerSpan);
-        contCurrentMenu.prepend(iconBurger);
-    }
-
     listenClick() {
         if (!this.classForListenClick) {
             throw new Error('Nodes to listen click are absent');
         }
 
         document.addEventListener('click', e => {
-            let exit = 0;
             let target = e.target;
-            if (Array.isArray(this.classForListenClick)) {
-                this.classForListenClick.forEach(el => {
-                    if (target.classList.contains(el) ||
-                        target.parentNode.classList.contains(el)
-                    ) {
-                        this.processingClick(target);
-                        exit = 1;
-                        return;
-                    } else if (target.parentNode.classList.contains(el)) {
-                        this.processingClick(target.parentNode);
-                        exit = 1;
-                        return;
+
+            console.log("00 target", target);
+
+            if (target.classList.contains(this.iconDropClassOpen)) {
+                let parentMenu = target.closest('li');
+                let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
+                parentMenu.querySelector(`.${this.iconDropClassOpen}`).classList.remove(this.iconDropClassOpen);
+                this.closeMenu(currentMenu, this.modifiers.drop);
+
+            }
+            // else if (target.classList.contains(this.iconBurgerClassOpen)) {
+            //     let parentMenu = target.closest('li');
+            //     let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
+            //     parentMenu.querySelector(`.${this.iconDropClassOpen}`).classList.remove(this.iconDropClassOpen);
+            //     this.closeMenu(currentMenu, this.modifiers.drop);
+
+            // }
+            else if (target.classList.contains(this.iconDropClass)) {
+                let currentMenu = target.closest('li').querySelector(`.${this.hiddenMenuCont.drop}`);
+                this.OpenMenu(currentMenu, this.modifiers.drop);
+            } else if (target.classList.contains(this.iconOverflow)) {
+                let currentMenu = target.closest('nav').querySelector(`.${this.hiddenMenuCont.overflow}`);
+                this.OpenMenu(currentMenu, this.modifiers.overflow);
+            } else if (target.classList.contains(this.iconBurger)) {
+
+                this.containersMenu.forEach(menuSel => {
+                    if (target.closest(menuSel)) {
+
+                        // let currentMenu = target.closest(menuSel).querySelector(`.${this.hiddenMenuCont.burger}`);
+                        let currentMenu = target.closest(menuSel).querySelector(`nav`);
+                        this.OpenMenu(currentMenu, this.modifiers.burger);
                     }
+
                 })
             }
-            if (exit) return;
+
+
 
             if (target.classList.contains(this.hiddenMenuCont.drop) || // click внутри контейнеров меню либо их потомков но не ссыллок 
                 target.classList.contains(this.hiddenMenuCont.overflow) ||
                 target.parentNode.classList.contains(this.hiddenMenuCont.drop) ||
                 target.parentNode.classList.contains(this.hiddenMenuCont.overflow)) return;
-            this.clickOut();
+            this.clickOut(); // не работает
         });
     }
 
-    listenKeydown() {
+    listenKeydown() { // не работает
 
         document.addEventListener('keydown', e => {
             if (e.which === 27) {
@@ -231,92 +260,7 @@ class HorizontalMenu {
         })
     }
 
-    processingClick(menuIcon) {
-
-        if (menuIcon.classList.contains(this.iconDropClass)) {
-
-            let parentLi = menuIcon.closest('li');
-            let menu = parentLi.querySelector(`.${this.hiddenMenuCont.drop}`);
-
-            if (menuIcon.classList.contains(this.iconDropClassOpen)) {
-                this.closeMenu(menu);
-            } else {
-                this.OpenMenu(menu);
-            }
-        } else if (menuIcon.classList.contains(this.iconOverflow)) {
-            let parentNav = menuIcon.closest('nav');
-            let menu = parentNav.querySelector(`.${this.hiddenMenuCont.overflow}`);
-
-            if (menuIcon.classList.contains(this.iconDropClassOpen)) {
-                this.closeMenu(menu);
-            } else {
-                this.OpenMenu(menu);
-            }
-        } else if (menuIcon.classList.contains(this.iconBurger)) {
-            if (menuIcon.classList.contains(this.iconDropClassOpen)) {
-                this.closeMenu(menu);
-            } else {
-                this.OpenMenu(menu);
-            }
-        }
-    }
-
-
-    closeMenu(menu) {
-
-        let modifier = this._getModifier(menu);
-        let resultClass = this.visibleClass + '_' + modifier;
-
-        ///// запутался??? нужен чёткий алгоритм !!!!!!!!!!!!!!!!!!
-        if (Array.isArray(menu)) {
-            menu.forEach(menu => {
-
-
-            })
-
-        }
-
-
-        if (modifier == this.arr_modifiers[0]) {
-            let nl_subMenus = menu.querySelectorAll('ul');
-
-            if (nl_subMenus.length > 0) {
-                nl_subMenus.forEach(subMenu => close.call(this, subMenu, modifier))
-            }
-
-            close.call(this, menu, modifier);
-
-        } else if (modifier == 'overflow') {
-
-        }
-
-
-
-        // let nl_subMenus = menu.querySelectorAll('ul');
-        // if (nl_subMenus.length > 0) {
-        //     nl_subMenus.forEach(subMenu => close.call(this, subMenu))
-        // }
-        // close.call(this, menu);
-
-        function close(menu, modifier) {
-            if (!menu.classList.contains(this.hiddenMenuCont.overflow)) {
-                let iconMenuOpen = menu.closest('li').querySelector(`.${this.iconDropClassOpen}`);
-                if (iconMenuOpen) iconMenuOpen.classList.remove(this.iconDropClassOpen);
-            }
-            menu.classList.remove(this.visibleClass + '_' + modifier);
-            menu.classList.add(this.hiddenClass);
-        }
-    }
-
-
-
-    OpenMenu(currentMenu) {
-
-        if (!currentMenu.closest(`.${this.visibleClass}`)) {
-            if (this.checSingle() !== null) this.closeMenu(this.checSingle());
-        }
-        let resultClass;
-        let modifier = this._getModifier(currentMenu);
+    closeMenu(currentMenu, modifier) {
 
         try {
             gsap.to(currentMenu, {
@@ -330,9 +274,35 @@ class HorizontalMenu {
             });
 
         } catch {
-            if (!this.visibleClass.includes(modifier)) resultClass = this.visibleClass + '_' + modifier;
+
+
+            currentMenu.classList.remove(this.visibleClass + '_' + modifier);
+            currentMenu.classList.add(this.hiddenClass);
+        }
+    }
+
+
+
+    OpenMenu(currentMenu, modifier) {
+
+        // if (!currentMenu.closest(`.${this.visibleClass}`)) {
+        //     if (this.checSingle() !== null) this.closeMenu(this.checSingle(), modifier);
+        // }
+
+        try {
+            gsap.to(currentMenu, {
+                duration: 1,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
+            });
+
+        } catch {
             currentMenu.classList.remove(this.hiddenClass);
-            currentMenu.classList.add(resultClass);
+            currentMenu.classList.add(this.visibleClass + '_' + modifier);
         }
 
         this.setSubMenuIconOpen(currentMenu)
@@ -341,9 +311,11 @@ class HorizontalMenu {
 
     clickOut() {
 
-        let nl_menus = this._getAllOpenMenus();
 
-        if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
+        // console.log("start clickOut()");
+
+        // let nl_menus = this._getAllOpenMenus();
+        // if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
     }
 
     checSingle() {
@@ -365,11 +337,6 @@ class HorizontalMenu {
     //========= helpers ============
 
     _getModifier(menu) {
-
-
-        console.log("menu", menu);
-
-        console.log("this.hiddenMenuCont.drop + '_' + this.arr_modifiers[0])", this.visibleClass + '_' + this.arr_modifiers[0]);
 
         if (menu.classList.contains(this.hiddenMenuCont.drop) || menu.classList.contains(this.hiddenMenuCont.drop + '_' + this.arr_modifiers[0])) {
             return this.arr_modifiers[0];
@@ -428,7 +395,10 @@ class HorizontalMenu {
     }
 
     _getAllOpenMenus() {
-        const nl_menu = [...this.arr_modifiers.map(mod => document.querySelectorAll(`.${this.visibleClass}_${mod}`))];
+
+        let entries = Object.entries(this.modifiers);
+
+        const nl_menu = entries.map(([key, mod]) => document.querySelectorAll(`.${this.visibleClass}_${mod}`));
         return nl_menu.filter(el => el.length > 0);
     }
 }
