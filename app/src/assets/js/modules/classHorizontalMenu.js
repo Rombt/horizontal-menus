@@ -244,9 +244,6 @@ class HorizontalMenu {
         document.addEventListener('click', e => {
             let target = e.target;
 
-
-            console.log("target = ", target);
-
             if (target.classList.contains(this.iconDropClassOpen)) {
                 let parentMenu = target.closest('li');
                 let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
@@ -300,8 +297,9 @@ class HorizontalMenu {
     OpenMenu(currentMenu, modifier) {
 
         if (!currentMenu.closest(`.${this.visibleClass}`)) {
-            if (this.checSingle() !== 0) {
-                this.checSingle().forEach(openMenu => {
+            let openedMenu = this.checSingle();
+            if (openedMenu.length > 0) {
+                openedMenu.forEach(openMenu => {
                     this.closeMenu(openMenu, modifier)
                 })
             };
@@ -341,12 +339,20 @@ class HorizontalMenu {
     }
 
 
-    listenKeydown() { // не работает
+    listenKeydown() {
 
         document.addEventListener('keydown', e => {
             if (e.which === 27) {
                 let nl_menus = this._getAllOpenMenus();
-                if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
+                if (nl_menus.length > 0) nl_menus.forEach(menu => {
+                    if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
+                        this.closeMenu(menu, 'drop');
+                    } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
+                        this.closeMenu(menu, 'burger');
+                    } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
+                        this.closeMenu(menu, 'overflow');
+                    }
+                });
             }
         })
     }
@@ -362,7 +368,6 @@ class HorizontalMenu {
             let openMenus = document.querySelectorAll(`.${this.visibleClass}_${mod}`);
             if (openMenus.length > 0) return [...openMenus];
         }).filter(item => item !== undefined);
-
         if (arr_openMenus.length > 0) return this._flattenArray(arr_openMenus);
         return 0;
     }
@@ -370,18 +375,18 @@ class HorizontalMenu {
 
     //========= helpers ============
 
-    _getModifier(menu) {
+    // _getModifier(menu) {
 
-        if (menu.classList.contains(this.hiddenMenuCont.drop) || menu.classList.contains(this.hiddenMenuCont.drop + '_' + this.arr_modifiers[0])) {
-            return this.arr_modifiers[0];
-        } else if (menu.classList.contains(this.hiddenMenuCont.overflow)) {
-            return this.arr_modifiers[1];
-        } else if (menu.classList.contains(this.hiddenMenuCont.burger)) {
-            return this.arr_modifiers[1];
-        } else {
-            return false;
-        }
-    }
+    //     if (menu.classList.contains(this.hiddenMenuCont.drop) || menu.classList.contains(this.hiddenMenuCont.drop + '_' + this.arr_modifiers[0])) {
+    //         return this.arr_modifiers[0];
+    //     } else if (menu.classList.contains(this.hiddenMenuCont.overflow)) {
+    //         return this.arr_modifiers[1];
+    //     } else if (menu.classList.contains(this.hiddenMenuCont.burger)) {
+    //         return this.arr_modifiers[1];
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     /*
         удаляет повторяющиеся значения
