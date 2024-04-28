@@ -272,6 +272,9 @@ class HorizontalMenu {
     }
 
 
+    ///!!!!!!!!!!   при открытиии нового бургер меню ранее открытые закрываются но иконка бургер меню не возвращается
+
+
     closeMenu(currentMenu, modifier) {
 
         try {
@@ -296,14 +299,7 @@ class HorizontalMenu {
 
     OpenMenu(currentMenu, modifier) {
 
-        if (!currentMenu.closest(`.${this.visibleClass}`)) {
-            let openedMenu = this.checSingle();
-            if (openedMenu.length > 0) {
-                openedMenu.forEach(openMenu => {
-                    this.closeMenu(openMenu, modifier)
-                })
-            };
-        }
+        this.checSingle(currentMenu);
 
         try {
             gsap.to(currentMenu, {
@@ -323,6 +319,33 @@ class HorizontalMenu {
         this.changeStateIconMenu(currentMenu, modifier, 'open')
     }
 
+
+    checSingle(currentMenu) {
+
+        if (this.single !== 'true') {
+            return null;
+        }
+
+        let flaf = 0;
+        let arr_values = Object.values(this.modifiers);
+
+        for (var i = arr_values.length - 1; i >= 0; i--) {
+            if (currentMenu.closest(`.${this.visibleClass}_${arr_values[i]}`)) {
+                flaf = 1;
+                break;
+            }
+        }
+
+        if (flaf == 0) {
+            let openedMenu = this._getAllOpenMenus();
+            if (openedMenu.length > 0) {
+                openedMenu.forEach(openedMenu => {
+                    this.closeMenu(openedMenu)
+                })
+            }
+        }
+    }
+
     clickOut() {
 
         let nl_menus = this._getAllOpenMenus();
@@ -337,7 +360,6 @@ class HorizontalMenu {
             }
         });
     }
-
 
     listenKeydown() {
 
@@ -357,36 +379,7 @@ class HorizontalMenu {
         })
     }
 
-    checSingle() {
-
-        if (this.single !== 'true') {
-            return null;
-        }
-
-        let entries = Object.entries(this.modifiers);
-        let arr_openMenus = entries.map(([key, mod]) => {
-            let openMenus = document.querySelectorAll(`.${this.visibleClass}_${mod}`);
-            if (openMenus.length > 0) return [...openMenus];
-        }).filter(item => item !== undefined);
-        if (arr_openMenus.length > 0) return this._flattenArray(arr_openMenus);
-        return 0;
-    }
-
-
     //========= helpers ============
-
-    // _getModifier(menu) {
-
-    //     if (menu.classList.contains(this.hiddenMenuCont.drop) || menu.classList.contains(this.hiddenMenuCont.drop + '_' + this.arr_modifiers[0])) {
-    //         return this.arr_modifiers[0];
-    //     } else if (menu.classList.contains(this.hiddenMenuCont.overflow)) {
-    //         return this.arr_modifiers[1];
-    //     } else if (menu.classList.contains(this.hiddenMenuCont.burger)) {
-    //         return this.arr_modifiers[1];
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
     /*
         удаляет повторяющиеся значения
