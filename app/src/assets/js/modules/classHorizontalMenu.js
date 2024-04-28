@@ -244,6 +244,9 @@ class HorizontalMenu {
         document.addEventListener('click', e => {
             let target = e.target;
 
+
+            console.log("target = ", target);
+
             if (target.classList.contains(this.iconDropClassOpen)) {
                 let parentMenu = target.closest('li');
                 let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
@@ -264,15 +267,10 @@ class HorizontalMenu {
                         this.OpenMenu(currentMenu, this.modifiers.burger);
                     }
                 })
+            } else {
+                this.clickOut();
             }
 
-
-
-            if (target.classList.contains(this.hiddenMenuCont.drop) || // click внутри контейнеров меню либо их потомков но не ссыллок 
-                target.classList.contains(this.hiddenMenuCont.overflow) ||
-                target.parentNode.classList.contains(this.hiddenMenuCont.drop) ||
-                target.parentNode.classList.contains(this.hiddenMenuCont.overflow)) return;
-            this.clickOut(); // не работает
         });
     }
 
@@ -294,6 +292,8 @@ class HorizontalMenu {
             currentMenu.classList.remove(this.visibleClass + '_' + modifier);
             currentMenu.classList.add(this.hiddenClass);
         }
+
+
         this.changeStateIconMenu(currentMenu, modifier, 'close')
     }
 
@@ -325,6 +325,21 @@ class HorizontalMenu {
         this.changeStateIconMenu(currentMenu, modifier, 'open')
     }
 
+    clickOut() {
+
+        let nl_menus = this._getAllOpenMenus();
+
+        if (nl_menus.length > 0) nl_menus.forEach(menu => {
+            if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
+                this.closeMenu(menu, 'drop');
+            } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
+                this.closeMenu(menu, 'burger');
+            } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
+                this.closeMenu(menu, 'overflow');
+            }
+        });
+    }
+
 
     listenKeydown() { // не работает
 
@@ -334,14 +349,6 @@ class HorizontalMenu {
                 if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
             }
         })
-    }
-    clickOut() {
-
-
-        // console.log("start clickOut()");
-
-        // let nl_menus = this._getAllOpenMenus();
-        // if (nl_menus.length > 0) nl_menus.forEach(menu => this.closeMenu(menu));
     }
 
     checSingle() {
@@ -377,21 +384,6 @@ class HorizontalMenu {
     }
 
     /*
-        преобразует одномерный массив из n-мерного массива
-    */
-    _flattenArray(arr) {
-        let flatArray = [];
-        arr.forEach(element => {
-            if (Array.isArray(element)) {
-                flatArray.push(...this._flattenArray(element));
-            } else {
-                flatArray.push(element);
-            }
-        });
-        return this._uniqueArr(flatArray);
-    }
-
-    /*
         удаляет повторяющиеся значения
     */
     _uniqueArr(arr) {
@@ -424,12 +416,31 @@ class HorizontalMenu {
         }
     }
 
+    /*
+        преобразует одномерный массив из n-мерного массива
+    */
+    _flattenArray(arr) {
+        let flatArray = [];
+        arr.forEach(element => {
+            if (Array.isArray(element)) {
+                flatArray.push(...this._flattenArray(element));
+            } else {
+                flatArray.push(element);
+            }
+        });
+
+        return this._uniqueArr(flatArray);
+    }
+
     _getAllOpenMenus() {
 
-        let entries = Object.entries(this.modifiers);
 
-        const nl_menu = entries.map(([key, mod]) => document.querySelectorAll(`.${this.visibleClass}_${mod}`));
-        return nl_menu.filter(el => el.length > 0);
+        let entries = Object.entries(this.modifiers);
+        let arr_menu = entries.map(([key, mod]) => [...document.querySelectorAll(`.${this.visibleClass}_${mod}`)]);
+        arr_menu = arr_menu.flat();
+
+        return arr_menu;
+        // return arr_menu.filter(el => el.length > 0);
     }
 }
 
