@@ -248,11 +248,9 @@ class HorizontalMenu {
                 let parentMenu = target.closest('li');
                 let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
                 this.closeMenu(currentMenu, this.modifiers.drop);
-
             } else if (target.classList.contains(this.iconBurgerOpen)) {
                 let currentMenu = target.closest(`.${this.visibleClass}_${this.modifiers.burger}`);
                 this.closeMenu(currentMenu, this.modifiers.burger);
-
             } else if (target.classList.contains(this.iconDropClass)) {
                 let currentMenu = target.closest('li').querySelector(`.${this.hiddenMenuCont.drop}`);
                 this.OpenMenu(currentMenu, this.modifiers.drop);
@@ -293,30 +291,19 @@ class HorizontalMenu {
             });
 
         } catch {
-
-
             currentMenu.classList.remove(this.visibleClass + '_' + modifier);
             currentMenu.classList.add(this.hiddenClass);
         }
-
         this.changeStateIconMenu(currentMenu, modifier, 'close')
     }
 
     OpenMenu(currentMenu, modifier) {
 
         if (!currentMenu.closest(`.${this.visibleClass}`)) {
-
-
-            console.log("this.single = ", this.single);
-            console.log("this.checSingle() = ", this.checSingle());
-
             if (this.checSingle() !== 0) {
-
                 this.checSingle().forEach(openMenu => {
-
                     this.closeMenu(openMenu, modifier)
                 })
-
             };
         }
 
@@ -335,9 +322,6 @@ class HorizontalMenu {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass + '_' + modifier);
         }
-
-        // this.setSubMenuIconOpen(currentMenu)
-        // this.changeIconMenuOpen(currentMenu, modifier);
         this.changeStateIconMenu(currentMenu, modifier, 'open')
     }
 
@@ -372,17 +356,9 @@ class HorizontalMenu {
             if (openMenus.length > 0) return [...openMenus];
         }).filter(item => item !== undefined);
 
-
         if (arr_openMenus.length > 0) return this._flattenArray(arr_openMenus);
         return 0;
     }
-
-    //=====================================================
-
-    // hover(menu) {
-
-    // }
-
 
 
     //========= helpers ============
@@ -399,8 +375,6 @@ class HorizontalMenu {
             return false;
         }
     }
-
-
 
     /*
         преобразует одномерный массив из n-мерного массива
@@ -421,8 +395,9 @@ class HorizontalMenu {
         удаляет повторяющиеся значения
     */
     _uniqueArr(arr) {
-
-        return [...new Set(arr.map(el => this._clearClassName(el)))];
+        return [...new Set(arr.map(el => {
+            if (typeof str === 'string') this._clearClassName(el);
+        }).filter(item => item !== undefined))];
     }
 
     /*
@@ -431,9 +406,9 @@ class HorizontalMenu {
 
     _clearClassName(str) {
 
-
-        console.log("str", str); //!!!!!!!!!! debuger !!!!!!!!!!!!!!!
-
+        if (typeof str !== 'string') {
+            return '';
+        }
         const patternDot = /^\./;
         return str.replace(patternDot, '');
     }
