@@ -16,18 +16,7 @@
 
     todo:
 
-        при клике на icon-drop внутри overflow-cont иконка переворачивается но submenu не показывается
-
-        ОБЯЗАТЕЛЬНО!  добавить возможность назначать контейнерам меню классы(!) определяющие их внешний вид разным типам меню разные    
-
-
-        Обязательно добавить возможность вешать на hiddenMenuCont классы для дополнительной стилизации, разным типам меню разные(!!), типа добавить тени градиенты и прочее
-        в результате должно получится что в базовых стилях и js каркас а визуальная стилизация доп классами без необходимости зализать в horizontalMenu.less (!!!) 
-        причём добавление их должно происходить и динамически в том числе
-        
         overflow-cont  додлжен выезжать из за правой границы окна
-        клик на дочерний span в icon-overflow не срабатывает!
-
 
 
         добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
@@ -112,7 +101,6 @@ class HorizontalMenu {
         this.listenClick();
         this.listenKeydown();
 
-
     }
 
     forEachMenu() {
@@ -173,8 +161,6 @@ class HorizontalMenu {
             arrClassies.forEach(_class => currentMenu.classList.add(_class))
         }
     }
-
-
 
     /* 
         search sub menu and set sub menu icon if finde
@@ -276,7 +262,7 @@ class HorizontalMenu {
             } else if (target.classList.contains(this.iconDropClass)) {
                 let currentMenu = target.closest('li').querySelector(`.${this.hiddenMenuCont.drop}`);
                 this.OpenMenu(currentMenu, this.modifiers.drop);
-            } else if (target.classList.contains(this.iconOverflow)) {
+            } else if (target.classList.contains(this.iconOverflow) || target.closest(`.${this.iconOverflow}`)) {
                 let currentMenu = target.closest('nav').querySelector(`.${this.hiddenMenuCont.overflow}`);
                 this.OpenMenu(currentMenu, this.modifiers.overflow);
             } else if (target.classList.contains(this.iconBurger)) {
