@@ -18,9 +18,13 @@
 
         при клике на icon-drop внутри overflow-cont иконка переворачивается но submenu не показывается
 
+        ОБЯЗАТЕЛЬНО!  добавить возможность назначать контейнерам меню классы(!) определяющие их внешний вид разным типам меню разные    
 
-        Обязательно добавить возможность вешать на hiddenMenuCont классы для дополнительной стилизации типа добавить тени градиенты и прочее
-        в результате должно получится что в базовых стилях и js каркас а визуальная стилизация доп классами без необходимости зализать в horizontalMenu.less (!!!) причём добавление их должно происходить и динамически в том числе
+
+        Обязательно добавить возможность вешать на hiddenMenuCont классы для дополнительной стилизации, разным типам меню разные(!!), типа добавить тени градиенты и прочее
+        в результате должно получится что в базовых стилях и js каркас а визуальная стилизация доп классами без необходимости зализать в horizontalMenu.less (!!!) 
+        причём добавление их должно происходить и динамически в том числе
+        
         overflow-cont  додлжен выезжать из за правой границы окна
         клик на дочерний span в icon-overflow не срабатывает!
 
@@ -42,21 +46,23 @@ class HorizontalMenu {
         burger: 'burger-cont',
     }
 
-    modifiers = { // объект, модификаторы классов для различия разных типов меню
+    // объект, модификаторы классов для различия разных типов меню
+    modifiers = {
         drop: 'drop',
         overflow: 'overflow',
         burger: 'burger',
     }
 
-    classForListenClick = [];
+    // пользаватеьские классы определяющие внешний вид открытых пунтков меню или контейнеров
+    contAdditionalClasses = {
+        drop: [],
+        overflow: [],
+        burger: [],
+    }
 
     /*
         const param = {
             containersMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'], // селекторы контейнеров меню которые будут обрабатываться
-
-            ??!! classForListenClick: [], // классы элементов на которых будет прослушивание click (для открывания и закрывания меню)
-           
-
             modifiers = {      // объект, модификаторы классов для различия разных типов меню
                     drop:'drop',
                     overflow:'overflow',
@@ -76,6 +82,13 @@ class HorizontalMenu {
             iconBurgerOpen: 'icon-drop_open', // определяет внешний вид иконки Burgerr menu когда Burgerr menu открыто  iconBurger НЕбудет удалён
             
             // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
+
+            contAdditionalClasses: { // пользаватеьские классы определяющие внешний вид открытых пунтков меню или контейнеров
+                drop: [],
+                overflow: [],
+                burger: [],
+            },  
+
         };
 
     */
@@ -84,28 +97,22 @@ class HorizontalMenu {
         this.containersMenu = param.containersMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containersMenu);
         if (this.nl_containersMenu.length === null) throw new Error('Menus with given selectors  are absent on this page');
-
+        this.contAdditionalClasses = param.contAdditionalClasses;
         this.iconOverflow = this._clearClassName(param.iconOverflow || 'icon-overflow');
         this.iconBurger = this._clearClassName(param.iconBurger || 'icon-burger');
         this.iconBurgerOpen = this._clearClassName(param.iconBurgerOpen || 'icon-burger_open');
         this.iconDropClass = this._clearClassName(param.iconDropClass || 'icon-drop');
         this.iconDropClassOpen = this._clearClassName(param.iconDropdownmodifiereOpen || 'icon-drop_open');
+
         this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt-visible');
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
 
-        this.classForListenClick.push(this.iconOverflow);
-        this.classForListenClick.push(this.iconDropClass);
-        this.classForListenClick.push(this.iconBurger);
-        // if (param.classForListenClick) this.classForListenClick.push(param.classForListenClick); // а нужно ли?? добавить если возникнет потребность
         this.forEachMenu();
-
-
         this.listenClick();
-
-
-
         this.listenKeydown();
+
+
     }
 
     forEachMenu() {
@@ -129,6 +136,7 @@ class HorizontalMenu {
         if (subMenus.length > 0) {
             subMenus.forEach(subMenu => {
                 subMenu.classList.add(this.hiddenMenuCont.drop, this.hiddenClass);
+                this.setAdditionalClassesToCont(subMenu, 'drop');
             })
         }
     }
@@ -146,9 +154,27 @@ class HorizontalMenu {
         if (overflowCont.childElementCount > 0) {
             this.setOverflowIcon(contCurrentMenu)
             contCurrentMenu.querySelector('nav').append(overflowCont);
+            this.setAdditionalClassesToCont(overflowCont, 'overflow');
         }
         contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
     }
+
+    setAdditionalClassesToCont(currentMenu, typeMenu) {
+
+        if (typeMenu === 'overflow') {
+            classesIteration(this.contAdditionalClasses.overflow);
+        } else if (typeMenu === 'drop') {
+            classesIteration(this.contAdditionalClasses.drop);
+        } else if (typeMenu === 'burger') {
+            classesIteration(this.contAdditionalClasses.burger);
+        }
+
+        function classesIteration(arrClassies) {
+            arrClassies.forEach(_class => currentMenu.classList.add(_class))
+        }
+    }
+
+
 
     /* 
         search sub menu and set sub menu icon if finde
@@ -233,13 +259,9 @@ class HorizontalMenu {
                 // default:
                 //   break
         }
-
     }
 
     listenClick() {
-        if (!this.classForListenClick) {
-            throw new Error('Nodes to listen click are absent');
-        }
 
         document.addEventListener('click', e => {
             let target = e.target;
@@ -444,6 +466,11 @@ class HorizontalMenu {
 
 const param = {
     containersMenu: ['.cont-horizont-menu', '.wrap-drop-menu', '#my-menu'],
+    contAdditionalClasses: {
+        drop: ['add-drop-1', 'add-drop-2', 'add-drop-3'],
+        overflow: ['add-overflow-1', 'add-overflow-2', 'add-overflow-3'],
+        burger: ['add-burger-1', 'add-burger-2', 'add-burger-3'],
+    }
 };
 
 const menu = new HorizontalMenu(param);
