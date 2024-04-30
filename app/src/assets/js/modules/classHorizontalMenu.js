@@ -135,9 +135,14 @@ class HorizontalMenu {
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = document.createElement('ul');
         overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
+        let ul = contCurrentMenu.querySelector('ul');
+
+
 
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
-            if (elMenu.getBoundingClientRect().right > contCurrentMenu.getBoundingClientRect().right) {
+
+
+            if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right) {
                 overflowCont.append(elMenu);
             }
         });
