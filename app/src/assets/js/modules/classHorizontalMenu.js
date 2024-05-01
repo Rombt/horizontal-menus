@@ -16,10 +16,7 @@
 
     todo:
 
-        ///!!!!!!!!!!   при открытиии нового бургер меню ранее открытые закрываются но иконка бургер меню не возвращается
-
         overflow-cont  додлжен выезжать из за правой границы окна
-        перенести .icon-drop в ссылку
 
 
         добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
@@ -27,6 +24,12 @@
         обработка такой ситуации:
             для каждого меню должен быть только один элемент с классом активации на странице
         при этом добавление класса активации должно убирать этот класс с других элементов если они не родители
+
+
+        обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
+            перестраивать меню overflow-cont
+
+
     */
 
 class HorizontalMenu {
@@ -137,12 +140,8 @@ class HorizontalMenu {
         overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
         let ul = contCurrentMenu.querySelector('ul');
 
-
-
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
-
-
-            if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right) {
+            if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right - 10) { // 10 это перестраховочный отступ
                 overflowCont.append(elMenu);
             }
         });
@@ -235,7 +234,6 @@ class HorizontalMenu {
                         let iconBurger = parrentMenu.querySelector(`.${this.iconBurger}`);
 
                         if (state == 'open') {
-
                             iconBurger.classList.add(this.iconBurgerOpen);
                             currentMenu.prepend(iconBurger);
 
@@ -249,9 +247,8 @@ class HorizontalMenu {
                 break
 
             case this.modifiers.overflow:
+                /*something*/
                 break
-                // default:
-                //   break
         }
     }
 
@@ -263,10 +260,10 @@ class HorizontalMenu {
             if (target.classList.contains(this.iconDropClassOpen)) {
                 let parentMenu = target.closest('li');
                 let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
-                this.closeMenu(currentMenu, this.modifiers.drop);
+                this.closeMenu(currentMenu);
             } else if (target.classList.contains(this.iconBurgerOpen)) {
                 let currentMenu = target.closest(`.${this.visibleClass}_${this.modifiers.burger}`);
-                this.closeMenu(currentMenu, this.modifiers.burger);
+                this.closeMenu(currentMenu);
             } else if (target.classList.contains(this.iconDropClass)) {
                 let currentMenu = target.closest('li').querySelector(`.${this.hiddenMenuCont.drop}`);
                 this.OpenMenu(currentMenu, this.modifiers.drop);
@@ -287,7 +284,8 @@ class HorizontalMenu {
         });
     }
 
-    closeMenu(currentMenu, modifier) {
+    closeMenu(currentMenu) {
+        let modifier;
 
         try {
             gsap.to(currentMenu, {
@@ -301,10 +299,19 @@ class HorizontalMenu {
             });
 
         } catch {
+
+
+
+            if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
+                modifier = this.modifiers.drop
+            } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
+                modifier = this.modifiers.burger;
+            } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
+                modifier = this.modifiers.overflow;
+            }
             currentMenu.classList.remove(this.visibleClass + '_' + modifier);
             currentMenu.classList.add(this.hiddenClass);
         }
-
 
         this.changeStateIconMenu(currentMenu, modifier, 'close')
     }
@@ -363,13 +370,7 @@ class HorizontalMenu {
         let nl_menus = this._getAllOpenMenus();
 
         if (nl_menus.length > 0) nl_menus.forEach(menu => {
-            if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
-                this.closeMenu(menu, 'drop');
-            } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
-                this.closeMenu(menu, 'burger');
-            } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
-                this.closeMenu(menu, 'overflow');
-            }
+            this.closeMenu(menu);
         });
     }
 
@@ -379,13 +380,7 @@ class HorizontalMenu {
             if (e.which === 27) {
                 let nl_menus = this._getAllOpenMenus();
                 if (nl_menus.length > 0) nl_menus.forEach(menu => {
-                    if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
-                        this.closeMenu(menu, 'drop');
-                    } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
-                        this.closeMenu(menu, 'burger');
-                    } else if (menu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
-                        this.closeMenu(menu, 'overflow');
-                    }
+                    this.closeMenu(menu, 'drop');
                 });
             }
         })
@@ -444,13 +439,11 @@ class HorizontalMenu {
 
     _getAllOpenMenus() {
 
-
         let entries = Object.entries(this.modifiers);
         let arr_menu = entries.map(([key, mod]) => [...document.querySelectorAll(`.${this.visibleClass}_${mod}`)]);
         arr_menu = arr_menu.flat();
 
         return arr_menu;
-        // return arr_menu.filter(el => el.length > 0);
     }
 }
 
