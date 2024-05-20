@@ -332,6 +332,11 @@ class HorizontalMenu {
         } catch {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass + '_' + modifier);
+
+
+            if (modifier === this.modifiers.burger) {
+                document.querySelector('html').classList.add('rmbt-lock');
+            }
         }
         this.changeStateIconMenu(currentMenu, modifier, 'open')
     }
