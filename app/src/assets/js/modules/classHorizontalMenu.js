@@ -82,7 +82,14 @@ class HorizontalMenu {
                 drop: [],
                 overflow: [],
                 burger: [],
-            },  
+            }, 
+
+            animation = {     // для каждого вида меню ожидается объект содержащий все свойства/значения, которые вы хотите анимировать
+                            // который будет использован в методе gsap.to(). Для открытия меню используется .play() для закрытия .reverse()
+               drop:{},
+                overflow:{},
+                burger:{},
+            } 
 
         };
 
@@ -103,11 +110,21 @@ class HorizontalMenu {
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
 
+
+        if (typeof gsap !== "undefined") {
+            this.animation.drop = gsap.to(currentMenu, param.animation.drop);
+            this.animation.overflow = gsap.to(currentMenu, param.animation.overflow);
+            this.animation.burger = gsap.to(currentMenu, param.animation.burger);
+        };
+
+
+
         this.forEachMenu();
         this.listenClick();
         this.listenKeydown();
 
     }
+
 
     forEachMenu() {
 
@@ -287,19 +304,19 @@ class HorizontalMenu {
     closeMenu(currentMenu) {
         let modifier;
 
-        try {
-            gsap.to(currentMenu, {
-                duration: 1,
-                ease: "power4.inOut",
-                height: 'auto',
-                overflow: 'visible',
-                pointerEvents: 'auto',
-                opacity: 1,
-                width: 'auto',
-            });
+        if (typeof gsap !== "undefined") {
 
-        } catch {
+            if (modifier === this.modifiers.drop) {
+                this.animation.drop.reverse();
 
+            } else if (modifier === this.modifiers.overflow) {
+                this.animation.overflow.reverse();
+
+            } else if (modifier === this.modifiers.burger) {
+                this.animation.burger.reverse();
+            }
+
+        } else {
 
 
             if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
@@ -316,22 +333,24 @@ class HorizontalMenu {
         this.changeStateIconMenu(currentMenu, modifier, 'close')
     }
 
+
     OpenMenu(currentMenu, modifier) {
 
         this.checSingle(currentMenu);
 
-        try {
-            gsap.to(currentMenu, {
-                duration: 1,
-                ease: "power4.inOut",
-                height: 'auto',
-                overflow: 'visible',
-                pointerEvents: 'auto',
-                opacity: 1,
-                width: 'auto',
-            });
+        if (typeof gsap !== "undefined") {
 
-        } catch {
+            if (modifier === this.modifiers.drop) {
+                this.animation.drop.play();
+
+            } else if (modifier === this.modifiers.overflow) {
+                this.animation.overflow.play();
+
+            } else if (modifier === this.modifiers.burger) {
+                this.animation.burger.play();
+            }
+
+        } else {
             currentMenu.classList.remove(this.hiddenClass);
             currentMenu.classList.add(this.visibleClass + '_' + modifier);
 
