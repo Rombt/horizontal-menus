@@ -18,7 +18,7 @@
 
     todo:
 
-
+        добавить возможность устанавливать для каждого меню свой набор иконок, селекторами элементов которые уже прописаны в html
 
         добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
         
@@ -34,26 +34,6 @@
 
 class HorizontalMenu {
 
-    // классы скрытых пунтков меню или контейнеров 
-    hiddenMenuCont = {
-        overflow: 'overflow-cont',
-        drop: 'drop-cont',
-        burger: 'burger-cont',
-    }
-
-    // объект, модификаторы классов для того что бы каждый вид меню мог открываться - закрываться посвоему
-    modifiers = {
-        drop: 'drop',
-        overflow: 'overflow',
-        burger: 'burger',
-    }
-
-    // пользаватеьские классы определяющие внешний вид открытых пунтков меню или контейнеров
-    contAdditionalClasses = {
-        drop: [],
-        overflow: [],
-        burger: [],
-    }
 
     /*
         const param = {
@@ -95,6 +75,70 @@ class HorizontalMenu {
 
     */
 
+
+
+    // классы скрытых пунтков меню или контейнеров 
+    hiddenMenuCont = {
+        overflow: 'overflow-cont',
+        drop: 'drop-cont',
+        burger: 'burger-cont',
+    }
+
+    // объект, модификаторы классов для того что бы каждый вид меню мог открываться - закрываться посвоему
+    modifiers = {
+        drop: 'drop',
+        overflow: 'overflow',
+        burger: 'burger',
+    }
+
+    // пользаватеьские классы определяющие внешний вид открытых пунтков меню или контейнеров
+    contAdditionalClasses = {
+        drop: [],
+        overflow: [],
+        burger: [],
+    }
+
+    animation = {
+        transition: {
+            drop: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
+            },
+            overflow: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
+            },
+            burger: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
+                left: 0,
+                zIndex: 1,
+
+            },
+        },
+        tween: {
+            drop: {},
+            overflow: {},
+            burger: {},
+        }
+    }
+
+
     constructor(param) {
         this.containersMenu = param.containersMenu || '.cont-horizont-menu';
         this.nl_containersMenu = this._getArrNodeLists(this.containersMenu);
@@ -111,11 +155,11 @@ class HorizontalMenu {
         this.single = param.single || 'true';
 
 
-        if (typeof gsap !== "undefined") {
-            this.animation.drop = gsap.to(currentMenu, param.animation.drop);
-            this.animation.overflow = gsap.to(currentMenu, param.animation.overflow);
-            this.animation.burger = gsap.to(currentMenu, param.animation.burger);
-        };
+        // if (typeof gsap !== "undefined") {
+        //     this.animation.transition.drop = param.animation.drop;
+        //     this.animation.transition.overflow = param.animation.overflow;
+        //     this.animation.transition.burger = param.animation.burger;
+        // };
 
 
 
@@ -307,13 +351,13 @@ class HorizontalMenu {
         if (typeof gsap !== "undefined") {
 
             if (modifier === this.modifiers.drop) {
-                this.animation.drop.reverse();
+                this.animation.transition.drop.reverse();
 
             } else if (modifier === this.modifiers.overflow) {
-                this.animation.overflow.reverse();
+                this.animation.overflow.transition.reverse();
 
             } else if (modifier === this.modifiers.burger) {
-                this.animation.burger.reverse();
+                this.animation.burger.transition.reverse();
             }
 
         } else {
@@ -340,14 +384,19 @@ class HorizontalMenu {
 
         if (typeof gsap !== "undefined") {
 
+
+
+
+
             if (modifier === this.modifiers.drop) {
-                this.animation.drop.play();
-
+                this.animation.tween.drop = gsap.to(currentMenu, this.animation.transition.drop);
+                this.animation.tween.drop.play();
             } else if (modifier === this.modifiers.overflow) {
-                this.animation.overflow.play();
-
+                this.animation.tween.overflow = gsap.to(currentMenu, this.animation.transition.overflow);
+                this.animation.tween.overflow.play();
             } else if (modifier === this.modifiers.burger) {
-                this.animation.burger.play();
+                this.animation.tween.burger = gsap.to(currentMenu, this.animation.transition.burger);
+                this.animation.tween.burger.play();
             }
 
         } else {
@@ -401,7 +450,7 @@ class HorizontalMenu {
     listenKeydown() {
 
         document.addEventListener('keydown', e => {
-            if (e.which === 27) {
+            if (e.key === 27) {
                 let nl_menus = this._getAllOpenMenus();
                 if (nl_menus.length > 0) nl_menus.forEach(menu => {
                     this.closeMenu(menu, 'drop');
@@ -477,7 +526,12 @@ const param = {
         drop: ['add-drop-1', 'add-drop-2', 'add-drop-3'],
         overflow: ['add-overflow-1', 'add-overflow-2', 'add-overflow-3'],
         burger: ['add-burger-1', 'add-burger-2', 'add-burger-3'],
-    }
+    },
+    // animation: {
+    //     drop: {},
+    //     overflow: {},
+    //     burger: {},
+    // }
 };
 
 const menu = new HorizontalMenu(param);
