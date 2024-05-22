@@ -447,9 +447,6 @@ class HorizontalMenu {
 
         document.addEventListener('keydown', e => {
 
-
-            console.log(e);
-
             if (e.key === 27 || e.keyCode === 27) {
                 let nl_menus = this._getAllOpenMenus();
                 if (nl_menus.length > 0) nl_menus.forEach(menu => {
