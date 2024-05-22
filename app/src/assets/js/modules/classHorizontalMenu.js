@@ -348,28 +348,29 @@ class HorizontalMenu {
     closeMenu(currentMenu) {
         let modifier;
 
+        if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
+            modifier = this.modifiers.drop
+        } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
+            modifier = this.modifiers.burger;
+        } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
+            modifier = this.modifiers.overflow;
+        }
+
         if (typeof gsap !== "undefined") {
 
             if (modifier === this.modifiers.drop) {
-                this.animation.transition.drop.reverse();
+                this.animation.tween.drop.reverse();
 
             } else if (modifier === this.modifiers.overflow) {
-                this.animation.overflow.transition.reverse();
+                console.log("this.animation.tween.overflow = ", this.animation.tween.overflow);
+                this.animation.tween.overflow.reverse();
 
             } else if (modifier === this.modifiers.burger) {
-                this.animation.burger.transition.reverse();
+                this.animation.tween.burger.reverse();
             }
 
         } else {
 
-
-            if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
-                modifier = this.modifiers.drop
-            } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
-                modifier = this.modifiers.burger;
-            } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.overflow)) {
-                modifier = this.modifiers.overflow;
-            }
             currentMenu.classList.remove(this.visibleClass + '_' + modifier);
             currentMenu.classList.add(this.hiddenClass);
         }
@@ -384,10 +385,6 @@ class HorizontalMenu {
 
         if (typeof gsap !== "undefined") {
 
-
-
-
-
             if (modifier === this.modifiers.drop) {
                 this.animation.tween.drop = gsap.to(currentMenu, this.animation.transition.drop);
                 this.animation.tween.drop.play();
@@ -401,13 +398,13 @@ class HorizontalMenu {
 
         } else {
             currentMenu.classList.remove(this.hiddenClass);
-            currentMenu.classList.add(this.visibleClass + '_' + modifier);
-
-
-            if (modifier === this.modifiers.burger) {
-                document.querySelector('html').classList.add('rmbt-lock');
-            }
         }
+
+        if (modifier === this.modifiers.burger) {
+            document.querySelector('html').classList.add('rmbt-lock');
+        }
+
+        currentMenu.classList.add(this.visibleClass + '_' + modifier);
         this.changeStateIconMenu(currentMenu, modifier, 'open')
     }
 
