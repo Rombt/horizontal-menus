@@ -22,7 +22,7 @@
             обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
                 перестраивать меню overflow-cont
 
-
+        исключить возможность открытия меню за пределы окна 
 
         добавить возможность устанавливать для каждого меню свой набор иконок, селекторами элементов которые уже прописаны в html
 
@@ -238,11 +238,23 @@ class HorizontalMenu {
     menuContainerOverflow(contCurrentMenu) {
 
 
-        let overflowCont = document.createElement('ul');
-        overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
         let ul = contCurrentMenu.querySelector('ul');
+        let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+
+        if (overflowCont === null) {
+            overflowCont = document.createElement('ul');
+            overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
+        }
+
 
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
+
+            /*
+                при событии resize
+                    при уменьшении ширины contCurrentMenu изымать li из добавлять li в  contCurrentMenu
+                    при увеличении ширины contCurrentMenu изымать li из overflowCont и добавлять в contCurrentMenu
+            */
+
             if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right - 10) { // 10 это перестраховочный отступ
                 overflowCont.append(elMenu);
             }
