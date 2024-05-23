@@ -18,15 +18,17 @@
 
     todo:
 
+        перестроение меню при событии resize!!!
+            обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
+                перестраивать меню overflow-cont
+
+
+
         добавить возможность устанавливать для каждого меню свой набор иконок, селекторами элементов которые уже прописаны в html
 
         добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
         
-        gsap!
-
         возможность отключать icon - dropdown для меню desk top независимо от мобильной версии из html
-        обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
-            перестраивать меню overflow-cont
         overflow-cont  додлжен выезжать из за правой границы окна
 
 
@@ -64,11 +66,20 @@ class HorizontalMenu {
                 burger: [],
             }, 
 
-            animation = {     // для каждого вида меню ожидается объект содержащий все свойства/значения, которые вы хотите анимировать
-                            // который будет использован в методе gsap.to(). Для открытия меню используется .play() для закрытия .reverse()
-               drop:{},
-                overflow:{},
-                burger:{},
+            animation = {     // для каждого вида меню ожидается объект содержащий все свойства/значения, которые вы хотите анимировать для открытия и закрытия отдельно!
+                            // соответствующий объект будет использован в методе gsap.to(). 
+               drop:{
+                   open{},
+                   close{}
+               },
+                overflow:{
+                    open{},
+                    close{}
+                },
+                burger:{
+                    open{},
+                    close{}
+                },
             } 
 
         };
@@ -179,6 +190,8 @@ class HorizontalMenu {
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
 
+        this.lastWidthWindow = window.innerWidth;
+
 
         // if (typeof gsap !== "undefined") {
         //     this.animation.transition.drop = param.animation.drop;
@@ -191,6 +204,7 @@ class HorizontalMenu {
         this.forEachMenu();
         this.listenClick();
         this.listenKeydown();
+        this.listenResize();
 
     }
 
@@ -222,6 +236,8 @@ class HorizontalMenu {
     }
 
     menuContainerOverflow(contCurrentMenu) {
+
+
         let overflowCont = document.createElement('ul');
         overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
         let ul = contCurrentMenu.querySelector('ul');
@@ -338,37 +354,6 @@ class HorizontalMenu {
         }
     }
 
-    listenClick() {
-
-        document.addEventListener('click', e => {
-            let target = e.target;
-
-            if (target.classList.contains(this.iconDropClassOpen)) {
-                let parentMenu = target.closest('li');
-                let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
-                this.closeMenu(currentMenu);
-            } else if (target.classList.contains(this.iconBurgerOpen)) {
-                let currentMenu = target.closest(`.${this.visibleClass}_${this.modifiers.burger}`);
-                this.closeMenu(currentMenu);
-            } else if (target.classList.contains(this.iconDropClass)) {
-                let currentMenu = target.closest('li').querySelector(`.${this.hiddenMenuCont.drop}`);
-                this.OpenMenu(currentMenu, this.modifiers.drop);
-            } else if (target.classList.contains(this.iconOverflow) || target.closest(`.${this.iconOverflow}`)) {
-                let currentMenu = target.closest('nav').querySelector(`.${this.hiddenMenuCont.overflow}`);
-                this.OpenMenu(currentMenu, this.modifiers.overflow);
-            } else if (target.classList.contains(this.iconBurger)) {
-                this.containersMenu.forEach(menuSel => {
-                    if (target.closest(menuSel)) {
-                        let currentMenu = target.closest(menuSel).querySelector(`nav`);
-                        this.OpenMenu(currentMenu, this.modifiers.burger);
-                    }
-                })
-            } else {
-                this.clickOut();
-            }
-
-        });
-    }
 
     closeMenu(currentMenu) {
         let modifier;
@@ -454,6 +439,56 @@ class HorizontalMenu {
                 })
             }
         }
+    }
+
+    listenResize() {
+
+        window.addEventListener('resize', (e) => {
+
+            if (this.lastWidthWindow != window.innerWidth) {
+                this.lastWidthWindow = window.innerWidth;
+
+                this.nl_containersMenu.forEach(arrNodeList => {
+                    for (let i = 0; i <= arrNodeList.length - 1; i++) {
+                        let contCurrentMenu = arrNodeList[i];
+                        if (!contCurrentMenu.querySelector('nav')) continue;
+                        this.menuContainerOverflow(contCurrentMenu);
+                    }
+                });
+            }
+        })
+    }
+
+    listenClick() {
+
+        document.addEventListener('click', e => {
+            let target = e.target;
+
+            if (target.classList.contains(this.iconDropClassOpen)) {
+                let parentMenu = target.closest('li');
+                let currentMenu = parentMenu.querySelector(`.${this.hiddenMenuCont.drop}`);
+                this.closeMenu(currentMenu);
+            } else if (target.classList.contains(this.iconBurgerOpen)) {
+                let currentMenu = target.closest(`.${this.visibleClass}_${this.modifiers.burger}`);
+                this.closeMenu(currentMenu);
+            } else if (target.classList.contains(this.iconDropClass)) {
+                let currentMenu = target.closest('li').querySelector(`.${this.hiddenMenuCont.drop}`);
+                this.OpenMenu(currentMenu, this.modifiers.drop);
+            } else if (target.classList.contains(this.iconOverflow) || target.closest(`.${this.iconOverflow}`)) {
+                let currentMenu = target.closest('nav').querySelector(`.${this.hiddenMenuCont.overflow}`);
+                this.OpenMenu(currentMenu, this.modifiers.overflow);
+            } else if (target.classList.contains(this.iconBurger)) {
+                this.containersMenu.forEach(menuSel => {
+                    if (target.closest(menuSel)) {
+                        let currentMenu = target.closest(menuSel).querySelector(`nav`);
+                        this.OpenMenu(currentMenu, this.modifiers.burger);
+                    }
+                })
+            } else {
+                this.clickOut();
+            }
+
+        });
     }
 
     clickOut() {
