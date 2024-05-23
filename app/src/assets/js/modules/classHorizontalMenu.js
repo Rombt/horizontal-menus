@@ -99,8 +99,8 @@ class HorizontalMenu {
     }
 
     animation = {
-        transition: {
-            drop: {
+        drop: {
+            open: {
                 duration: 0.7,
                 ease: "power4.inOut",
                 height: 'auto',
@@ -109,33 +109,58 @@ class HorizontalMenu {
                 opacity: 1,
                 width: 'auto',
             },
-            overflow: {
+            close: {
                 duration: 0.7,
                 ease: "power4.inOut",
-                height: 'auto',
-                overflow: 'visible',
-                pointerEvents: 'auto',
-                opacity: 1,
-                width: 'auto',
-            },
-            burger: {
-                duration: 0.7,
-                ease: "power4.inOut",
-                height: 'auto',
-                overflow: 'visible',
-                pointerEvents: 'auto',
-                opacity: 1,
-                width: 'auto',
-                left: 0,
-                zIndex: 1,
+                height: 0,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+                opacity: 0,
+                width: 0,
+            }
 
-            },
         },
-        tween: {
-            drop: {},
-            overflow: {},
-            burger: {},
-        }
+        overflow: {
+            open: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
+            },
+            close: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 0,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+                opacity: 0,
+                width: 0,
+            }
+        },
+        burger: {
+            open: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 'auto',
+                overflow: 'visible',
+                pointerEvents: 'auto',
+                opacity: 1,
+                width: 'auto',
+            },
+            close: {
+                duration: 0.7,
+                ease: "power4.inOut",
+                height: 0,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+                opacity: 0,
+                width: 0,
+            }
+
+        },
     }
 
 
@@ -359,13 +384,13 @@ class HorizontalMenu {
         if (typeof gsap !== "undefined") {
 
             if (modifier === this.modifiers.drop) {
-                this.animation.tween.drop.reverse();
+                gsap.to(currentMenu, this.animation.drop.close).play();
 
             } else if (modifier === this.modifiers.overflow) {
-                this.animation.tween.overflow.reverse();
+                gsap.to(currentMenu, this.animation.overflow.close).play();
 
             } else if (modifier === this.modifiers.burger) {
-                this.animation.tween.burger.reverse();
+                gsap.to(currentMenu, this.animation.burger.close).play();
             }
 
         } else {
@@ -385,14 +410,11 @@ class HorizontalMenu {
         if (typeof gsap !== "undefined") {
 
             if (modifier === this.modifiers.drop) {
-                this.animation.tween.drop = gsap.to(currentMenu, this.animation.transition.drop);
-                this.animation.tween.drop.play();
+                gsap.to(currentMenu, this.animation.drop.open).play();
             } else if (modifier === this.modifiers.overflow) {
-                this.animation.tween.overflow = gsap.to(currentMenu, this.animation.transition.overflow);
-                this.animation.tween.overflow.play();
+                gsap.to(currentMenu, this.animation.overflow.open).play();
             } else if (modifier === this.modifiers.burger) {
-                this.animation.tween.burger = gsap.to(currentMenu, this.animation.transition.burger);
-                this.animation.tween.burger.play();
+                gsap.to(currentMenu, this.animation.burger.open).play();
             }
 
         } else {
