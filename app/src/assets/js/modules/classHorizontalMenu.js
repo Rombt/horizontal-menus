@@ -428,7 +428,7 @@ class HorizontalMenu {
             let openedMenu = this._getAllOpenMenus();
             if (openedMenu.length > 0) {
                 openedMenu.forEach(openedMenu => {
-                    this.closeMenu(openedMenu)
+                    this.closeMenu(openedMenu) ///!!!!  проблема в том что this.animation.tween затирается следующим открытым меню
                 })
             }
         }
