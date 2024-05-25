@@ -87,7 +87,6 @@ class HorizontalMenu {
     */
 
 
-
     // классы скрытых пунтков меню или контейнеров 
     hiddenMenuCont = {
         overflow: 'overflow-cont',
@@ -205,7 +204,6 @@ class HorizontalMenu {
         this.listenClick();
         this.listenKeydown();
         this.listenResize();
-
     }
 
 
@@ -251,7 +249,7 @@ class HorizontalMenu {
 
             /*
                 при событии resize
-                    при уменьшении ширины contCurrentMenu изымать li из добавлять li в  contCurrentMenu
+                    при уменьшении ширины contCurrentMenu изымать li из overflowCont и добавлять li в  contCurrentMenu
                     при увеличении ширины contCurrentMenu изымать li из overflowCont и добавлять в contCurrentMenu
             */
 
