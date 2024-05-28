@@ -18,6 +18,9 @@
 
     todo:
 
+        на малом расширениии экрана, когда активно burger menu все пункты меню должны быть перенесены из overflow-cont в бургер меню
+            т.е. в зависимости от расширения экрана либо burger menu либо overflow-cont
+
         перестроение меню при событии resize!!!
             обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
                 перестраивать меню overflow-cont
@@ -203,7 +206,6 @@ class HorizontalMenu {
         this.forEachMenu();
         this.listenClick();
         this.listenKeydown();
-        this.listenResize();
     }
 
 
@@ -218,6 +220,10 @@ class HorizontalMenu {
                 this.menuContainerOverflow(contCurrentMenu);
                 this.setSubMenuIcon(contCurrentMenu);
                 this.setBurgerIcon(contCurrentMenu);
+
+
+                this.monitoringResize(contCurrentMenu);
+
             }
         });
     }
@@ -235,7 +241,6 @@ class HorizontalMenu {
 
     menuContainerOverflow(contCurrentMenu) {
 
-
         let ul = contCurrentMenu.querySelector('ul');
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
@@ -244,16 +249,15 @@ class HorizontalMenu {
             overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
         }
 
-
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
 
             /*
-                при событии resize
-                    при уменьшении ширины contCurrentMenu изымать li из overflowCont и добавлять li в  contCurrentMenu
-                    при увеличении ширины contCurrentMenu изымать li из overflowCont и добавлять в contCurrentMenu
+                при уменьшении ширины contCurrentMenu изымать li из overflowCont и добавлять li в  contCurrentMenu
+                при увеличении ширины contCurrentMenu изымать li из overflowCont и добавлять в contCurrentMenu
             */
 
-            if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right - 10) { // 10 это перестраховочный отступ
+            if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right - 10) { // 10 это компенсация правого падинга контейнера в котором прячется OverflowIcon
+
                 overflowCont.append(elMenu);
             }
         });
@@ -264,6 +268,58 @@ class HorizontalMenu {
             this.setAdditionalClassesToCont(overflowCont, 'overflow');
         }
         contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
+    }
+
+    monitoringResize(contCurrentMenu) {
+        const overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+        if (!overflowCont) {
+            return;
+        }
+
+
+
+        const currentMenu = contCurrentMenu.querySelector('nav>ul:first-child');
+
+
+
+        const paddingRightCurrentMenu = +window.getComputedStyle(contCurrentMenu.querySelector('nav')).paddingRight.replace(/px/g, '');
+        const paddingRightcontCurrentMenu = +window.getComputedStyle(contCurrentMenu).paddingRight.replace(/px/g, '');
+
+
+        const observer = new ResizeObserver((entries) => {
+            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
+            const currentRightlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child').getBoundingClientRect().right;
+
+            let prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
+            let prevRightlastLi = prevlastLi.getBoundingClientRect().right;
+
+            let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
+            let widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width
+            // let widthPrevFirstOverflowLi = prevFirstOverflowLi.offsetWidth
+
+            const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce((accum, li, i, arr) => {
+
+                if (arr[i + 1]) {
+                    accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
+                }
+                return accum;
+            }, 0);
+
+
+
+
+
+            if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
+                overflowCont.prepend(prevlastLi);
+            } else if (sumDistanceBetweenLi - paddingRightCurrentMenu - paddingRightcontCurrentMenu > widthPrevFirstOverflowLi + 35) {
+                currentMenu.append(prevFirstOverflowLi);
+            }
+
+
+
+        });
+
+        observer.observe(contCurrentMenu);
     }
 
     setAdditionalClassesToCont(currentMenu, typeMenu) {
@@ -449,24 +505,6 @@ class HorizontalMenu {
                 })
             }
         }
-    }
-
-    listenResize() {
-
-        window.addEventListener('resize', (e) => {
-
-            if (this.lastWidthWindow != window.innerWidth) {
-                this.lastWidthWindow = window.innerWidth;
-
-                this.nl_containersMenu.forEach(arrNodeList => {
-                    for (let i = 0; i <= arrNodeList.length - 1; i++) {
-                        let contCurrentMenu = arrNodeList[i];
-                        if (!contCurrentMenu.querySelector('nav')) continue;
-                        this.menuContainerOverflow(contCurrentMenu);
-                    }
-                });
-            }
-        })
     }
 
     listenClick() {
