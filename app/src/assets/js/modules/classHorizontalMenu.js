@@ -272,51 +272,39 @@ class HorizontalMenu {
 
     monitoringResize(contCurrentMenu) {
         const overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-        if (!overflowCont) {
-            return;
-        }
-
-
+        if (!overflowCont) return;
 
         const currentMenu = contCurrentMenu.querySelector('nav>ul:first-child');
-
-
-
         const paddingRightCurrentMenu = +window.getComputedStyle(contCurrentMenu.querySelector('nav')).paddingRight.replace(/px/g, '');
         const paddingRightcontCurrentMenu = +window.getComputedStyle(contCurrentMenu).paddingRight.replace(/px/g, '');
-
+        let prevRightCont = contCurrentMenu.getBoundingClientRect().right;
 
         const observer = new ResizeObserver((entries) => {
-            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
-            const currentRightlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child').getBoundingClientRect().right;
 
+            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
+
+            if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) true;
+
+            const currentRightlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child').getBoundingClientRect().right;
             let prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
             let prevRightlastLi = prevlastLi.getBoundingClientRect().right;
-
             let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
             let widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width
-            // let widthPrevFirstOverflowLi = prevFirstOverflowLi.offsetWidth
 
             const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce((accum, li, i, arr) => {
-
                 if (arr[i + 1]) {
                     accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
                 }
                 return accum;
             }, 0);
 
-
-
-
-
             if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
                 overflowCont.prepend(prevlastLi);
-            } else if (sumDistanceBetweenLi - paddingRightCurrentMenu - paddingRightcontCurrentMenu > widthPrevFirstOverflowLi + 35) {
+            } else if (sumDistanceBetweenLi > widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2) {
                 currentMenu.append(prevFirstOverflowLi);
             }
 
-
-
+            prevRightCont = currentRightCont;
         });
 
         observer.observe(contCurrentMenu);
