@@ -59,7 +59,7 @@ class HorizontalMenu {
               iconBurger: 'icon-drop', // определяет внешний вид иконки Burgerr menu
               iconBurgerOpen: 'icon-drop_open', // определяет внешний вид иконки Burgerr menu когда Burgerr menu открыто  iconBurger НЕбудет удалён
 
-              brackPointBurger: 768,      // размер окна при котором происходит перестроения в burger меню из overflow меню
+              breakPointBurger: 768,      // размер окна при котором происходит перестроения в burger меню из overflow меню
               
               // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
 
@@ -183,7 +183,7 @@ class HorizontalMenu {
         this.iconBurgerOpen = this._clearClassName(param.iconBurgerOpen || 'icon-burger_open');
         this.iconDropClass = this._clearClassName(param.iconDropClass || 'icon-drop');
         this.iconDropClassOpen = this._clearClassName(param.iconDropdownmodifiereOpen || 'icon-drop_open');
-        this.brackPointBurger = param.brackPointBurger || 768;
+        this.breakPointBurger = param.breakPointBurger || 768;
 
         this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt-visible');
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
