@@ -15,25 +15,22 @@
             это даёт возможность организовать разные способы открытия для разных пипо меню
 
 
-
     todo:
+
 
         на малом расширениии экрана, когда активно burger menu все пункты меню должны быть перенесены из overflow-cont в бургер меню
             т.е. в зависимости от расширения экрана либо burger menu либо overflow-cont
-
-        перестроение меню при событии resize!!!
-            обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
-                перестраивать меню overflow-cont
 
         исключить возможность открытия меню за пределы окна 
 
         добавить возможность устанавливать для каждого меню свой набор иконок, селекторами элементов которые уже прописаны в html
 
+        оптимизировать повторение построения меню в menuContainerOverflow(contCurrentMenu) и monitoringResize(contCurrentMenu)
+
         добавить все те манипуляции из dropprocessingClick() блокировка body и прочее
         
         возможность отключать icon - dropdown для меню desk top независимо от мобильной версии из html
         overflow-cont  додлжен выезжать из за правой границы окна
-
 
     */
 
@@ -60,6 +57,8 @@ class HorizontalMenu {
             
             iconBurger: 'icon-drop', // определяет внешний вид иконки Burgerr menu
             iconBurgerOpen: 'icon-drop_open', // определяет внешний вид иконки Burgerr menu когда Burgerr menu открыто  iconBurger НЕбудет удалён
+
+            brackPointBurger: 768,      // размер окна при котором происходит перестроения в burger меню из overflow меню
             
             // single: 'false', // допускает одновременное открытие нескольких меню т.е. открытие следующего меню не закрывает предидущее
 
@@ -187,21 +186,13 @@ class HorizontalMenu {
         this.iconBurgerOpen = this._clearClassName(param.iconBurgerOpen || 'icon-burger_open');
         this.iconDropClass = this._clearClassName(param.iconDropClass || 'icon-drop');
         this.iconDropClassOpen = this._clearClassName(param.iconDropdownmodifiereOpen || 'icon-drop_open');
+        this.brackPointBurger = param.brackPointBurger || 768;
 
         this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt-visible');
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
         this.single = param.single || 'true';
 
         this.lastWidthWindow = window.innerWidth;
-
-
-        // if (typeof gsap !== "undefined") {
-        //     this.animation.transition.drop = param.animation.drop;
-        //     this.animation.transition.overflow = param.animation.overflow;
-        //     this.animation.transition.burger = param.animation.burger;
-        // };
-
-
 
         this.forEachMenu();
         this.listenClick();
