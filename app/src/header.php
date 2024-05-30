@@ -13,3 +13,10 @@
 	<?php wp_body_open(); ?>
 
 	<div class="rmbt-page-wrap">
+
+
+		<?php
+		// для стандартного WP виджета поиск файл searchform.php должен находится в корне темы
+		// для работоспособности поиска в целом searchform.php может быть где угодно
+		get_template_part('searchform');
+		?>
