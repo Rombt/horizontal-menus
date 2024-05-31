@@ -197,16 +197,21 @@ class HorizontalMenu {
     }
 
     forEachMenu() {
+
+
+        console.log("window.innerWidth = ", window.innerWidth);
+
         this.nl_containersMenu.forEach(arrNodeList => {
             for (let i = 0; i <= arrNodeList.length - 1; i++) {
                 let contCurrentMenu = arrNodeList[i];
                 if (!contCurrentMenu.querySelector('nav')) continue;
 
+                if (window.innerWidth > this.breakPointBurger) this.menuContainerOverflow(contCurrentMenu);
+                else contCurrentMenu.style.visibility = 'visible';
+
                 this.menuContainerDrop(contCurrentMenu);
-                this.menuContainerOverflow(contCurrentMenu);
                 this.setSubMenuIcon(contCurrentMenu);
                 this.setBurgerIcon(contCurrentMenu);
-
                 this.monitoringResize(contCurrentMenu);
             }
         });
@@ -226,20 +231,16 @@ class HorizontalMenu {
         let ul = contCurrentMenu.querySelector('ul');
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
+
+        console.log("22 contCurrentMenu", contCurrentMenu);
+
         if (overflowCont === null) {
             overflowCont = document.createElement('ul');
             overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
         }
 
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
-            /*
-                      при уменьшении ширины contCurrentMenu изымать li из overflowCont и добавлять li в  contCurrentMenu
-                      при увеличении ширины contCurrentMenu изымать li из overflowCont и добавлять в contCurrentMenu
-                  */
-
             if (elMenu.getBoundingClientRect().right > ul.getBoundingClientRect().right - 10) {
-                // 10 это компенсация правого падинга контейнера в котором прячется OverflowIcon
-
                 overflowCont.append(elMenu);
             }
         });
@@ -253,8 +254,9 @@ class HorizontalMenu {
     }
 
     monitoringResize(contCurrentMenu) {
-        const overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-        if (!overflowCont) return;
+        let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+
+        // if (!overflowCont) return;
 
         const currentMenu = contCurrentMenu.querySelector('nav>ul:first-child');
         const paddingRightCurrentMenu = +window
@@ -264,6 +266,27 @@ class HorizontalMenu {
         let prevRightCont = contCurrentMenu.getBoundingClientRect().right;
 
         const observer = new ResizeObserver(entries => {
+
+
+
+            console.log("00 overflowCont", overflowCont);
+
+            if (!overflowCont) {
+                this.menuContainerOverflow(contCurrentMenu);
+
+                overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+
+                console.log("11 overflowCont", overflowCont);
+
+                if (!overflowCont) {
+                    return;
+                }
+
+            }
+
+
+
+
             const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
 
             if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) true;
