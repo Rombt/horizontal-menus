@@ -11,8 +11,6 @@
 
 
       +  Модуль Динамический адаптив   https://youtu.be/QKuMr575vlQ
-      +  Модуль Popup модальные окна   https://youtu.be/qoO1ZNi1LyI 
-            дополнительные функции: https://youtu.be/jeKw5n3F8nw?si=XHvVQ_k5EW7Ye6Eh
       +  Модуль меню бургер     
             https://youtu.be/chJQofBSx94
             https://youtu.be/zs1r8yafTE8
@@ -24,10 +22,13 @@
       +  Модуль Табы    https://youtu.be/5Bh6-xl9FMM
 
 
-      -! Модуль кастомизации элемента SELECT
-
+      --+ Модуль Popup модальные окна   https://youtu.be/qoO1ZNi1LyI 
+            дополнительные функции: https://youtu.be/jeKw5n3F8nw?si=XHvVQ_k5EW7Ye6Eh
+            !!!!  todo получать продолжительность анимации автоматичиски прочитав значени свайства transition
+            !!!!  todo popupLinks должен быть массивом scc селекторов всех обрабатываемых триггеров. Массив должен передаваться в объекте params по аналогии с classHorizontalMenu.j
 
             
+      -! Модуль кастомизации элемента SELECT
       стилизация скроллбара найти нормальную библиотеку
          PerfectScrollbar разобраться
       Модуль Галерея
