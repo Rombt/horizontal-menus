@@ -214,6 +214,24 @@ class HorizontalMenu {
         });
     }
 
+
+    мenuВuilding(contCurrentMenu) {
+        /*
+            строит меню при загрузке страницы 
+            перестраивает меню при resize окна
+                перемещая li из menuOverflow в ul основного меню
+                для того что бы в burger menu отображались все li 
+
+            получает 
+
+
+        */
+
+
+    }
+
+
+
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
         if (overflowCont !== null) return;
@@ -236,6 +254,7 @@ class HorizontalMenu {
             return overflowCont;
         }
 
+        contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
         return 0;
     }
 
@@ -247,57 +266,50 @@ class HorizontalMenu {
         const paddingRightcontCurrentMenu = +window.getComputedStyle(contCurrentMenu).paddingRight.replace(/px/g, '');
         let prevRightCont = contCurrentMenu.getBoundingClientRect().right;
 
-        const observer = new ResizeObserver(entries => {
+        const observer = new ResizeObserver(entries => { // console.log("ResizeObserver = ", entries);
 
-            // console.log("ResizeObserver = ", entries);
 
-            let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+            // this.мenuВuilding(contCurrentMenu);
+
+
+            // !!!!!!!!!!!очень много  if !!!!!
+            // !!!!!!!!!!!нужна декомпозиция!!!!!
+
+
+                let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+
+
 
             if (!overflowCont && window.innerWidth > this.breakPointBurger) {
                 overflowCont = this.menuContainerOverflow(contCurrentMenu);
             }
+            if (!overflowCont) return;
 
-            if (!overflowCont) {
-                contCurrentMenu.style.visibility = 'visible';
-                return
-            };
-
-            if (overflowCont.closest('nav').classList.contains(this.hiddenClass)) {
+            if (overflowCont.closest('nav').classList.contains(this.hiddenClass) ||
+                currentMenu.closest('nav').classList.contains(`${this.visibleClass}_${this.modifiers.burger}`)) {
                 overflowCont.closest('nav').className = '';
                 if (typeof gsap !== 'undefined') {
-                    // overflowCont.closest('nav').style.cssText = '';
-
-                    // console.log("this.animation.burger.close = ", Object.keys(this.animation.burger.close));
-                    // let arrProperties = Object.keys(this.animation.burger.close);
-
                     Object.keys(this.animation.burger.close).forEach(prop => {
-                        // overflowCont.closest('nav').style.prop = '';
-                        console.log(prop);
-
-                        const _prop = prop.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
-
-                        overflowCont.closest('nav').style.setProperty(_prop, '');
+                        prop = prop.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+                        overflowCont.closest('nav').style.setProperty(prop, '');
                     })
-
-
-
-
-
                 }
             }
 
             const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
-
-
-            if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) true;
+            if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
 
             const currentRightlastLi = contCurrentMenu
                 .querySelector('nav>ul:first-child>li:last-child')
                 .getBoundingClientRect().right;
             let prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
             let prevRightlastLi = prevlastLi.getBoundingClientRect().right;
+
+            let widthPrevFirstOverflowLi = 0;
             let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
-            let widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
+            if (prevFirstOverflowLi) {
+                widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
+            }
 
             const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
                 (accum, li, i, arr) => {
@@ -311,11 +323,21 @@ class HorizontalMenu {
 
             if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
                 overflowCont.prepend(prevlastLi);
+
+                if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
+
             } else if (
                 sumDistanceBetweenLi >
                 widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2
             ) {
-                currentMenu.append(prevFirstOverflowLi);
+
+                if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
+                if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
+                    if (contCurrentMenu.querySelector('.icon-overflow')) {
+                        contCurrentMenu.querySelector('.icon-overflow').remove();
+                    }
+                }
+
             }
 
             prevRightCont = currentRightCont;
