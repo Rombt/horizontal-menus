@@ -251,21 +251,6 @@ class HorizontalMenu {
 
             // console.log("ResizeObserver = ", entries);
 
-            /*
-                начальное построение 
-                    ++ overflowCont нет и его не должно быть
-                    ++ overflowCont нет но он должен быть
-                    ++ overflowCont есть но его нужно перестроить
-                    ++ overflowCont есть и с ним ничего не нужно делать
-
-                переход от burger menu к overflowCont
-
-
-
-
-            */
-
-
             let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
             if (!overflowCont && window.innerWidth > this.breakPointBurger) {
@@ -277,8 +262,14 @@ class HorizontalMenu {
                 return
             };
 
-            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
+            if (overflowCont.closest('nav').classList.contains(this.hiddenClass)) {
+                overflowCont.closest('nav').className = '';
+                if (typeof gsap !== 'undefined') {
+                    overflowCont.closest('nav').style.cssText = '';
+                }
+            }
 
+            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
 
 
             if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) true;
