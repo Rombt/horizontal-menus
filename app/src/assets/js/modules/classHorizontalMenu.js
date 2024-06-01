@@ -265,7 +265,24 @@ class HorizontalMenu {
             if (overflowCont.closest('nav').classList.contains(this.hiddenClass)) {
                 overflowCont.closest('nav').className = '';
                 if (typeof gsap !== 'undefined') {
-                    overflowCont.closest('nav').style.cssText = '';
+                    // overflowCont.closest('nav').style.cssText = '';
+
+                    // console.log("this.animation.burger.close = ", Object.keys(this.animation.burger.close));
+                    // let arrProperties = Object.keys(this.animation.burger.close);
+
+                    Object.keys(this.animation.burger.close).forEach(prop => {
+                        // overflowCont.closest('nav').style.prop = '';
+                        console.log(prop);
+
+                        const _prop = prop.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+
+                        overflowCont.closest('nav').style.setProperty(_prop, '');
+                    })
+
+
+
+
+
                 }
             }
 
