@@ -214,23 +214,20 @@ class HorizontalMenu {
         });
     }
 
+    // мenuВuilding(contCurrentMenu) {
+    //     /*
+    //         строит меню при загрузке страницы 
+    //         перестраивает меню при resize окна
+    //             перемещая li из menuOverflow в ul основного меню
+    //             для того что бы в burger menu отображались все li 
 
-    мenuВuilding(contCurrentMenu) {
-        /*
-            строит меню при загрузке страницы 
-            перестраивает меню при resize окна
-                перемещая li из menuOverflow в ul основного меню
-                для того что бы в burger menu отображались все li 
-
-            получает 
-
-
-        */
+    //         получает 
 
 
-    }
+    //     */
 
 
+    // }
 
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
@@ -241,10 +238,12 @@ class HorizontalMenu {
         overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
 
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
+
             if (elMenu.getBoundingClientRect().right - ul.getBoundingClientRect().right > 1) {
                 overflowCont.append(elMenu);
             }
         });
+
 
         if (overflowCont.childElementCount > 0) {
             this.setOverflowIcon(contCurrentMenu);
@@ -259,29 +258,25 @@ class HorizontalMenu {
     }
 
     monitoringResize(contCurrentMenu) {
-
+        // !!!!!!!!!!!очень много  if !!!!!
+        // !!!!!!!!!!!нужна декомпозиция!!!!!
 
         const currentMenu = contCurrentMenu.querySelector('nav>ul:first-child');
         const paddingRightCurrentMenu = +window.getComputedStyle(contCurrentMenu.querySelector('nav')).paddingRight.replace(/px/g, '');
         const paddingRightcontCurrentMenu = +window.getComputedStyle(contCurrentMenu).paddingRight.replace(/px/g, '');
         let prevRightCont = contCurrentMenu.getBoundingClientRect().right;
 
-        const observer = new ResizeObserver(entries => { // console.log("ResizeObserver = ", entries);
+        const observer = new ResizeObserver(entries => {
+
+            // console.log("ResizeObserver = ", entries);
 
 
-            // this.мenuВuilding(contCurrentMenu);
-
-
-            // !!!!!!!!!!!очень много  if !!!!!
-            // !!!!!!!!!!!нужна декомпозиция!!!!!
-
-
-                let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-
+            let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
 
             if (!overflowCont && window.innerWidth > this.breakPointBurger) {
                 overflowCont = this.menuContainerOverflow(contCurrentMenu);
+
             }
             if (!overflowCont) return;
 
