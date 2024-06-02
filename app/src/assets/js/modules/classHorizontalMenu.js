@@ -278,7 +278,10 @@ class HorizontalMenu {
                 overflowCont = this.menuContainerOverflow(contCurrentMenu);
 
             }
-            if (!overflowCont) return;
+            if (!overflowCont) {
+                contCurrentMenu.style.visibility = 'visible';
+                return
+            };
 
             if (overflowCont.closest('nav').classList.contains(this.hiddenClass) ||
                 currentMenu.closest('nav').classList.contains(`${this.visibleClass}_${this.modifiers.burger}`)) {
