@@ -256,9 +256,7 @@ class HorizontalMenu {
         overflowCont = document.createElement('ul');
         overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
 
-
         this.clearNav(contCurrentMenu);
-
 
         contCurrentMenu.querySelectorAll('nav>ul>li').forEach(elMenu => {
             if (elMenu.getBoundingClientRect().right - ul.getBoundingClientRect().right > 1) {
@@ -295,11 +293,6 @@ class HorizontalMenu {
             let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
 
-            // if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
-
-            //     const currentRightlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child').getBoundingClientRect().right;
-            // }
-
             let prevlastLi, prevRightlastLi;
             if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
                 prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
@@ -321,18 +314,6 @@ class HorizontalMenu {
             };
 
             this.clearNav(contCurrentMenu);
-
-            // if (overflowCont.closest('nav').classList.contains(this.hiddenClass) ||
-            //     currentMenu.closest('nav').classList.contains(`${this.visibleClass}_${this.modifiers.burger}`)) {
-
-            //     overflowCont.closest('nav').className = '';
-            //     if (typeof gsap !== 'undefined') {
-            //         Object.keys(this.animation.burger.close).forEach(prop => {
-            //             prop = prop.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
-            //             overflowCont.closest('nav').style.setProperty(prop, '');
-            //         })
-            //     }
-            // }
 
             const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
             if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
