@@ -243,14 +243,23 @@ class HorizontalMenu {
                 })
             }
         }
-
-
     }
 
 
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-        if (overflowCont !== null) return;
+
+        if (overflowCont && overflowCont.childElementCount > 0) return;
+
+
+        /*
+            запутался !!!  нужен чёткий алгоритм переходов:
+
+            burger -> overflow и обратно причём при смене размеров окна
+
+        */
+
+
 
         let ul = contCurrentMenu.querySelector('ul');
         overflowCont = document.createElement('ul');
@@ -273,87 +282,168 @@ class HorizontalMenu {
         }
 
         contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
-        return 0;
+        return null;
     }
 
     monitoringResize(contCurrentMenu) {
-        // !!!!!!!!!!!очень много  if !!!!!
-        // !!!!!!!!!!!нужна декомпозиция!!!!!
 
         const currentMenu = contCurrentMenu.querySelector('nav>ul:first-child');
         const paddingRightCurrentMenu = +window.getComputedStyle(contCurrentMenu.querySelector('nav')).paddingRight.replace(/px/g, '');
         const paddingRightcontCurrentMenu = +window.getComputedStyle(contCurrentMenu).paddingRight.replace(/px/g, '');
         let prevRightCont = contCurrentMenu.getBoundingClientRect().right;
 
+        contCurrentMenu.style.visibility = 'visible'; // временно 
+
         const observer = new ResizeObserver(entries => {
 
-            // console.log("ResizeObserver = ", entries);
 
 
-            let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
 
-            let prevlastLi, prevRightlastLi;
-            if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
-                prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
-                prevRightlastLi = prevlastLi.getBoundingClientRect().right;
+            if (window.innerWidth <= this.breakPointBurger) {
+
+
             } else {
-
-                console.log("prevRightlastLi = ", prevRightlastLi);
-            }
+                let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
 
-            if (!overflowCont && window.innerWidth > this.breakPointBurger) {
-                overflowCont = this.menuContainerOverflow(contCurrentMenu);
-            }
+                console.log("00 overflowCont = ", overflowCont);
 
 
-            if (!overflowCont) {
-                contCurrentMenu.style.visibility = 'visible';
-                return
-            };
+                if (overflowCont === null) {
+                    console.log("3 overflowCont = ", overflowCont);
+                    overflowCont = this.menuContainerOverflow(contCurrentMenu);
+                    console.log("5 overflowCont = ", overflowCont);
+                    if (overflowCont === null) return;
+                }
 
-            this.clearNav(contCurrentMenu);
+                console.log("10 overflowCont = ", overflowCont);
 
-            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
-            if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
+                let widthPrevFirstOverflowLi = 0;
+                let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
+                if (prevFirstOverflowLi) {
+                    widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
+                }
 
 
-            let widthPrevFirstOverflowLi = 0;
-            let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
-            if (prevFirstOverflowLi) {
-                widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
-            }
 
-            const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
-                (accum, li, i, arr) => {
-                    if (arr[i + 1]) {
-                        accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
+                const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
+                if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
+
+                let prevlastLi, prevRightlastLi;
+                if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
+                    prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
+                    prevRightlastLi = prevlastLi.getBoundingClientRect().right;
+                }
+
+                const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
+                    (accum, li, i, arr) => {
+                        if (arr[i + 1]) {
+                            accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
+                        }
+                        return accum;
+                    },
+                    0
+                );
+
+
+
+
+                if (currentRightCont - prevRightlastLi > 0) { // окно увеличивается
+
+                    if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
+                        overflowCont.prepend(prevlastLi);
+                        if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
                     }
-                    return accum;
-                },
-                0
-            );
 
-            if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
+                } else { // окно уменьшается
 
-                overflowCont.prepend(prevlastLi);
+                    if (sumDistanceBetweenLi > widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2) {
 
-                if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
+                        if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
+                        if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
+                            if (contCurrentMenu.querySelector('.icon-overflow')) {
+                                contCurrentMenu.querySelector('.icon-overflow').remove();
+                            }
+                        }
 
-            } else if (
-                sumDistanceBetweenLi >
-                widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2
-            ) {
-
-                if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
-                if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
-                    if (contCurrentMenu.querySelector('.icon-overflow')) {
-                        contCurrentMenu.querySelector('.icon-overflow').remove();
                     }
+
                 }
 
             }
+
+
+
+
+
+
+
+
+
+
+
+            // let prevlastLi, prevRightlastLi;
+            // if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
+            //     prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
+            //     prevRightlastLi = prevlastLi.getBoundingClientRect().right;
+            // }
+
+
+            // if (!overflowCont && window.innerWidth > this.breakPointBurger) {
+            //     overflowCont = this.menuContainerOverflow(contCurrentMenu);
+            // }
+
+
+            // if (!overflowCont) {
+            //     contCurrentMenu.style.visibility = 'visible';
+            //     return
+            // };
+
+            // if (overflowCont.childElementCount === 0) {
+            //     this.menuContainerOverflow(contCurrentMenu);
+            // }
+
+            // this.clearNav(contCurrentMenu);
+
+            // const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
+            // if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
+
+            // let widthPrevFirstOverflowLi = 0;
+            // let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
+            // if (prevFirstOverflowLi) {
+            //     widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
+            // }
+
+            // const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
+            //     (accum, li, i, arr) => {
+            //         if (arr[i + 1]) {
+            //             accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
+            //         }
+            //         return accum;
+            //     },
+            //     0
+            // );
+
+            // if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
+
+            //     overflowCont.prepend(prevlastLi);
+
+            //     if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
+
+            // } else if (
+            //     sumDistanceBetweenLi >
+            //     widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2
+            // ) {
+
+            //     if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
+            //     if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
+            //         if (contCurrentMenu.querySelector('.icon-overflow')) {
+            //             contCurrentMenu.querySelector('.icon-overflow').remove();
+            //         }
+            //     }
+
+            // }
 
             prevRightCont = currentRightCont;
         });
@@ -521,13 +611,14 @@ class HorizontalMenu {
             document.querySelector('html').classList.add('rmbt-lock');
 
 
-            // console.log("`.${this.hiddenMenuCont.overflow}` = ", `.${this.hiddenMenuCont.overflow}`);
-
             let overflowCont = currentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-
-            // console.log("OpenMenu  currentMenu = ", currentMenu);
-            // console.log("overflowCont", overflowCont);
-
+            if (overflowCont) {
+                if (overflowCont.querySelectorAll('li').length > 0) {
+                    overflowCont.querySelectorAll('li').forEach(li => {
+                        currentMenu.querySelector('nav>ul:first-child').append(li);
+                    });
+                }
+            }
         }
 
         currentMenu.classList.add(this.visibleClass + '_' + modifier);
