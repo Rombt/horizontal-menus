@@ -183,7 +183,7 @@ class HorizontalMenu {
         this.iconBurgerOpen = this._clearClassName(param.iconBurgerOpen || 'icon-burger_open');
         this.iconDropClass = this._clearClassName(param.iconDropClass || 'icon-drop');
         this.iconDropClassOpen = this._clearClassName(param.iconDropdownmodifiereOpen || 'icon-drop_open');
-        this.breakPointBurger = param.breakPointBurger || 768;
+        this.breakPointBurger = param.breakPointBurger || 767;
 
         this.visibleClass = this._clearClassName(param.visibleClass || 'rmbt-visible');
         this.hiddenClass = this._clearClassName(param.hiddenClass || 'rmbt-hidden');
@@ -248,22 +248,20 @@ class HorizontalMenu {
 
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-
-        if (overflowCont && overflowCont.childElementCount > 0) return;
-
-
-        /*
-            запутался !!!  нужен чёткий алгоритм переходов:
-
-            burger -> overflow и обратно причём при смене размеров окна
-
-        */
-
-
-
         let ul = contCurrentMenu.querySelector('ul');
-        overflowCont = document.createElement('ul');
-        overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
+        let createOverflowCont = false;
+
+        if (overflowCont) {
+            if (overflowCont.childElementCount > 0) return overflowCont;
+
+
+        } else {
+
+            overflowCont = document.createElement('ul');
+            overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
+            createOverflowCont = true;
+
+        }
 
         this.clearNav(contCurrentMenu);
 
@@ -274,10 +272,16 @@ class HorizontalMenu {
         });
 
         if (overflowCont.childElementCount > 0) {
-            this.setOverflowIcon(contCurrentMenu);
-            contCurrentMenu.querySelector('nav').append(overflowCont);
-            this.setAdditionalClassesToCont(overflowCont, 'overflow');
-            contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
+
+            if (createOverflowCont) {
+                this.setOverflowIcon(contCurrentMenu);
+                contCurrentMenu.querySelector('nav').append(overflowCont);
+                this.setAdditionalClassesToCont(overflowCont, 'overflow');
+                contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
+            }
+
+
+
             return overflowCont;
         }
 
@@ -301,13 +305,18 @@ class HorizontalMenu {
 
 
             } else {
-                let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
 
-                if (overflowCont === null) {
-                    overflowCont = this.menuContainerOverflow(contCurrentMenu);
-                    if (overflowCont === null) return;
-                }
+                this.clearNav(contCurrentMenu);
+
+
+                // let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
+
+
+                // if (overflowCont === null) {
+                let overflowCont = this.menuContainerOverflow(contCurrentMenu);
+                if (overflowCont === null) return;
+                // }
 
                 let widthPrevFirstOverflowLi = 0;
                 let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
@@ -315,7 +324,10 @@ class HorizontalMenu {
                     widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
                 }
 
-                const mainUl = contCurrentMenu.querySelector('nav ul:first-child');
+
+                console.log("contCurrentMenu = ", contCurrentMenu);
+
+                const mainUl = contCurrentMenu.querySelector('nav ul');
                 const currentRightMainUl = mainUl.getBoundingClientRect().right;
 
                 const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
@@ -346,16 +358,13 @@ class HorizontalMenu {
                 } else { // окно увеличивается
 
                     if (sumDistanceBetweenLi > widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2) {
-
                         if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
                         if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
                             if (contCurrentMenu.querySelector('.icon-overflow')) {
                                 contCurrentMenu.querySelector('.icon-overflow').remove();
                             }
                         }
-
                     }
-
                 }
                 prevRightCont = currentRightCont;
             }
