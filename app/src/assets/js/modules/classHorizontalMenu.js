@@ -297,9 +297,6 @@ class HorizontalMenu {
         const observer = new ResizeObserver(entries => {
 
 
-
-
-
             if (window.innerWidth <= this.breakPointBurger) {
 
 
@@ -307,17 +304,10 @@ class HorizontalMenu {
                 let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
 
 
-                console.log("00 overflowCont = ", overflowCont);
-
-
                 if (overflowCont === null) {
-                    console.log("3 overflowCont = ", overflowCont);
                     overflowCont = this.menuContainerOverflow(contCurrentMenu);
-                    console.log("5 overflowCont = ", overflowCont);
                     if (overflowCont === null) return;
                 }
-
-                console.log("10 overflowCont = ", overflowCont);
 
                 let widthPrevFirstOverflowLi = 0;
                 let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
@@ -325,10 +315,10 @@ class HorizontalMenu {
                     widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
                 }
 
-
+                const mainUl = contCurrentMenu.querySelector('nav ul:first-child');
+                const currentRightMainUl = mainUl.getBoundingClientRect().right;
 
                 const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
-                if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
 
                 let prevlastLi, prevRightlastLi;
                 if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
@@ -347,16 +337,13 @@ class HorizontalMenu {
                 );
 
 
-
-
-                if (currentRightCont - prevRightlastLi > 0) { // окно увеличивается
-
-                    if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
+                if (currentRightCont - prevRightCont < 0) { // окно уменьшается 
+                    if (prevRightlastLi > currentRightMainUl) {
                         overflowCont.prepend(prevlastLi);
                         if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
                     }
 
-                } else { // окно уменьшается
+                } else { // окно увеличивается
 
                     if (sumDistanceBetweenLi > widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2) {
 
@@ -370,7 +357,7 @@ class HorizontalMenu {
                     }
 
                 }
-
+                prevRightCont = currentRightCont;
             }
 
 
@@ -445,7 +432,7 @@ class HorizontalMenu {
 
             // }
 
-            prevRightCont = currentRightCont;
+            // prevRightCont = currentRightCont;
         });
 
         observer.observe(contCurrentMenu);
@@ -586,7 +573,6 @@ class HorizontalMenu {
             document.querySelector('html').classList.remove('rmbt-lock');
 
 
-            // console.log("closeMenu  currentMenu = ", currentMenu);
 
         }
         this.changeStateIconMenu(currentMenu, modifier, 'close');
