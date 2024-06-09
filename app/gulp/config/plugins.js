@@ -40,5 +40,4 @@ export const plugins = {
    tap: tap,
    nodePath: nodePath,
    changed: changed,
-   
 }

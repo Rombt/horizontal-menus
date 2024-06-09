@@ -16,6 +16,7 @@
   flex-direction: column;
   row-gap: @margin_bottom_section;
 }
+
 main {
   display: flex;
   flex-direction: column;
@@ -26,13 +27,12 @@ main {
 .rmbt-container {
   .wrapper();
 }
-/*центрующий контейнер для блоков фоновой ширины*/
+
+/*центрующий контейнер фоновой ширины*/
 .rmbt-full-width {
   max-width: @width_main-wrapper;
   .wrapper-full();
   margin: 0 auto;
-
-  border: 1px solid rgb(247, 6, 6);
 }
 
 .debug-grid {
@@ -127,7 +127,7 @@ main {
     text-decoration: none;
   }
 
-  > ul {
+  >ul {
     display: flex;
     justify-content: space-between;
     align-items: center;

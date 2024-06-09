@@ -122,7 +122,7 @@ export const fontStyle = done => {
 
   return done();
 
-  function cd() {}
+  function cd() { }
 };
 
 export const copyFonts = () => {

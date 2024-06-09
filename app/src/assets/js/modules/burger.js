@@ -4,6 +4,7 @@
  *   стили в файле burger.less
  
  *   основные функции:
+ *      при переполнении контейнера лишние пункты скрываются в выпадающее меню
  *      индекатор того что данный пункт имеет подменю
  *      блокировка скпрола страницы при открытом меню в мобильной версии
  *      реакция пунктов при наведении в версии для PC 
@@ -17,23 +18,53 @@
 
 function burger() {
 
-    /* set this variables for your menu*/
     const classContainerMenu = 'wrap-burger-menu'; // class of blocks that is contenting menu
 
     let containerMenu,
         menu,
         burgerMenuTogle;
-
     let countOpenMenu = 0;
     let iconMenuClose = 0;
 
-    const containersMenu = document.querySelectorAll(`.${classContainerMenu} nav`);
+
+    const containersMenu = document.querySelectorAll(`.${classContainerMenu}`);
 
     if (containersMenu.length === null) {
         return false;
     }
 
+    containersMenu.forEach((menu) => {
+        let widthAllItems = 0;
+        let totalSpace = 0;
+        const toggle = menu.querySelector('.show-hide-menu');
+        let menuOverflowDrop = document.createElement('div');
+        menuOverflowDrop.classList.add('menu-overflow-drop', 'hidden')
 
+
+
+        menu.querySelectorAll('nav>ul>li').forEach((elMenu) => {
+            widthAllItems += elMenu.offsetWidth;
+            if (elMenu.getBoundingClientRect().right > menu.getBoundingClientRect().right) {
+                toggle.classList.remove('hidden');
+                menuOverflowDrop.append(elMenu);
+            }
+        })
+
+        if (menuOverflowDrop.childElementCount > 0) {
+            menu.querySelector('nav').append(menuOverflowDrop);
+        }
+        menu.style.visibility = 'visible'; // показываю меню после окончательногоформирования
+    })
+
+
+    const toglesShowHideMenu = document.querySelectorAll(`.show-hide-menu`);
+    toglesShowHideMenu.forEach(togle => {
+        togle.addEventListener('click', e => {
+            togle.closest('nav').querySelector('.menu-overflow-drop').classList.toggle('hidden');
+        })
+    });
+
+    //=======================================================================
     const ToglesBurgerMenu = document.querySelectorAll('.menu-icon');
     const itemsMenu = document.querySelectorAll(`.${classContainerMenu} li`);
     let iconDropdown;
@@ -50,7 +81,6 @@ function burger() {
             itemsMenu[i].append(iconDropdown);
             if (iconDropdown) {
                 iconDropdown.addEventListener('click', e => {
-
                     e.target.classList.toggle('icon-dropdown_open');
                     if (e.target.classList.contains('icon-dropdown_open')) {
                         subMenuOpen(e);
@@ -114,7 +144,6 @@ function burger() {
         }
     }
 
-
     // close burger menu when Smooth scrolling
     const gotoLinks = document.querySelectorAll('[data-goto]');
     if (gotoLinks.length > 0) {
@@ -163,6 +192,11 @@ function burger() {
             .querySelector('.menu-icon')
             .classList
             .remove('menu-icon_close');
+    }
+
+    function burgerMenuAdapt() {
+
+
     }
 
     //клик мимо
