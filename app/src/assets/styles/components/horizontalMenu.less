@@ -34,7 +34,6 @@
 
             box-sizing: border-box;
             padding-right: 10px;
-
         }
 
         li {
@@ -177,8 +176,8 @@
     .newToggle,
     /* for work */
     .icon-drop {
-        height: 15px;
-        width: 15px;
+        height: 25px;
+        width: 25px;
 
         display: inline-block;
         border-radius: 50%;
@@ -198,9 +197,9 @@
             position: absolute;
             right: 10%;
             top: 50%;
-            height: 2px;
+            height: 3px;
             width: 50%;
-            background-color: blue;
+            background-color: rgb(6, 2, 253);
 
         }
 
@@ -334,7 +333,6 @@
                     }
 
                     ul {
-                        position: relative;
                         top: 0;
                     }
                 }
@@ -392,30 +390,28 @@
             transition: left 0.5s ease;
             z-index: 1;
         }
-    }
-
-    );
+    });
 
 
 
 
 
 
-    visibility: hidden; // скрываю до окончания поного фармирования потом показываю js
+visibility: hidden; // скрываю до окончания поного фармирования потом показываю js
 
-    .rmbt-hidden {
-        height: 0px;
-        overflow: hidden;
-        pointerEvents: none;
-        opacity: 0;
-        width: 0px;
-        z-index: 1;
-    }
+.rmbt-hidden {
+    height: 0px;
+    overflow: hidden;
+    pointerEvents: none;
+    opacity: 0;
+    width: 0px;
+    z-index: 1;
+}
 
 
-    // .rmbt_visible {
-    //     display: block;
-    // }
+// .rmbt_visible {
+//     display: block;
+// }
 
 
 }

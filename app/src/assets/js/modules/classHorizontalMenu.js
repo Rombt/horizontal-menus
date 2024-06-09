@@ -18,13 +18,6 @@
 
     todo:
 
-        на малом расширениии экрана, когда активно burger menu все пункты меню должны быть перенесены из overflow-cont в бургер меню
-            т.е. в зависимости от расширения экрана либо burger menu либо overflow-cont
-
-        перестроение меню при событии resize!!!
-            обработка события изменения размера экрана (переворот дивайса из вертикалього положения в горизонтальное)
-                перестраивать меню overflow-cont
-
         исключить возможность открытия меню за пределы окна 
 
         добавить возможность устанавливать для каждого меню свой набор иконок, селекторами элементов которые уже прописаны в html
@@ -164,7 +157,7 @@ class HorizontalMenu {
             close: {
                 duration: 0.7,
                 ease: 'power4.inOut',
-                height: 0,
+                // height: 0,
                 overflow: 'hidden',
                 pointerEvents: 'none',
                 opacity: 0,
@@ -249,18 +242,14 @@ class HorizontalMenu {
     menuContainerOverflow(contCurrentMenu) {
         let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
         let ul = contCurrentMenu.querySelector('ul');
-        let createOverflowCont = false;
+        let createdOverflowCont = false;
 
         if (overflowCont) {
             if (overflowCont.childElementCount > 0) return overflowCont;
-
-
         } else {
-
             overflowCont = document.createElement('ul');
             overflowCont.classList.add(this.hiddenMenuCont.overflow, this.hiddenClass);
-            createOverflowCont = true;
-
+            createdOverflowCont = true;
         }
 
         this.clearNav(contCurrentMenu);
@@ -273,15 +262,12 @@ class HorizontalMenu {
 
         if (overflowCont.childElementCount > 0) {
 
-            if (createOverflowCont) {
-                this.setOverflowIcon(contCurrentMenu);
+            if (createdOverflowCont) {
                 contCurrentMenu.querySelector('nav').append(overflowCont);
                 this.setAdditionalClassesToCont(overflowCont, 'overflow');
                 contCurrentMenu.style.visibility = 'visible'; // показываю меню после окончательного формирования
             }
-
-
-
+            if (!contCurrentMenu.querySelector(this.iconOverflow)) this.setOverflowIcon(contCurrentMenu);
             return overflowCont;
         }
 
@@ -296,154 +282,53 @@ class HorizontalMenu {
         const paddingRightcontCurrentMenu = +window.getComputedStyle(contCurrentMenu).paddingRight.replace(/px/g, '');
         let prevRightCont = contCurrentMenu.getBoundingClientRect().right;
 
-        contCurrentMenu.style.visibility = 'visible'; // временно 
-
         const observer = new ResizeObserver(entries => {
-
-
             if (window.innerWidth <= this.breakPointBurger) {
-
-
-            } else {
-
-
-                this.clearNav(contCurrentMenu);
-
-
-                // let overflowCont = contCurrentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
-
-
-                // if (overflowCont === null) {
-                let overflowCont = this.menuContainerOverflow(contCurrentMenu);
-                if (overflowCont === null) return;
-                // }
-
-                let widthPrevFirstOverflowLi = 0;
-                let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
-                if (prevFirstOverflowLi) {
-                    widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
-                }
-
-
-                console.log("contCurrentMenu = ", contCurrentMenu);
-
-                const mainUl = contCurrentMenu.querySelector('nav ul');
-                const currentRightMainUl = mainUl.getBoundingClientRect().right;
-
-                const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
-
-                let prevlastLi, prevRightlastLi;
-                if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
-                    prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
-                    prevRightlastLi = prevlastLi.getBoundingClientRect().right;
-                }
-
-                const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
-                    (accum, li, i, arr) => {
-                        if (arr[i + 1]) {
-                            accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
-                        }
-                        return accum;
-                    },
-                    0
-                );
-
-
-                if (currentRightCont - prevRightCont < 0) { // окно уменьшается 
-                    if (prevRightlastLi > currentRightMainUl) {
-                        overflowCont.prepend(prevlastLi);
-                        if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
-                    }
-
-                } else { // окно увеличивается
-
-                    if (sumDistanceBetweenLi > widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2) {
-                        if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
-                        if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
-                            if (contCurrentMenu.querySelector('.icon-overflow')) {
-                                contCurrentMenu.querySelector('.icon-overflow').remove();
-                            }
-                        }
-                    }
-                }
-                prevRightCont = currentRightCont;
+                contCurrentMenu.style.visibility = 'visible';
+                return
             }
 
+            if (contCurrentMenu.querySelector(`.${this.iconBurger}`).classList.contains(this.iconBurgerOpen)) {
+                this.changeStateIconMenu(contCurrentMenu.querySelector('nav'), this.modifiers.burger, 'close')
+            }
 
+            this.clearNav(contCurrentMenu);
 
+            let overflowCont = this.menuContainerOverflow(contCurrentMenu);
+            if (overflowCont === null) return;
+            let widthPrevFirstOverflowLi = 0;
+            let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
+            if (prevFirstOverflowLi) widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
 
+            const mainUl = contCurrentMenu.querySelector('nav ul');
+            const currentRightMainUl = mainUl.getBoundingClientRect().right;
+            const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
 
+            let prevlastLi, prevRightlastLi;
+            if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
+                prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
+                prevRightlastLi = prevlastLi.getBoundingClientRect().right;
+            }
 
+            const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
+                (accum, li, i, arr) => {
+                    if (arr[i + 1]) accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
+                    return accum;
+                }, 0);
 
+            if (currentRightCont - prevRightCont < 0) { // окно уменьшается 
+                if (prevRightlastLi > currentRightMainUl) overflowCont.prepend(prevlastLi);
+            } else { // окно увеличивается
+                if (sumDistanceBetweenLi - widthPrevFirstOverflowLi > (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2) {
+                    if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
+                    if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
+                        if (contCurrentMenu.querySelector('.icon-overflow')) contCurrentMenu.querySelector('.icon-overflow').remove();
+                    }
+                }
+            }
+            prevRightCont = currentRightCont;
 
-
-
-
-            // let prevlastLi, prevRightlastLi;
-            // if (contCurrentMenu.querySelector('nav>ul:first-child>li:last-child')) {
-            //     prevlastLi = contCurrentMenu.querySelector('nav>ul:first-child>li:last-child');
-            //     prevRightlastLi = prevlastLi.getBoundingClientRect().right;
-            // }
-
-
-            // if (!overflowCont && window.innerWidth > this.breakPointBurger) {
-            //     overflowCont = this.menuContainerOverflow(contCurrentMenu);
-            // }
-
-
-            // if (!overflowCont) {
-            //     contCurrentMenu.style.visibility = 'visible';
-            //     return
-            // };
-
-            // if (overflowCont.childElementCount === 0) {
-            //     this.menuContainerOverflow(contCurrentMenu);
-            // }
-
-            // this.clearNav(contCurrentMenu);
-
-            // const currentRightCont = contCurrentMenu.getBoundingClientRect().right;
-            // if (Math.abs(currentRightCont - prevRightCont) < paddingRightCurrentMenu + paddingRightcontCurrentMenu) return;
-
-            // let widthPrevFirstOverflowLi = 0;
-            // let prevFirstOverflowLi = overflowCont.querySelector('li:first-child');
-            // if (prevFirstOverflowLi) {
-            //     widthPrevFirstOverflowLi = prevFirstOverflowLi.getBoundingClientRect().width;
-            // }
-
-            // const sumDistanceBetweenLi = [...contCurrentMenu.querySelectorAll('nav>ul:first-child>li')].reduce(
-            //     (accum, li, i, arr) => {
-            //         if (arr[i + 1]) {
-            //             accum += arr[i + 1].getBoundingClientRect().left - li.getBoundingClientRect().right;
-            //         }
-            //         return accum;
-            //     },
-            //     0
-            // );
-
-            // if (prevRightlastLi + paddingRightCurrentMenu + paddingRightcontCurrentMenu > currentRightCont) {
-
-            //     overflowCont.prepend(prevlastLi);
-
-            //     if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 1) this.setOverflowIcon(contCurrentMenu);
-
-            // } else if (
-            //     sumDistanceBetweenLi >
-            //     widthPrevFirstOverflowLi + (paddingRightCurrentMenu + paddingRightcontCurrentMenu) * 2
-            // ) {
-
-            //     if (prevFirstOverflowLi) currentMenu.append(prevFirstOverflowLi);
-            //     if (contCurrentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length == 0) {
-            //         if (contCurrentMenu.querySelector('.icon-overflow')) {
-            //             contCurrentMenu.querySelector('.icon-overflow').remove();
-            //         }
-            //     }
-
-            // }
-
-            // prevRightCont = currentRightCont;
         });
-
         observer.observe(contCurrentMenu);
     }
 
@@ -523,7 +408,7 @@ class HorizontalMenu {
                                 return;
                             }
                         }
-                    } catch {}
+                    } catch { }
                 });
                 break;
 
@@ -554,7 +439,6 @@ class HorizontalMenu {
 
     closeMenu(currentMenu) {
         let modifier;
-
         if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.drop)) {
             modifier = this.modifiers.drop;
         } else if (currentMenu.classList.contains(this.visibleClass + '_' + this.modifiers.burger)) {
@@ -573,10 +457,8 @@ class HorizontalMenu {
             }
         }
 
-        // else {
         currentMenu.classList.remove(this.visibleClass + '_' + modifier);
         currentMenu.classList.add(this.hiddenClass);
-        // }
 
         if (modifier === this.modifiers.burger) {
             document.querySelector('html').classList.remove('rmbt-lock');
@@ -604,12 +486,10 @@ class HorizontalMenu {
 
         if (modifier === this.modifiers.burger) {
             document.querySelector('html').classList.add('rmbt-lock');
-
-
             let overflowCont = currentMenu.querySelector(`.${this.hiddenMenuCont.overflow}`);
             if (overflowCont) {
-                if (overflowCont.querySelectorAll('li').length > 0) {
-                    overflowCont.querySelectorAll('li').forEach(li => {
+                if (currentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).length > 0) {
+                    currentMenu.querySelectorAll(`.${this.hiddenMenuCont.overflow}>li`).forEach(li => {
                         currentMenu.querySelector('nav>ul:first-child').append(li);
                     });
                 }
@@ -705,10 +585,10 @@ class HorizontalMenu {
         return [
             ...new Set(
                 arr
-                .map(el => {
-                    if (typeof str === 'string') this._clearClassName(el);
-                })
-                .filter(item => item !== undefined)
+                    .map(el => {
+                        if (typeof str === 'string') this._clearClassName(el);
+                    })
+                    .filter(item => item !== undefined)
             ),
         ];
     }
