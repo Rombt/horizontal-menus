@@ -112,7 +112,7 @@ class HorizontalMenu {
                 overflow: 'visible',
                 pointerEvents: 'auto',
                 opacity: 1,
-                width: 'auto',
+                // width: 'auto',
             },
             close: {
                 duration: 0.7,
@@ -121,7 +121,7 @@ class HorizontalMenu {
                 overflow: 'hidden',
                 pointerEvents: 'none',
                 opacity: 0,
-                width: 0,
+                // width: 0,
             },
         },
         overflow: {
@@ -148,7 +148,6 @@ class HorizontalMenu {
             open: {
                 duration: 0.7,
                 ease: 'power4.inOut',
-                height: '100vh',
                 overflow: 'visible',
                 pointerEvents: 'auto',
                 opacity: 1,
@@ -157,7 +156,6 @@ class HorizontalMenu {
             close: {
                 duration: 0.7,
                 ease: 'power4.inOut',
-                // height: 0,
                 overflow: 'hidden',
                 pointerEvents: 'none',
                 opacity: 0,
