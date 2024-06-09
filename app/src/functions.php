@@ -17,10 +17,10 @@ define('rs_URL_THEME', esc_url(get_template_directory_uri()));
 function restaurant_site_scripts()
 {
 
-	wp_enqueue_style('swiper-bundle', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css', array(), '1.0', 'all');
+	wp_enqueue_style('swiper-bundle', get_template_directory_uri() . '/assets/styles/libs/swiper-bundle.min.css', array(), '1.0', 'all');
 	wp_enqueue_style('restaurant_site-main', get_template_directory_uri() . '/assets/styles/main-style.min.css', array(), '1.0', 'all');
 
-	wp_enqueue_script('swiper-bundle', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js', array(), '', true);
+	wp_enqueue_script('swiper-bundle', get_template_directory_uri() . '/assets/js/libs/swiper-bundle.min.js', array(), '', true);
 	wp_enqueue_script('restaurant_site-app', get_template_directory_uri() . '/assets/js/app.main.min.js', array('jquery'), '1.0', true);
 
 
