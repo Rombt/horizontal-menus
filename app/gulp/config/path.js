@@ -28,8 +28,8 @@ export const path = {
     srcPluginName: 'core-plugin', // set name your plugin for development version 
     RootPath: ROOT_PATH,
     proxy: [
-        `http://rombt/gulp-assembly-1.0`,
-        `http://web/rombt/gulp-assembly`,
+        `http://rombt/horizontal-menus`,
+        `http://web/rombt/horizontal-menus`,
     ],
 
     get src() {
