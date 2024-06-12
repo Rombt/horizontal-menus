@@ -11,60 +11,199 @@
 
 <body>
 
+	<div class="main-wrapper">
+
+
+		<div class="container">
+			<div class="row">
+				<div class="cont-horizont-menu cont-red">
+					<nav>
+						<ul>
+							<li><a href="#">item 1</a>
+								<ul>
+									<li><a href="#">level 2 item 1</a>
+										<ul>
+											<li><a href="#">level 3 item 1</a></li>
+											<li><a href="#">level 3 item 2</a></li>
+											<li><a href="#">level 3 item 3</a></li>
+											<li><a href="#">level 3 item 4</a></li>
+											<li><a href="#">level 3 item 5</a></li>
+											<li><a href="#">level 3 item 6</a></li>
+											<li><a href="#">level 3 item 7</a></li>
+										</ul>
+									</li>
+									<li><a href="#">level 2 item 2</a>
+									<li><a href="#">level 2 item 3</a>
+								</ul>
+							</li>
+							<li><a href="#">item 2 this item is very long</a></li>
+							<li><a href="#">item 3 this item is very long</a>
+								<ul>
+									<li><a href="#">level 2 item 1</a>
+										<ul>
+											<li><a href="#">level 2 item 1</a></li>
+											<li><a href="#">level 2 item 2</a></li>
+											<li><a href="#">level 2 item 3</a></li>
+											<li><a href="#">level 2 item 4</a></li>
+											<li><a href="#">level 2 item 5</a></li>
+											<li><a href="#">level 2 item 6</a></li>
+											<li><a href="#">level 2 item 7</a></li>
+										</ul>
+									</li>
+									<li><a href="#">level 2 item 2</a></li>
+									<li><a href="#">level 2 item 3</a></li>
+									<li><a href="#">level 2 item 4</a></li>
+									<li><a href="#">level 2 item 5</a></li>
+									<li><a href="#">level 2 item 6</a></li>
+								</ul>
+
+							</li>
+							<li><a href="#">item 4 this item is very long </a></li>
+							<li><a href="#">item 5 this item is very long </a></li>
+							<li><a href="#">item 6 </a></li>
+							<li><a href="#">item 7 </a></li>
+							<li><a href="#">item 8 this item is very long </a></li>
+							<li><a href="#">item 9 </a></li>
+							<li><a href="#">item 10 this item is very long </a></li>
+							<li><a href="#">item 11</a></li>
+							<li><a href="#">item 12</a></li>
+							<li><a href="#">item 13</a></li>
+							<li><a href="#">item 14</a></li>
+							<li><a href="#">item 14</a></li>
+							<li><a href="#">item 16</a></li>
+							<li><a href="#">item 17</a></li>
+							<li><a href="#">item 18</a></li>
+							<li><a href="#">item 19</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="wrap-drop-menu cont-blue">
+					<nav>
+						<ul>
+							<li><a href="#">item 1</a></li>
+							<li><a href="#">item 2</a></li>
+							<li><a href="#">item 3</a></li>
+							<li><a href="#">item 4</a></li>
+							<li><a href="#">item 5</a></li>
+							<li><a href="#">item 6</a></li>
+							<li><a href="#">item 7</a></li>
+							<li><a href="#">item 8</a></li>
+							<li><a href="#">item 9</a></li>
+							<li><a href="#">item 10</a></li>
+							<li><a href="#">item 11</a></li>
+							<li><a href="#">item 12</a></li>
+							<li><a href="#">item 13</a></li>
+							<li><a href="#">item 14</a>
+								<ul>
+									<li><a href="#"></a>
+										<ul>
+											<li><a href="#">level 2 item 1</a></li>
+											<li><a href="#">level 2 item 2</a></li>
+											<li><a href="#">level 2 item 3</a></li>
+											<li><a href="#">level 2 item 4</a></li>
+											<li><a href="#">level 2 item 5</a></li>
+											<li><a href="#">level 2 item 6</a></li>
+											<li><a href="#">level 2 item 7</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="wrap-drop-menu cont-green">
+					<nav>
+						<ul>
+							<li><a href="#">item 1</a></li>
+							<li><a href="#">item 2</a></li>
+							<li><a href="#">item 3 this item is very long</a></li>
+							<li><a href="#">item 4</a></li>
+							<li><a href="#">item 5</a></li>
+							<li><a href="#">item 6 this item is very long</a></li>
+							<li><a href="#">item 7</a></li>
+							<li><a href="#">item 8</a></li>
+							<li><a href="#">item 9</a>
+								<ul>
+									<li><a href="#"></a>
+										<ul>
+											<li><a href="#">level 2 item 1</a></li>
+											<li><a href="#">level 2 item 2</a></li>
+											<li><a href="#">level 2 item 3</a></li>
+											<li><a href="#">level 2 item 4</a></li>
+											<li><a href="#">level 2 item 5</a></li>
+											<li><a href="#">level 2 item 6</a></li>
+											<li><a href="#">level 2 item 7</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="my-menu" class="cont-gray">
+					<nav>
+						<ul>
+							<li><a href="#">item 1</a></li>
+							<li><a href="#">item 2</a></li>
+							<li><a href="#">item 3</a></li>
+							<li><a href="#">item 4 this item is very long</a></li>
+							<li><a href="#">item 5</a></li>
+							<li><a href="#">item 6</a></li>
+							<li><a href="#">item 7 this item is very long</a></li>
+							<li><a href="#">item 8</a></li>
+							<li><a href="#">item 9</a></li>
+							<li><a href="#">item 10 this item is very long</a></li>
+							<li><a href="#">item 11</a></li>
+							<li><a href="#">item 12</a>
+								<ul>
+									<li><a href="#">level 2 item 7</a>
+									<li><a href="#">level 2 item 7</a>
+									<li><a href="#">level 2 item 7</a>
+										<ul>
+											<li><a href="#">level 3 item 1</a></li>
+											<li><a href="#">level 3 item 2</a></li>
+											<li><a href="#">level 3 item 3</a></li>
+											<li><a href="#">level 3 item 4</a></li>
+											<li><a href="#">level 3 item 5</a></li>
+											<li><a href="#">level 3 item 6</a></li>
+											<li><a href="#">level 3 item 7</a></li>
+										</ul>
+									</li>
+									<li><a href="#">level 2 item 2</a></li>
+									<li><a href="#">level 2 item 3</a></li>
+									<li><a href="#">level 2 item 4</a></li>
+									<li><a href="#">level 2 item 5</a></li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+
+
+	<script src="assets/js/libs/gsap.min.js"></script>
+	<script src="assets/js/app.main.min.js"></script>
+
 </body>
 
 </html>
-
-
-
-
-<!-- !!!!!!!!!!!    YOU CAN CHOOSE ONE OF THIS VARIANTS !!!!!!!!!!!!!!-->
-
-<?php // get_header(); ?>
-
-<!-- <main>
-	<div class="wrapper-section">
-		<div class="rmbt-full-width rmbt-blog-full-width">
-			<section class="rmbt-container rmbt-blog">
-				<div class="rmbt-blog__row">
-
-					<header class="page-header ">
-						<h1 class="page-title">
-							<?php // if ( is_search() ) {
-							// 	printf( esc_html__( 'Результати пошуку для: %s', 'rmbt_impex' ), '<span>' . get_search_query() . '</span>' );
-							// } else if ( is_home() || is_page( [ 'blog', 'Blog' ] ) ) {
-							// 	echo "Новини нашої компанії";
-							// } ?>
-						</h1>
-					</header>
-					<div class="rmbt-blog__col">
-						<?php
-						// if ( have_posts() ) {
-						// 	while ( have_posts() ) :
-						// 		the_post();
-						
-						// 		get_template_part( 'template-parts/components/card_news_strings', null, [		// here your card template
-						// 			'title' => get_the_title(),
-						// 			'text' => get_the_excerpt(),
-						// 			'tag-img' => get_the_post_thumbnail(),
-						// 			'link_read_more_href' => get_the_permalink(),
-						// 		] );
-						
-						// 	endwhile;
-						// } else {
-						// 	//   get_template_part('partials/notfound');
-						// }
-						?>
-					</div>
-				</div>
-			</section>
-		</div>
-	</div>
-</main> -->
-
-
-<?php // get_template_part( 'template-parts/components/pagination' ); ?>
-
-
-
-<?php // get_footer();

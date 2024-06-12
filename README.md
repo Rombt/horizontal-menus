@@ -1,118 +1,28 @@
-# Gulp assembly for HTML coding
-It is based on [Фрілансер по життю](https://youtu.be/jU88mLuLWlk)
+**Introducing Our Simple JS Plugin for Dynamic Horizontal Menus**
 
-### Designed for
-   + html coding
-       with htmlinclude end css (less/sass)
-   + development of WP themes and plagins
-   + js 
-       all js files are compiled into the main file 
-          for frontend  app.main.min.js
-          for backend  (example admin panel WP)  admin.main.min.js
-       for this file of js scripts must be imported into the main file 
-          for frontend  assets/js/app.js
-          for backend  (example admin panel WP)  plugin/assets/js/admin.js 
+In today's web development landscape, CMS-driven sites often require complex, dynamic menus. Managing the behavior and state of these menus can be challenging. That's where our simple JS plugin comes in, providing all the necessary functionality for horizontal menus on your pages.
 
-## Describing
-   #### htmlcoding:
-      Final files are moved to the 'docs' folder so that your sites can be exhibited on GitHub Pages
-   #### Wordpres development:
-      Final files of theme are moved to the 'my_thyemename' folder. 
-      Final files of core-plagin are moved to the 'plugins/core-plugin' folder
+### Key Features
 
+- **Overflow Protection**: No more worries about menu size or the number of items! Items that don't fit within your menu container will automatically move to an additional drop-down menu, accessible via a special icon.
+- **Responsiveness**: Your menus will dynamically adjust as the browser window is resized. Menu items will move into and out of the overflow menu based on the screen size, ensuring optimal display whether your user turns their phone from vertical to horizontal.
+- **Animation**: Enhance your menus with animations using the popular GSAP library. This plugin includes everything you need to get started with GSAP. You can also integrate your own animations by adding them to the parameters object.
+- **Easy Addition of Classes**: Adding classes to menu items can be challenging in some CMSs. With this plugin, it’s simple. Just list the class names you need in the `contAdditionalClasses` object located within the parameters object.
 
-# Struckture project
->  plugins   
->>  core-plugin   
-      
-> themes   
->> my_theme_name   
->>>  .gitignore   
->>>  docs   
->>>  app   
->>>>  src   
+### How to Use
 
->>>>>>  html  
->>>>>>>  index.html  
->>>>>>>  template-parts    
->>>>>>>>  parts   
->>>>>>>>  components 
+1.  **Include the Plugin Files**:
 
->>>>>  index.php   
->>>>>  functions.php   
->>>>>  header.php   
->>>>>  footer.php   
->>>>>  screenshot.png   
->>>>>  readme.txt   
->>>>>  style.css   
->>>>>  _and another wordpress theme files_   
->>>>>  template-parts   
->>>>>>  parts   
->>>>>>  components  
+    - JavaScript: `app/src/assets/js/modules/HorizontalMenu.js`
+    - CSS: `app/src/assets/styles/components/modules/horizontalMenu.less`
 
->>>>>  core-plugin for wordpress theme   
->>>>>>  html_parts   
->>>>>>  assets   
->>>>>>>  img   
->>>>>>>  js   
->>>>>>>>  admin.main.min.js   
-      
->>>>>>>  styles   
->>>>>>>>  mainstyle.min.css   
-   
->>>>>  assets   
->>>>>>  fonts   
->>>>>>  img   
->>>>>>>  svgicons   
->>>>>>>  icons   
-   
->>>>>>  js   
->>>>>>>  libs   
-   
->>>>>>>  moduls   
->>>>>>>>  isWebp.js   
->>>>>>>  app.main.js   
-   
->>>>>>  styles   
->>>>>>>  parts   
->>>>>>>  components   
->>>>>>>  fonts.less   
->>>>>>>  main-style.less   
->>>>>>>  mixins.less   
->>>>>>>  reset.css   
->>>>>>>  smart-grid.less   
->>>>>>>  variables.less   
-      
->>>>>  inc   
->>>>>>  functions   
->>>>>>  widgets   
-      
->>>>  gulp   
->>>>  node_modules   
->>>>  gulpfile.babel.js   
->>>>  package.json   
->>>>  .gitignore   
-   
->>>>>  config   
->>>>>>  ftp_config.js   
->>>>>>  grid_config.js   
->>>>>>  path.js   
->>>>>>  plugins.js   
-      
->>>>>  tasks   
->>>>>>  php.js   
->>>>>>  html.js   
->>>>>>  styles.js   
->>>>>>  js.js   
->>>>>>  images.js   
->>>>>>  reset_wpPlugin.js   
->>>>>>  reset.js   
->>>>>>  server.js   
->>>>>>  copy.js   
->>>>>>  fonts.js   
->>>>>>  svgsprite.js   
->>>>>>  grid.js   
->>>>>>  ftp.js   
->>>>>>  zip.js   
-   
-   
+2.  **Menu Structure**:
+
+    - Ensure your menus follow the structure shown in `app/src/index.php`.
+
+3.  **Configuration**:
+
+    - All necessary configuration options can be found in `app/src/assets/js/modules/HorizontalMenu.js`.
+    - To get started, simply add your menu's CSS selector to the `containersMenu` array within the parameters object at the end of the JS file. You can also customize other settings as described above.
+
+This plugin was created using a Gulp-based assembly that I developed for fast and comfortable website layout, with the potential to create WordPress templates. Learn more about the Gulp assembly [here](https://github.com/Rombt/gulp-assembly)
